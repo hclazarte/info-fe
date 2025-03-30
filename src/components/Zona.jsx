@@ -5,6 +5,10 @@ export default function Zona({
   setMostrarZonas,
   zonas,
 }) {
+  
+  const handleBorrar = () => {
+    setZona((prev) => ({ ...prev, descripcion: "" }));
+  };
   return (
     <div className="w-full">
       <div className="flex items-center border border-gray-300 rounded-xl px-3 py-2 bg-white">
@@ -17,9 +21,18 @@ export default function Zona({
           placeholder="Zona"
           className="flex-1 focus:outline-none"
         />
+        {zona?.descripcion && (
+          <button
+            onClick={handleBorrar}
+            className="text-4xl mr-3 text-inf7 hover:text-gray-800 px-2"
+            title="Borrar"
+          >
+            ✕
+          </button>
+        )}
         <button
           onClick={() => setMostrarZonas(!mostrarZonas)}
-          className="text-inf4 ml-2"
+          className="py-0 px-0 text-inf4 ml-2 text-4xl"
         >
           {mostrarZonas ? "▲" : "▼"}
         </button>

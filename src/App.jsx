@@ -46,9 +46,9 @@ export default function App() {
           backgroundRepeat: "repeat",
         }}
       >
-        <div className="opacity-80 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="opacity-90 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {/* Controles */}
-          <div className="bg-inf3 p-4 col-span-1 xl:col-span-1 2xl:col-span-1 h-full">
+          <div className="bg-inf4 p-4 col-span-1 xl:col-span-1 2xl:col-span-1 h-full">
             <Buscar filtrosAbiertos={filtrosAbiertos} setFiltrosAbiertos={setFiltrosAbiertos} />
             <div
               className={`${
@@ -74,7 +74,7 @@ export default function App() {
           </div>
 
           {/* Resultados */}
-          <div className="bg-inf1 p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 col-span-1 md:col-span-1 lg:col-span-2 xl:col-span-3 2xl:col-span-3 h-full">
+          <div className="bg-inf3 p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 col-span-1 md:col-span-1 lg:col-span-2 xl:col-span-3 2xl:col-span-3 h-full">
             {comercios.map((comercio, i) => (
               <Tarjeta key={i} comercio={comercio} />
             ))}

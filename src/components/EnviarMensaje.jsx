@@ -1,8 +1,8 @@
-// src/components/EnviarMensaje.jsx
 export default function EnviarMensaje() {
   return (
-    <button className="w-full hover:bg-inf2 rounded-xl text-left bg-inf3 text-white px-4 py-2">
-      ✉️ Enviar mensaje
+    <button className="w-20 aspect-square flex flex-col items-center justify-center bg-inf8 text-white rounded-md hover:bg-inf3">
+      <span className="text-5xl leading-none">✉</span>
+      <span className="text-xs leading-none mt-1">Mensajes</span>
     </button>
   );
 }

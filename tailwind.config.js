@@ -11,7 +11,8 @@ export default {
         inf4: '#527dd6',
         inf5: '#457ad3',
         inf6: '#4776d3',
-        inf7: '#3a6dd3'
+        inf7: '#3a6dd3',
+        inf8: '#2b52a1'
       }
     },
   },
