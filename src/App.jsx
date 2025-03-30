@@ -5,6 +5,7 @@ import Ciudad from "./components/Ciudad";
 import Zona from "./components/Zona";
 import EnviarMensaje from "./components/EnviarMensaje";
 import Tarjeta from "./components/Tarjeta";
+import Firma from "./components/Firma";
 
 export default function App() {
   const [filtrosAbiertos, setFiltrosAbiertos] = useState(false);
@@ -70,6 +71,7 @@ export default function App() {
                 zonas={zonas}
               />
               <EnviarMensaje />
+              <Firma/>
             </div>
           </div>
 
