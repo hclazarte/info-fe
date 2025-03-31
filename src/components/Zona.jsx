@@ -21,15 +21,14 @@ export default function Zona({
           placeholder="Zona"
           className="flex-1 focus:outline-none"
         />
-        {zona?.descripcion && (
-          <button
-            onClick={handleBorrar}
-            className="text-4xl mr-3 text-inf7 hover:text-gray-800 px-2"
-            title="Borrar"
-          >
-            ✕
-          </button>
-        )}
+        <button
+          onClick={handleBorrar}
+          className={`text-4xl mr-3 text-inf7 hover:text-gray-800 px-2 ${zona?.descripcion ? "visible" : "invisible"
+            }`}
+          title="Borrar"
+        >
+          ✕
+        </button>
         <button
           onClick={() => setMostrarZonas(!mostrarZonas)}
           className="py-0 px-0 text-inf4 ml-2 text-4xl"

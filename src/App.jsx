@@ -95,10 +95,11 @@ export default function App() {
         ) : 
         (
           <div className="flex h-screen">
-            {/* Controles Desktop */}
-            <div className="w-[270px] bg-inf4 p-4 overflow-y-auto controlesDesktop">
+            {/* Controles Desktop */} //TODO
+            <div className="w-[326px] bg-inf4 p-4 overflow-y-auto controlesDesktop">
               <Buscar filtrosAbiertos={filtrosAbiertos} setFiltrosAbiertos={setFiltrosAbiertos} />
               <div className="flex flex-col gap-y-4 w-full transition-all">
+                <Firma />
                 <Ciudad
                   ciudad={ciudad}
                   setCiudad={setCiudad}
@@ -113,7 +114,6 @@ export default function App() {
                   setMostrarZonas={setMostrarZonas}
                   zonas={zonas}
                 />
-                <Firma />
                 <EnviarMensaje />
               </div>
             </div>
@@ -128,9 +128,6 @@ export default function App() {
             </div>
           </div>
         )}
-        
-
-        
       </div>
     </div>
   );

@@ -1,12 +1,12 @@
 import React from 'react';
 
-const truncarTexto = (texto, longitudMaxima = 200) => {
+const truncarTexto = (texto, longitudMaxima = 80) => {
   if (!texto) return '';
   if (texto.length <= longitudMaxima) return texto;
   return texto.slice(0, longitudMaxima) + '...';
 };
 
-const Tarjeta = ({ comercio }) => {
+const Tarjeta = ({ comercio }) => {truncarTexto
   return (
     <div className="max-w-sm rounded overflow-hidden shadow-lg bg-white">
       <div className="px-6 py-4">

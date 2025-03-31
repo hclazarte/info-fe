@@ -21,15 +21,14 @@ export default function Ciudad({
           placeholder="Ciudad"
           className="flex-1 focus:outline-none"
         />
-        {ciudad?.ciudad && (
-          <button
-            onClick={handleBorrar}
-            className="text-4xl mr-3 text-inf7 hover:text-gray-800 px-2"
-            title="Borrar"
-          >
-            ✕
-          </button>
-        )}
+        <button
+          onClick={handleBorrar}
+          className={`text-4xl mr-3 text-inf7 hover:text-gray-800 px-2 ${ciudad?.ciudad ? "visible" : "invisible"
+            }`}
+          title="Borrar"
+        >
+          ✕
+        </button>
         <button
           onClick={() => setMostrarCiudades(!mostrarCiudades)}
           className="py-0 px-0 text-inf4 ml-2 text-4xl"

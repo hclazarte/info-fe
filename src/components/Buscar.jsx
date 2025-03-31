@@ -17,14 +17,13 @@ export default function Buscar({ filtrosAbiertos, setFiltrosAbiertos }) {
         onChange={(e) => setBusqueda(e.target.value)}
       />
 
-      {busqueda && (
-        <button
-          onClick={handleBorrar}
-          className="px-4 py-2 bg-inf8 hover:bg-inf3 text-white rounded-xl text-2xl"
-        >
-          x
-        </button>
-      )}
+      <button
+        onClick={handleBorrar}
+        className={`px-4 py-2 text-white bg-inf8 hover:bg-inf3 rounded-xl text-2xl ${busqueda ? 'visible' : 'invisible'
+          }`}
+      >
+        X
+      </button>
 
       <button
         onClick={() => setFiltrosAbiertos(!filtrosAbiertos)}
