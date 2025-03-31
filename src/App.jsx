@@ -6,6 +6,8 @@ import Zona from "./components/Zona";
 import EnviarMensaje from "./components/EnviarMensaje";
 import Tarjeta from "./components/Tarjeta";
 import Firma from "./components/Firma";
+import DetalleModal from "./components/DetalleModal"
+import BuzonSugerencias from "./components/BuzonSugerencias";
 
 export default function App() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
@@ -17,6 +19,9 @@ export default function App() {
   const [ciudades, setCiudades] = useState([]);
   const [zonas, setZonas] = useState([]);
   const [comercios, setComercios] = useState([]);
+  const [modalAbierto, setModalAbierto] = useState(false);
+  const [comercioSeleccionado, setComercioSeleccionado] = useState(null);
+  const [mostrarBuzon, setMostrarBuzon] = useState(false);
   
   useEffect(() => {
     fetch("/data/ciudades.json")
@@ -79,7 +84,7 @@ export default function App() {
                     zonas={zonas}
                   />
                   <Firma/>
-                  <EnviarMensaje />
+                  <EnviarMensaje onClick={() => setMostrarBuzon(true)} />
                 </div>
               </div>
             </div>
@@ -87,7 +92,13 @@ export default function App() {
               {/* Resultados */}
               <div className="bg-inf3 p-4 grid grid-cols-1 sm:grid-cols-2 gap-4 col-span-1 h-full">
                 {comercios.map((comercio, i) => (
-                  <Tarjeta key={i} comercio={comercio} />
+                  <Tarjeta 
+                    key={i} 
+                    comercio={comercio} 
+                    onClick={() => {
+                      setComercioSeleccionado(comercio);
+                      setModalAbierto(true);
+                    }}/>
                 ))}
               </div>
             </div>
@@ -114,7 +125,7 @@ export default function App() {
                   setMostrarZonas={setMostrarZonas}
                   zonas={zonas}
                 />
-                <EnviarMensaje />
+                <EnviarMensaje onClick={() => setMostrarBuzon(true)} />
               </div>
             </div>
         
@@ -122,13 +133,32 @@ export default function App() {
             <div className="flex-1 bg-inf3 p-4 overflow-y-auto resultadosDesktop">
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                 {comercios.map((comercio, i) => (
-                  <Tarjeta key={i} comercio={comercio} />
+                  <Tarjeta
+                    key={i}
+                    comercio={comercio}
+                    onClick={() => {
+                      setComercioSeleccionado(comercio);
+                      setModalAbierto(true);
+                    }} />
                 ))}
               </div>
             </div>
           </div>
         )}
       </div>
+      {modalAbierto && (
+        <DetalleModal
+          comercio={comercioSeleccionado}
+          onClose={() => setModalAbierto(false)}
+        />
+      )}
+      {mostrarBuzon && (
+        <BuzonSugerencias
+          pathRef={{ current: "" }}
+          lastPathRef={{ current: "" }}
+          onClose={() => setMostrarBuzon(false)}
+        />
+    )}  
     </div>
   );
 }

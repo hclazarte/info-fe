@@ -6,9 +6,12 @@ const truncarTexto = (texto, longitudMaxima = 80) => {
   return texto.slice(0, longitudMaxima) + '...';
 };
 
-const Tarjeta = ({ comercio }) => {truncarTexto
+const Tarjeta = ({ comercio, onClick }) => {truncarTexto
   return (
-    <div className="max-w-sm rounded overflow-hidden shadow-lg bg-white">
+    <div 
+      onClick={onClick}
+      className="max-w-sm rounded overflow-hidden shadow-lg bg-white cursor-pointer"
+      >
       <div className="px-6 py-4">
         {/* Nombre de la Empresa */}
         <div className="font-bold text-xl mb-2">{comercio.empresa}</div>
