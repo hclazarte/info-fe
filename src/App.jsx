@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import backgroundImage from "./img/background-image.jpg";
 import Buscar from "./components/Buscar";
 import Ciudad from "./components/Ciudad";
@@ -8,6 +8,7 @@ import Tarjeta from "./components/Tarjeta";
 import Firma from "./components/Firma";
 
 export default function App() {
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [filtrosAbiertos, setFiltrosAbiertos] = useState(false);
   const [ciudad, setCiudad] = useState("");
   const [zona, setZona] = useState("");
@@ -16,7 +17,7 @@ export default function App() {
   const [ciudades, setCiudades] = useState([]);
   const [zonas, setZonas] = useState([]);
   const [comercios, setComercios] = useState([]);
-
+  
   useEffect(() => {
     fetch("/data/ciudades.json")
       .then((res) => res.json())
@@ -38,6 +39,15 @@ export default function App() {
       .catch((err) => console.error("Error al cargar comercios:", err));
   }, []);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <div className="min-h-screen">
       <div
@@ -47,41 +57,80 @@ export default function App() {
           backgroundRepeat: "repeat",
         }}
       >
-        <div className="opacity-90 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {/* Controles */}
-          <div className="bg-inf4 p-4 col-span-1 xl:col-span-1 2xl:col-span-1 h-full">
-            <Buscar filtrosAbiertos={filtrosAbiertos} setFiltrosAbiertos={setFiltrosAbiertos} />
-            <div
-              className={`${
-                filtrosAbiertos || window.innerWidth >= 768 ? "flex" : "hidden"
-              } flex-col gap-y-4 w-full transition-all`}
-            >
-              <Ciudad
-                ciudad={ciudad}
-                setCiudad={setCiudad}
-                mostrarCiudades={mostrarCiudades}
-                setMostrarCiudades={setMostrarCiudades}
-                ciudades={ciudades}
-              />
-              <Zona
-                zona={zona}
-                setZona={setZona}
-                mostrarZonas={mostrarZonas}
-                setMostrarZonas={setMostrarZonas}
-                zonas={zonas}
-              />
-              <EnviarMensaje />
-              <Firma/>
+        {isMobile ? (
+          <div className="opacity-90 grid grid-cols-1">
+            <div className="controlesMobile">
+              {/* Controles */}
+              <div className="bg-inf4 p-4 col-span-1 h-full">
+                <Buscar filtrosAbiertos={filtrosAbiertos} setFiltrosAbiertos={setFiltrosAbiertos} />
+                <div className={`flex-col gap-y-4 w-full transition-all ${filtrosAbiertos ? "flex" : "hidden"}`}>
+                  <Ciudad
+                    ciudad={ciudad}
+                    setCiudad={setCiudad}
+                    mostrarCiudades={mostrarCiudades}
+                    setMostrarCiudades={setMostrarCiudades}
+                    ciudades={ciudades}
+                  />
+                  <Zona
+                    zona={zona}
+                    setZona={setZona}
+                    mostrarZonas={mostrarZonas}
+                    setMostrarZonas={setMostrarZonas}
+                    zonas={zonas}
+                  />
+                  <Firma/>
+                  <EnviarMensaje />
+                </div>
+              </div>
+            </div>
+            <div className="resultadosMobile">
+              {/* Resultados */}
+              <div className="bg-inf3 p-4 grid grid-cols-1 sm:grid-cols-2 gap-4 col-span-1 h-full">
+                {comercios.map((comercio, i) => (
+                  <Tarjeta key={i} comercio={comercio} />
+                ))}
+              </div>
             </div>
           </div>
-
-          {/* Resultados */}
-          <div className="bg-inf3 p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 col-span-1 md:col-span-1 lg:col-span-2 xl:col-span-3 2xl:col-span-3 h-full">
-            {comercios.map((comercio, i) => (
-              <Tarjeta key={i} comercio={comercio} />
-            ))}
+        ) : 
+        (
+          <div className="flex h-screen">
+            {/* Controles Desktop */}
+            <div className="w-[270px] bg-inf4 p-4 overflow-y-auto controlesDesktop">
+              <Buscar filtrosAbiertos={filtrosAbiertos} setFiltrosAbiertos={setFiltrosAbiertos} />
+              <div className="flex flex-col gap-y-4 w-full transition-all">
+                <Ciudad
+                  ciudad={ciudad}
+                  setCiudad={setCiudad}
+                  mostrarCiudades={mostrarCiudades}
+                  setMostrarCiudades={setMostrarCiudades}
+                  ciudades={ciudades}
+                />
+                <Zona
+                  zona={zona}
+                  setZona={setZona}
+                  mostrarZonas={mostrarZonas}
+                  setMostrarZonas={setMostrarZonas}
+                  zonas={zonas}
+                />
+                <Firma />
+                <EnviarMensaje />
+              </div>
+            </div>
+        
+            {/* Resultados Desktop */}
+            <div className="flex-1 bg-inf3 p-4 overflow-y-auto resultadosDesktop">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                {comercios.map((comercio, i) => (
+                  <Tarjeta key={i} comercio={comercio} />
+                ))}
+              </div>
+            </div>
           </div>
-        </div>
+        )}
+        
+
+        
       </div>
     </div>
   );

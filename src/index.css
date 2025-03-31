@@ -6,3 +6,25 @@
 body {
   background-color: #c3cce9;
 }
+
+.controlesMobile {
+  position: fixed;
+  left: 0;
+  top:0;
+  right:0;
+}
+
+.resultadosMobile {
+  padding-top: 104px;
+}
+
+.controlesDesktop{
+  position: fixed;
+  left: 0;
+  top:0;
+  bottom: 0;
+}
+
+.resultadosDesktop{
+  padding-left: 286px;
+}
