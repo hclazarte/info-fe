@@ -17,7 +17,10 @@ export default function DetalleModal({ comercio, onClose }) {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-      <div className="bg-white rounded-xl shadow-lg w-11/12 max-w-md p-6 relative" style={{ maxHeight: '90vh', overflowY: 'auto' }}>
+      <div
+        className="bg-white rounded-xl shadow-lg w-11/12 max-w-md p-6 relative"
+        style={{ maxHeight: "90vh", overflowY: "auto" }}
+      >
         {/* Cerrar */}
         <button
           className="absolute top-2 right-3 text-3xl text-gray-500 hover:text-gray-800"
@@ -58,7 +61,8 @@ export default function DetalleModal({ comercio, onClose }) {
         <div className="mt-6 border-t pt-4">
           <h3 className="text-lg font-semibold mb-2">Reclamar este comercio</h3>
           <p className="text-sm text-gray-600 mb-2">
-            Si eres el propietario de este comercio, ingresa tu correo electrónico para iniciar el proceso de validación:
+            Si eres el propietario de este comercio, ingresa tu correo
+            electrónico para iniciar el proceso de validación:
           </p>
           <form className="flex flex-col gap-2">
             <input

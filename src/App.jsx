@@ -6,7 +6,7 @@ import Zona from "./components/Zona";
 import EnviarMensaje from "./components/EnviarMensaje";
 import Tarjeta from "./components/Tarjeta";
 import Firma from "./components/Firma";
-import DetalleModal from "./components/DetalleModal"
+import DetalleModal from "./components/DetalleModal";
 import BuzonSugerencias from "./components/BuzonSugerencias";
 
 export default function App() {
@@ -22,7 +22,7 @@ export default function App() {
   const [modalAbierto, setModalAbierto] = useState(false);
   const [comercioSeleccionado, setComercioSeleccionado] = useState(null);
   const [mostrarBuzon, setMostrarBuzon] = useState(false);
-  
+
   useEffect(() => {
     fetch("/data/ciudades.json")
       .then((res) => res.json())
@@ -67,8 +67,13 @@ export default function App() {
             <div className="controlesMobile">
               {/* Controles */}
               <div className="bg-inf4 p-4 col-span-1 h-full">
-                <Buscar filtrosAbiertos={filtrosAbiertos} setFiltrosAbiertos={setFiltrosAbiertos} />
-                <div className={`flex-col gap-y-4 w-full transition-all ${filtrosAbiertos ? "flex" : "hidden"}`}>
+                <Buscar
+                  filtrosAbiertos={filtrosAbiertos}
+                  setFiltrosAbiertos={setFiltrosAbiertos}
+                />
+                <div
+                  className={`flex-col gap-y-4 w-full transition-all ${filtrosAbiertos ? "flex" : "hidden"}`}
+                >
                   <Ciudad
                     ciudad={ciudad}
                     setCiudad={setCiudad}
@@ -83,7 +88,7 @@ export default function App() {
                     setMostrarZonas={setMostrarZonas}
                     zonas={zonas}
                   />
-                  <Firma/>
+                  <Firma />
                   <EnviarMensaje onClick={() => setMostrarBuzon(true)} />
                 </div>
               </div>
@@ -92,23 +97,26 @@ export default function App() {
               {/* Resultados */}
               <div className="bg-inf3 p-4 grid grid-cols-1 sm:grid-cols-2 gap-4 col-span-1 h-full">
                 {comercios.map((comercio, i) => (
-                  <Tarjeta 
-                    key={i} 
-                    comercio={comercio} 
+                  <Tarjeta
+                    key={i}
+                    comercio={comercio}
                     onClick={() => {
                       setComercioSeleccionado(comercio);
                       setModalAbierto(true);
-                    }}/>
+                    }}
+                  />
                 ))}
               </div>
             </div>
           </div>
-        ) : 
-        (
+        ) : (
           <div className="flex h-screen">
             {/* Controles Desktop */} //TODO
             <div className="w-[326px] bg-inf4 p-4 overflow-y-auto controlesDesktop">
-              <Buscar filtrosAbiertos={filtrosAbiertos} setFiltrosAbiertos={setFiltrosAbiertos} />
+              <Buscar
+                filtrosAbiertos={filtrosAbiertos}
+                setFiltrosAbiertos={setFiltrosAbiertos}
+              />
               <div className="flex flex-col gap-y-4 w-full transition-all">
                 <Firma />
                 <Ciudad
@@ -128,7 +136,6 @@ export default function App() {
                 <EnviarMensaje onClick={() => setMostrarBuzon(true)} />
               </div>
             </div>
-        
             {/* Resultados Desktop */}
             <div className="flex-1 bg-inf3 p-4 overflow-y-auto resultadosDesktop">
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
@@ -139,7 +146,8 @@ export default function App() {
                     onClick={() => {
                       setComercioSeleccionado(comercio);
                       setModalAbierto(true);
-                    }} />
+                    }}
+                  />
                 ))}
               </div>
             </div>
@@ -158,7 +166,7 @@ export default function App() {
           lastPathRef={{ current: "" }}
           onClose={() => setMostrarBuzon(false)}
         />
-    )}  
+      )}
     </div>
   );
 }

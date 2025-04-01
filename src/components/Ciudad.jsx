@@ -5,7 +5,6 @@ export default function Ciudad({
   setMostrarCiudades,
   ciudades,
 }) {
-
   const handleBorrar = () => {
     setCiudad((prev) => ({ ...prev, ciudad: "" }));
   };
@@ -23,8 +22,9 @@ export default function Ciudad({
         />
         <button
           onClick={handleBorrar}
-          className={`text-4xl mr-3 text-inf7 hover:text-gray-800 px-2 ${ciudad?.ciudad ? "visible" : "invisible"
-            }`}
+          className={`text-4xl mr-3 text-inf7 hover:text-gray-800 px-2 ${
+            ciudad?.ciudad ? "visible" : "invisible"
+          }`}
           title="Borrar"
         >
           ✕
@@ -39,9 +39,10 @@ export default function Ciudad({
       {mostrarCiudades && ciudades?.length > 0 && (
         <ul className="bg-white border border-gray-300 mt-1 w-full shadow max-h-60 overflow-y-auto">
           {ciudades
-            .filter((c) =>
-              !ciudad?.ciudad ||
-              c.ciudad.toLowerCase().includes(ciudad.ciudad.toLowerCase())
+            .filter(
+              (c) =>
+                !ciudad?.ciudad ||
+                c.ciudad.toLowerCase().includes(ciudad.ciudad.toLowerCase()),
             )
             .map((c) => (
               <li

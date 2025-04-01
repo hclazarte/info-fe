@@ -5,7 +5,6 @@ export default function Zona({
   setMostrarZonas,
   zonas,
 }) {
-  
   const handleBorrar = () => {
     setZona((prev) => ({ ...prev, descripcion: "" }));
   };
@@ -23,8 +22,9 @@ export default function Zona({
         />
         <button
           onClick={handleBorrar}
-          className={`text-4xl mr-3 text-inf7 hover:text-gray-800 px-2 ${zona?.descripcion ? "visible" : "invisible"
-            }`}
+          className={`text-4xl mr-3 text-inf7 hover:text-gray-800 px-2 ${
+            zona?.descripcion ? "visible" : "invisible"
+          }`}
           title="Borrar"
         >
           ✕
@@ -39,9 +39,12 @@ export default function Zona({
       {mostrarZonas && zonas?.length > 0 && (
         <ul className="bg-white border border-gray-300 mt-1 w-full shadow max-h-60 overflow-y-auto">
           {zonas
-            .filter((z) =>
-              !zona?.descripcion ||
-              z.descripcion.toLowerCase().includes(zona.descripcion.toLowerCase())
+            .filter(
+              (z) =>
+                !zona?.descripcion ||
+                z.descripcion
+                  .toLowerCase()
+                  .includes(zona.descripcion.toLowerCase()),
             )
             .map((z) => (
               <li

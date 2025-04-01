@@ -1,7 +1,7 @@
 /* global grecaptcha */
-import { useEffect, useState, useRef } from 'react'
-import '../css/output.css'
-import waitImg from '../img/waiting2.gif'
+import { useEffect, useState, useRef } from "react";
+import "../css/output.css";
+import waitImg from "../img/waiting2.gif";
 
 export default function BuzonSugerencias({ onClose }) {
   const [formData, setFormData] = useState({
@@ -17,7 +17,7 @@ export default function BuzonSugerencias({ onClose }) {
   const [showSpinner, setShowSpinner] = useState(false);
   const [dialogMessage, setDialogMessage] = useState("");
   const [recaptchaToken, setRecaptchaToken] = useState("");
-  const sendingMsgRef = useRef(false)
+  const sendingMsgRef = useRef(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -25,7 +25,7 @@ export default function BuzonSugerencias({ onClose }) {
 
   const handleCloseDialog = () => {
     setShowDialog(false);
-    console.log('Cerrar')
+    console.log("Cerrar");
     if (success && onClose) {
       onClose();
     }
@@ -36,9 +36,14 @@ export default function BuzonSugerencias({ onClose }) {
     setError("");
     setSuccess("");
 
-    if (sendingMsgRef.current) return
+    if (sendingMsgRef.current) return;
 
-    if (!formData.nombre || !formData.email || !formData.asunto || !formData.mensaje) {
+    if (
+      !formData.nombre ||
+      !formData.email ||
+      !formData.asunto ||
+      !formData.mensaje
+    ) {
       setDialogMessage("Por favor, complete todos los campos obligatorios.");
       setShowDialog(true);
       return;
@@ -58,7 +63,7 @@ export default function BuzonSugerencias({ onClose }) {
     //     },
     //     recaptcha_token: token,
     //   };
-      
+
     //   try {
     //     setShowSpinner(true)
     //     sendingMsgRef.current = true
@@ -81,28 +86,34 @@ export default function BuzonSugerencias({ onClose }) {
     //     setDialogMessage("Error de conexión. Intente nuevamente más tarde.");
     //     setShowSpinner(false)
     //     setShowDialog(true);
-    //   } finally 
+    //   } finally
     //   {
     //     setShowSpinner(false)
     //     sendingMsgRef.current = false
     //   }
     // });
-  
+
     // ✅ Simulación del resultado para maquetado
     setTimeout(() => {
       setSuccess("Mensaje enviado con éxito (simulado).");
       setDialogMessage("Mensaje enviado con éxito (modo maquetado).");
       setShowDialog(true);
-      setFormData({ nombre: "", email: "", categoria: "Consulta", asunto: "", mensaje: "" });
+      setFormData({
+        nombre: "",
+        email: "",
+        categoria: "Consulta",
+        asunto: "",
+        mensaje: "",
+      });
     }, 800);
   };
 
-  
-  
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto max-w-md bg-inf4 pt-3 px-4 flex flex-col md:flex-row items-start">
       <div className="w-full md:w-1/2 md:pr-6 text-white">
-        <h2 className="text-2xl font-medium mt-4 mb-6 text-center md:text-left">Buzón de Sugerencias</h2>
+        <h2 className="text-2xl font-medium mt-4 mb-6 text-center md:text-left">
+          Buzón de Sugerencias
+        </h2>
         <form onSubmit={handleSubmit} className="space-y-6 pb-20">
           <div className="space-y-2">
             <label className="block font-normal">Nombre:</label>
@@ -111,7 +122,7 @@ export default function BuzonSugerencias({ onClose }) {
               name="nombre"
               value={formData.nombre}
               onChange={handleChange}
-              placeholder='Juan Pérez'
+              placeholder="Juan Pérez"
               className="w-full p-2 border rounded-md text-black bg-inf2 text-lg focus:bg-white"
               required
             />
@@ -123,7 +134,7 @@ export default function BuzonSugerencias({ onClose }) {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              placeholder='juan.perez@gmail.com'
+              placeholder="juan.perez@gmail.com"
               className="w-full p-2 border rounded-md text-black bg-inf2 text-lg focus:bg-white"
               required
             />
@@ -148,7 +159,7 @@ export default function BuzonSugerencias({ onClose }) {
               name="asunto"
               value={formData.asunto}
               onChange={handleChange}
-              placeholder='Breve descripción del mensaje'
+              placeholder="Breve descripción del mensaje"
               className="w-full p-2 border rounded-md text-black bg-inf2 text-lg focus:bg-white"
               required
             />
@@ -182,28 +193,42 @@ export default function BuzonSugerencias({ onClose }) {
         </form>
         <p className="mt-4 text-sm text-center text-gray-200">
           Este sitio está protegido por reCAPTCHA y se aplican la
-          <a href="https://policies.google.com/privacy" className="text-blue-300 hover:underline"> Política de Privacidad </a>
-          y los <a href="https://policies.google.com/terms" className="text-blue-300 hover:underline"> Términos de Servicio </a> de Google.
+          <a
+            href="https://policies.google.com/privacy"
+            className="text-blue-300 hover:underline"
+          >
+            {" "}
+            Política de Privacidad{" "}
+          </a>
+          y los{" "}
+          <a
+            href="https://policies.google.com/terms"
+            className="text-blue-300 hover:underline"
+          >
+            {" "}
+            Términos de Servicio{" "}
+          </a>{" "}
+          de Google.
         </p>
       </div>
       {showDialog && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-inf1 p-6 rounded-lg shadow-lg text-center">
             <p className="mb-4 text-lg font-semibold">{dialogMessage}</p>
-            <button onClick={handleCloseDialog} className="px-6 py-3 bg-blue-500 text-white rounded-md font-medium hover:bg-blue-600">
+            <button
+              onClick={handleCloseDialog}
+              className="px-6 py-3 bg-blue-500 text-white rounded-md font-medium hover:bg-blue-600"
+            >
               Aceptar
             </button>
           </div>
         </div>
       )}
       {showSpinner && (
-        <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-50'>
-          <img className='waitingImg' src={waitImg} alt='Cargando...' />
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <img className="waitingImg" src={waitImg} alt="Cargando..." />
         </div>
       )}
     </div>
   );
-
-
-
 }
