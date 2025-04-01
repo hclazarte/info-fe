@@ -100,7 +100,7 @@ export default function BuzonSugerencias({ onClose }) {
   
   
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-inf4 pt-3 px-4 flex flex-col md:flex-row items-start">
+    <div className="fixed inset-0 z-50 overflow-y-auto max-w-md bg-inf4 pt-3 px-4 flex flex-col md:flex-row items-start">
       <div className="w-full md:w-1/2 md:pr-6 text-white">
         <h2 className="text-2xl font-medium mt-4 mb-6 text-center md:text-left">Buzón de Sugerencias</h2>
         <form onSubmit={handleSubmit} className="space-y-6 pb-20">
