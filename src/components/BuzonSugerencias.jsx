@@ -109,83 +109,83 @@ export default function BuzonSugerencias({ onClose }) {
   }
 
   return (
-    <div className='fixed inset-0 z-50 overflow-y-auto max-w-md bg-inf4 pt-3 px-4 flex flex-col md:flex-row items-start'>
-      <div className='w-full md:w-1/2 md:pr-6 text-white'>
-        <h2 className='text-2xl font-medium mt-4 mb-6 text-center md:text-left'>
+    <div className='fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center'>
+      <div className='bg-inf4 text-white rounded-xl shadow-lg p-6 w-full max-w-md max-h-[90vh] overflow-y-auto'>
+        <h2 className='text-2xl font-bold mb-6 text-center'>
           Buzón de Sugerencias
         </h2>
-        <form onSubmit={handleSubmit} className='space-y-6 pb-20'>
-          <div className='space-y-2'>
-            <label className='block font-normal'>Nombre:</label>
+        <form onSubmit={handleSubmit} className='space-y-4'>
+          <div>
+            <label className='block mb-1'>Nombre:</label>
             <input
               type='text'
               name='nombre'
               value={formData.nombre}
               onChange={handleChange}
               placeholder='Juan Pérez'
-              className='w-full p-2 border rounded-md text-black bg-inf2 text-lg focus:bg-white'
+              className='w-full p-2 rounded-md text-black bg-inf2 text-lg focus:bg-white'
               required
             />
           </div>
-          <div className='space-y-2'>
-            <label className='block font-normal'>Correo Electrónico:</label>
+          <div>
+            <label className='block mb-1'>Correo Electrónico:</label>
             <input
               type='email'
               name='email'
               value={formData.email}
               onChange={handleChange}
               placeholder='juan.perez@gmail.com'
-              className='w-full p-2 border rounded-md text-black bg-inf2 text-lg focus:bg-white'
+              className='w-full p-2 rounded-md text-black bg-inf2 text-lg focus:bg-white'
               required
             />
           </div>
-          <div className='space-y-2'>
-            <label className='block font-normal'>Categoría:</label>
+          <div>
+            <label className='block mb-1'>Categoría:</label>
             <select
               name='categoria'
               value={formData.categoria}
               onChange={handleChange}
-              className='w-full p-2 border rounded-md text-black bg-inf2 text-lg focus:bg-white'
+              className='w-full p-2 rounded-md text-black bg-inf2 text-lg focus:bg-white'
             >
               <option value='Consulta'>Consulta</option>
               <option value='Sugerencia'>Sugerencia</option>
               <option value='Otro'>Otro</option>
             </select>
           </div>
-          <div className='space-y-2'>
-            <label className='block font-normal'>Asunto:</label>
+          <div>
+            <label className='block mb-1'>Asunto:</label>
             <input
               type='text'
               name='asunto'
               value={formData.asunto}
               onChange={handleChange}
               placeholder='Breve descripción del mensaje'
-              className='w-full p-2 border rounded-md text-black bg-inf2 text-lg focus:bg-white'
+              className='w-full p-2 rounded-md text-black bg-inf2 text-lg focus:bg-white'
               required
             />
           </div>
-          <div className='space-y-2'>
-            <label className='block font-normal'>Mensaje:</label>
+          <div>
+            <label className='block mb-1'>Mensaje:</label>
             <textarea
               name='mensaje'
               value={formData.mensaje}
               onChange={handleChange}
-              className='w-full p-4 border rounded-md text-black bg-inf2 text-lg focus:bg-white'
-              rows='5'
+              rows='4'
+              className='w-full p-2 rounded-md text-black bg-inf2 text-lg focus:bg-white'
               required
             ></textarea>
           </div>
-          <div className='flex justify-between mt-6'>
+          <div className='flex justify-end gap-4 mt-6'>
             <button
               type='button'
               onClick={onClose}
-              className='px-6 py-3 bg-inf3 text-black rounded-md text-lg font-medium hover:bg-blue-600'
+              className='px-6 py-2 bg-inf3 text-black rounded-md text-lg font-medium hover:bg-blue-600'
             >
               Cancelar
             </button>
             <button
               type='submit'
-              className='px-6 py-3 bg-inf3 text-black rounded-md text-lg font-medium hover:bg-blue-600'
+              className='px-6 py-2 bg-inf3 text-black rounded-md text-lg font-medium hover:bg-blue-600'
             >
               Enviar
             </button>
@@ -210,21 +210,23 @@ export default function BuzonSugerencias({ onClose }) {
           </a>{' '}
           de Google.
         </p>
-      </div>
-      {showDialog && (
-        <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-50'>
-          <div className='bg-inf1 p-6 rounded-lg shadow-lg text-center'>
-            <p className='mb-4 text-lg font-semibold'>{dialogMessage}</p>
-            <button
-              onClick={handleCloseDialog}
-              className='px-6 py-3 bg-blue-500 text-white rounded-md font-medium hover:bg-blue-600'
-            >
-              Aceptar
-            </button>
+
+        {showDialog && (
+          <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-50'>
+            <div className='bg-inf1 p-6 rounded-lg shadow-lg text-center'>
+              <p className='mb-4 text-lg font-semibold'>{dialogMessage}</p>
+              <button
+                onClick={handleCloseDialog}
+                className='px-6 py-3 bg-blue-500 text-white rounded-md font-medium hover:bg-blue-600'
+              >
+                Aceptar
+              </button>
+            </div>
           </div>
-        </div>
-      )}
-      {showSpinner && <Spinner />}
+        )}
+
+        {showSpinner && <Spinner />}
+      </div>
     </div>
   )
 }
