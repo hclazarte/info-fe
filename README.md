@@ -1,12 +1,53 @@
-# React + Vite
+# Infomóvil Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Infomóvil** es una guía de comercios basada en un mapa que permite localizar bienes o servicios en la ciudad de manera rápida y eficiente. Proporciona información sobre zonas comerciales, categorías, teléfonos y enlaces a los comercios más relevantes.
 
-Currently, two official plugins are available:
+📍 **Sitio web en producción:** [infomovil.com.bo](https://infomovil.com.bo/)\
+📍 **Sitio de prueba:** [dev.infomovil.com.bo](https://dev.infomovil.com.bo/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## 🔄 Despliegue
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Para hacer deploy, primero conéctate al servidor:
+
+```sh
+ssh <nombre_de_usuario>@linx.infomovil.com.bo
+```
+
+Luego ejecuta el siguiente comando según el entorno:
+
+- **Development:**
+  ```sh
+  /dev/info-dev/deployFE.sh <rama a instalar por defecto master>
+  ```
+- **Producción:**
+  ```sh
+  /dev/info-prod/deployFE.sh <rama a instalar por defecto master>
+  ```
+
+Si el dominio ya está configurado, la aplicación estará accesible en `https://infomovil.com.bo/`.
+
+---
+
+## 🛠️ Mantenimiento y troubleshooting
+
+- **Si hay problemas con la API:**
+
+  - Revisar la configuración en `/infomovil_fe/public/config.json` y `.env.production`.
+
+---
+
+## 🖥️ Backend
+
+El backend de Infomóvil está desarrollado en **Ruby on Rails**. Puedes encontrar el código fuente e instrucciones de instalación en el siguiente repositorio:
+
+🔗 [Repositorio del backend](https://github.com/hclazarte/info_be)
+
+---
+
+## 📞 Contacto y soporte
+
+Si tienes preguntas o problemas con la aplicación, puedes contactarnos en: 📧 [**soporte@infomovil.com.bo**](mailto\:soporte@infomovil.com.bo)\
+
+---
