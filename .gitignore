@@ -28,3 +28,4 @@ dist-ssr
 
 # Configuracion del sistema
 /public/config.json
+/public/data
