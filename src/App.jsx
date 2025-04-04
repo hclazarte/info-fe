@@ -1,12 +1,12 @@
 // src/App.jsx
 import { Routes, Route } from "react-router-dom"
 import Busquedas from "./components/Busquedas"
-import RegistroComercio from "./admin/RegistroComercio"
+import ValidacionPropietario from "./admin/ValidacionPropietario"
 
 function App() {
   return (
     <Routes>
-      <Route path="/app/registro-comercio" element={<RegistroComercio />} />
+      <Route path="/app/registro-comercio" element={<ValidacionPropietario />} />
       <Route path="/*" element={<Busquedas />} />
     </Routes>
   )
