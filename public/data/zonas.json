@@ -1,0 +1,658 @@
+[
+  {
+    "id": 67,
+    "descripcion": "14 DE SEPTIEMBRE",
+    "total": 463,
+    "created_at": "2025-01-30T15:56:00.715Z",
+    "updated_at": "2025-02-11T16:08:57.823Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 68,
+    "descripcion": "ACHACHICALA",
+    "total": 152,
+    "created_at": "2025-01-30T15:56:00.744Z",
+    "updated_at": "2025-02-11T16:08:58.072Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 69,
+    "descripcion": "ACHUMANI",
+    "total": 687,
+    "created_at": "2025-01-30T15:56:00.774Z",
+    "updated_at": "2025-02-11T16:08:58.282Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 419,
+    "descripcion": "AGUA DE LA VIDA",
+    "total": 40,
+    "created_at": "2025-02-11T16:08:27.884Z",
+    "updated_at": "2025-02-11T16:09:04.045Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 420,
+    "descripcion": "ALTO CHIJINI",
+    "total": 42,
+    "created_at": "2025-02-11T16:08:27.967Z",
+    "updated_at": "2025-02-11T16:09:04.271Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 421,
+    "descripcion": "ALTO IRPAVI",
+    "total": 40,
+    "created_at": "2025-02-11T16:08:28.031Z",
+    "updated_at": "2025-02-11T16:09:04.433Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 422,
+    "descripcion": "ALTO MIRAFLORES",
+    "total": 109,
+    "created_at": "2025-02-11T16:08:28.102Z",
+    "updated_at": "2025-02-11T16:09:04.604Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 70,
+    "descripcion": "ALTO OBRAJES",
+    "total": 130,
+    "created_at": "2025-01-30T15:56:00.801Z",
+    "updated_at": "2025-02-11T16:08:58.472Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 71,
+    "descripcion": "ALTO SAN PEDRO",
+    "total": 134,
+    "created_at": "2025-01-30T15:56:00.830Z",
+    "updated_at": "2025-02-11T16:08:58.740Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 423,
+    "descripcion": "ALTO SEGUENCOMA",
+    "total": 70,
+    "created_at": "2025-02-11T16:08:28.188Z",
+    "updated_at": "2025-02-11T16:09:04.853Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 424,
+    "descripcion": "ALTO SOPOCACHI",
+    "total": 65,
+    "created_at": "2025-02-11T16:08:28.241Z",
+    "updated_at": "2025-02-11T16:09:05.070Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 425,
+    "descripcion": "ALTO TEJAR",
+    "total": 42,
+    "created_at": "2025-02-11T16:08:28.306Z",
+    "updated_at": "2025-02-11T16:09:05.304Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 426,
+    "descripcion": "AUQUISAMAÑA",
+    "total": 49,
+    "created_at": "2025-02-11T16:08:28.407Z",
+    "updated_at": "2025-02-11T16:09:05.490Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 72,
+    "descripcion": "BAJO LLOJETA",
+    "total": 129,
+    "created_at": "2025-01-30T15:56:00.858Z",
+    "updated_at": "2025-02-11T16:08:59.004Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 428,
+    "descripcion": "BAJO SEGUENCOMA",
+    "total": 52,
+    "created_at": "2025-02-11T16:08:28.622Z",
+    "updated_at": "2025-02-11T16:09:05.971Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 429,
+    "descripcion": "BAJO SOPOCACHI",
+    "total": 20,
+    "created_at": "2025-02-11T16:08:28.707Z",
+    "updated_at": "2025-02-11T16:09:06.230Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 430,
+    "descripcion": "BELEN",
+    "total": 77,
+    "created_at": "2025-02-11T16:08:28.762Z",
+    "updated_at": "2025-02-11T16:09:06.486Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 431,
+    "descripcion": "BELLA VISTA",
+    "total": 79,
+    "created_at": "2025-02-11T16:08:28.824Z",
+    "updated_at": "2025-02-11T16:09:06.725Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 432,
+    "descripcion": "BOLOGNIA",
+    "total": 39,
+    "created_at": "2025-02-11T16:08:28.902Z",
+    "updated_at": "2025-02-11T16:09:06.953Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 73,
+    "descripcion": "CALACOTO",
+    "total": 1383,
+    "created_at": "2025-01-30T15:56:00.887Z",
+    "updated_at": "2025-02-11T16:08:59.253Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 74,
+    "descripcion": "CALLAMPAYA",
+    "total": 149,
+    "created_at": "2025-01-30T15:56:00.920Z",
+    "updated_at": "2025-02-11T16:08:59.470Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 75,
+    "descripcion": "CENTRAL",
+    "total": 2056,
+    "created_at": "2025-01-30T15:56:00.951Z",
+    "updated_at": "2025-02-11T16:08:59.692Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 433,
+    "descripcion": "CENTRO",
+    "total": 58,
+    "created_at": "2025-02-11T16:08:29.030Z",
+    "updated_at": "2025-02-11T16:09:07.202Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 76,
+    "descripcion": "CHALLAPAMPA",
+    "total": 122,
+    "created_at": "2025-01-30T15:56:00.982Z",
+    "updated_at": "2025-02-11T16:08:59.921Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 434,
+    "descripcion": "CHAMOCO CHICO",
+    "total": 31,
+    "created_at": "2025-02-11T16:08:29.153Z",
+    "updated_at": "2025-02-11T16:09:07.454Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 435,
+    "descripcion": "CHASQUIPAMPA",
+    "total": 111,
+    "created_at": "2025-02-11T16:08:29.230Z",
+    "updated_at": "2025-02-11T16:09:07.689Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 436,
+    "descripcion": "CHUQUIAGUILLO",
+    "total": 43,
+    "created_at": "2025-02-11T16:08:29.331Z",
+    "updated_at": "2025-02-11T16:09:07.906Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 437,
+    "descripcion": "CIUDADELA FERROVIARIA",
+    "total": 37,
+    "created_at": "2025-02-11T16:08:29.416Z",
+    "updated_at": "2025-02-11T16:09:08.124Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 77,
+    "descripcion": "COTA COTA",
+    "total": 295,
+    "created_at": "2025-01-30T15:56:01.013Z",
+    "updated_at": "2025-02-11T16:09:00.136Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 438,
+    "descripcion": "CRISTO REY",
+    "total": 24,
+    "created_at": "2025-02-11T16:08:29.516Z",
+    "updated_at": "2025-02-11T16:09:08.340Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 78,
+    "descripcion": "EL ROSARIO",
+    "total": 340,
+    "created_at": "2025-01-30T15:56:01.043Z",
+    "updated_at": "2025-02-11T16:09:00.354Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 442,
+    "descripcion": "EL TEJAR",
+    "total": 122,
+    "created_at": "2025-02-11T16:08:29.901Z",
+    "updated_at": "2025-02-11T16:09:09.162Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 79,
+    "descripcion": "GRAN PODER",
+    "total": 205,
+    "created_at": "2025-01-30T15:56:01.073Z",
+    "updated_at": "2025-02-11T16:09:00.539Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 80,
+    "descripcion": "IRPAVI",
+    "total": 284,
+    "created_at": "2025-01-30T15:56:01.103Z",
+    "updated_at": "2025-02-11T16:09:00.782Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 443,
+    "descripcion": "IRPAVI II",
+    "total": 36,
+    "created_at": "2025-02-11T16:08:30.032Z",
+    "updated_at": "2025-02-11T16:09:09.385Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 446,
+    "descripcion": "KUPINI",
+    "total": 36,
+    "created_at": "2025-02-11T16:08:30.317Z",
+    "updated_at": "2025-02-11T16:09:10.115Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 81,
+    "descripcion": "LA FLORIDA",
+    "total": 71,
+    "created_at": "2025-01-30T15:56:01.131Z",
+    "updated_at": "2025-02-11T16:09:01.016Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 447,
+    "descripcion": "LA MERCED",
+    "total": 24,
+    "created_at": "2025-02-11T16:08:30.433Z",
+    "updated_at": "2025-02-11T16:09:10.337Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 448,
+    "descripcion": "LA PAZ",
+    "total": 26,
+    "created_at": "2025-02-11T16:08:30.534Z",
+    "updated_at": "2025-02-11T16:09:10.570Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 449,
+    "descripcion": "LA PORTADA",
+    "total": 52,
+    "created_at": "2025-02-11T16:08:30.627Z",
+    "updated_at": "2025-02-11T16:09:10.812Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 450,
+    "descripcion": "LLOJETA",
+    "total": 68,
+    "created_at": "2025-02-11T16:08:30.720Z",
+    "updated_at": "2025-02-11T16:09:11.052Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 451,
+    "descripcion": "LOS ANDES",
+    "total": 49,
+    "created_at": "2025-02-11T16:08:30.788Z",
+    "updated_at": "2025-02-11T16:09:11.301Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 82,
+    "descripcion": "LOS PINOS",
+    "total": 133,
+    "created_at": "2025-01-30T15:56:01.161Z",
+    "updated_at": "2025-02-11T16:09:01.233Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 452,
+    "descripcion": "MALLASA",
+    "total": 27,
+    "created_at": "2025-02-11T16:08:30.876Z",
+    "updated_at": "2025-02-11T16:09:11.478Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 453,
+    "descripcion": "MALLASILLA",
+    "total": 45,
+    "created_at": "2025-02-11T16:08:30.937Z",
+    "updated_at": "2025-02-11T16:09:11.705Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 83,
+    "descripcion": "MIRAFLORES",
+    "total": 1498,
+    "created_at": "2025-01-30T15:56:01.190Z",
+    "updated_at": "2025-02-11T16:09:01.497Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 454,
+    "descripcion": "MUNAYPATA",
+    "total": 95,
+    "created_at": "2025-02-11T16:08:31.015Z",
+    "updated_at": "2025-02-11T16:09:11.954Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 84,
+    "descripcion": "NORTE",
+    "total": 180,
+    "created_at": "2025-01-30T15:56:01.219Z",
+    "updated_at": "2025-02-11T16:09:01.714Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 456,
+    "descripcion": "OBISPO INDABURO",
+    "total": 35,
+    "created_at": "2025-02-11T16:08:31.186Z",
+    "updated_at": "2025-02-11T16:09:12.404Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 85,
+    "descripcion": "OBRAJES",
+    "total": 556,
+    "created_at": "2025-01-30T15:56:01.247Z",
+    "updated_at": "2025-02-11T16:09:01.900Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 457,
+    "descripcion": "OVEJUYO",
+    "total": 29,
+    "created_at": "2025-02-11T16:08:31.295Z",
+    "updated_at": "2025-02-11T16:09:12.641Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 459,
+    "descripcion": "PAMPAHASI",
+    "total": 89,
+    "created_at": "2025-02-11T16:08:31.485Z",
+    "updated_at": "2025-02-11T16:09:13.108Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 460,
+    "descripcion": "PAMPAHASI BAJO",
+    "total": 31,
+    "created_at": "2025-02-11T16:08:31.593Z",
+    "updated_at": "2025-02-11T16:09:13.352Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 461,
+    "descripcion": "PASANKERI",
+    "total": 48,
+    "created_at": "2025-02-11T16:08:31.701Z",
+    "updated_at": "2025-02-11T16:09:13.591Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 86,
+    "descripcion": "PURA PURA",
+    "total": 133,
+    "created_at": "2025-01-30T15:56:01.281Z",
+    "updated_at": "2025-02-11T16:09:02.133Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 1,
+    "descripcion": "ROSARIO",
+    "total": 174,
+    "created_at": "2025-01-15T15:07:29.692Z",
+    "updated_at": "2025-02-11T16:08:56.673Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 462,
+    "descripcion": "SAN ANTONIO",
+    "total": 35,
+    "created_at": "2025-02-11T16:08:31.776Z",
+    "updated_at": "2025-02-11T16:09:13.843Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 463,
+    "descripcion": "SAN ANTONIO BAJO",
+    "total": 41,
+    "created_at": "2025-02-11T16:08:31.855Z",
+    "updated_at": "2025-02-11T16:09:14.090Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 3,
+    "descripcion": "SAN JORGE",
+    "total": 324,
+    "created_at": "2025-01-15T15:07:30.451Z",
+    "updated_at": "2025-02-11T16:08:57.140Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 87,
+    "descripcion": "SAN MIGUEL",
+    "total": 445,
+    "created_at": "2025-01-30T15:56:01.319Z",
+    "updated_at": "2025-02-11T16:09:02.382Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 5,
+    "descripcion": "SAN PEDRO",
+    "total": 832,
+    "created_at": "2025-01-15T15:07:30.499Z",
+    "updated_at": "2025-02-11T16:08:57.584Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 464,
+    "descripcion": "SAN PEDRO BAJO",
+    "total": 37,
+    "created_at": "2025-02-11T16:08:32.002Z",
+    "updated_at": "2025-02-11T16:09:14.360Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 88,
+    "descripcion": "SAN SEBASTIAN",
+    "total": 283,
+    "created_at": "2025-01-30T15:56:01.351Z",
+    "updated_at": "2025-02-11T16:09:02.628Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 89,
+    "descripcion": "SANTA BARBARA",
+    "total": 149,
+    "created_at": "2025-01-30T15:56:01.381Z",
+    "updated_at": "2025-02-11T16:09:02.877Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 90,
+    "descripcion": "SOPOCACHI",
+    "total": 1606,
+    "created_at": "2025-01-30T15:56:01.413Z",
+    "updated_at": "2025-02-11T16:09:03.143Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 465,
+    "descripcion": "SOPOCACHI ALTO",
+    "total": 38,
+    "created_at": "2025-02-11T16:08:32.142Z",
+    "updated_at": "2025-02-11T16:09:14.600Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 91,
+    "descripcion": "SOPOCACHI BAJO",
+    "total": 178,
+    "created_at": "2025-01-30T15:56:01.445Z",
+    "updated_at": "2025-02-11T16:09:03.361Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 466,
+    "descripcion": "SUR",
+    "total": 112,
+    "created_at": "2025-02-11T16:08:32.234Z",
+    "updated_at": "2025-02-11T16:09:14.833Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 471,
+    "descripcion": "TEMBLADERANI",
+    "total": 153,
+    "created_at": "2025-02-11T16:08:32.718Z",
+    "updated_at": "2025-02-11T16:09:15.947Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 472,
+    "descripcion": "VALLE HERMOSO",
+    "total": 27,
+    "created_at": "2025-02-11T16:08:32.818Z",
+    "updated_at": "2025-02-11T16:09:16.170Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 473,
+    "descripcion": "VILLA ARMONIA",
+    "total": 52,
+    "created_at": "2025-02-11T16:08:32.918Z",
+    "updated_at": "2025-02-11T16:09:16.418Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 92,
+    "descripcion": "VILLA COPACABANA",
+    "total": 216,
+    "created_at": "2025-01-30T15:56:01.479Z",
+    "updated_at": "2025-02-11T16:09:03.578Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 474,
+    "descripcion": "VILLA DE LA CRUZ",
+    "total": 28,
+    "created_at": "2025-02-11T16:08:33.034Z",
+    "updated_at": "2025-02-11T16:09:16.636Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 475,
+    "descripcion": "VILLA EL CARMEN",
+    "total": 93,
+    "created_at": "2025-02-11T16:08:33.133Z",
+    "updated_at": "2025-02-11T16:09:16.866Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 93,
+    "descripcion": "VILLA FATIMA",
+    "total": 305,
+    "created_at": "2025-01-30T15:56:01.509Z",
+    "updated_at": "2025-02-11T16:09:03.780Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 477,
+    "descripcion": "VILLA NUEVA POTOSI",
+    "total": 130,
+    "created_at": "2025-02-11T16:08:33.334Z",
+    "updated_at": "2025-02-11T16:09:17.310Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 478,
+    "descripcion": "VILLA PABON",
+    "total": 45,
+    "created_at": "2025-02-11T16:08:33.434Z",
+    "updated_at": "2025-02-11T16:09:17.532Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 479,
+    "descripcion": "VILLA SALOME",
+    "total": 77,
+    "created_at": "2025-02-11T16:08:33.535Z",
+    "updated_at": "2025-02-11T16:09:17.771Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 480,
+    "descripcion": "VILLA SAN ANTONIO",
+    "total": 57,
+    "created_at": "2025-02-11T16:08:33.635Z",
+    "updated_at": "2025-02-11T16:09:18.004Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 481,
+    "descripcion": "VILLA SAN ANTONIO BAJO",
+    "total": 35,
+    "created_at": "2025-02-11T16:08:33.735Z",
+    "updated_at": "2025-02-11T16:09:18.232Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 482,
+    "descripcion": "VILLA VICTORIA",
+    "total": 99,
+    "created_at": "2025-02-11T16:08:33.834Z",
+    "updated_at": "2025-02-11T16:09:18.502Z",
+    "ciudad_id": 7
+  },
+  {
+    "id": 483,
+    "descripcion": "VINO TINTO",
+    "total": 96,
+    "created_at": "2025-02-11T16:08:33.935Z",
+    "updated_at": "2025-02-11T16:09:18.758Z",
+    "ciudad_id": 7
+  }
+]
