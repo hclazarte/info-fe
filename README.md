@@ -48,6 +48,6 @@ El backend de Infomóvil está desarrollado en **Ruby on Rails**. Puedes encontr
 
 ## 📞 Contacto y soporte
 
-Si tienes preguntas o problemas con la aplicación, puedes contactarnos en: 📧 [**soporte@infomovil.com.bo**](mailto\:soporte@infomovil.com.bo)\
+Si tienes preguntas o problemas con la aplicación, puedes contactarnos en: 📧 [**soporte@infomovil.com.bo**](mailto:soporte@infomovil.com.bo)\
 
 ---
