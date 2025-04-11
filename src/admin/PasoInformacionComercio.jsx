@@ -1,5 +1,8 @@
 // Este componente espera props: step, substep, tipoPlan, setTipoPlan, comercio, solicitud,
-// ciudades, zonas, handleAtras, handleSiguiente
+// ciudades, zonas, handleAtras, handleSiguiente, comercioEditable, setComercioEditable
+
+import { useEffect } from 'react'
+import { Lock } from 'lucide-react'
 
 const PasoInformacionComercio = ({
   substep,
@@ -10,8 +13,59 @@ const PasoInformacionComercio = ({
   ciudades,
   zonas,
   handleAtras,
-  handleSiguiente
+  handleSiguiente,
+  comercioEditable,
+  setComercioEditable
 }) => {
+  useEffect(() => {
+    if (comercio && solicitud) {
+      setComercioEditable((prev) => ({
+        ...prev,
+        ...comercio,
+        email: solicitud.email
+      }))
+    }
+  }, [comercio, solicitud])
+
+  if (!comercioEditable) {
+    return (
+      <p className='text-center text-sm text-gray-500'>
+        Cargando datos del comercio...
+      </p>
+    )
+  }
+
+  const handleChange = (field) => (e) => {
+    const value = e.target.value
+    setComercioEditable((prev) => ({
+      ...prev,
+      [field]: value
+    }))
+  }
+
+  const handleUppercase = (field) => (e) => {
+    const value = e.target.value.toUpperCase()
+    setComercioEditable((prev) => ({
+      ...prev,
+      [field]: value
+    }))
+  }
+
+  const handleNumeric = (field) => (e) => {
+    const value = e.target.value.replace(/\D/g, '')
+    setComercioEditable((prev) => ({
+      ...prev,
+      [field]: value
+    }))
+  }
+
+  const candado = (condicion = true) => {
+    if (!condicion) return null
+    return <Lock size={14} className='inline-block text-white' />
+  }
+
+  const campoSoloPago = tipoPlan !== 'pago'
+
   return (
     <div className='space-y-4'>
       <h2 className='text-2xl font-bold text-center mb-4'>
@@ -43,7 +97,8 @@ const PasoInformacionComercio = ({
         </div>
         <div className='bg-inf3 text-black rounded p-3 text-sm mt-2'>
           <p className='font-semibold mb-1'>
-            Con el plan <span className='capitalize'>{tipoPlan}</span> puede modificar:
+            Con el plan <span className='capitalize'>{tipoPlan}</span> puede
+            modificar:
           </p>
           <ul className='list-disc pl-8'>
             <li>Ciudad de ubicación del comercio</li>
@@ -62,7 +117,8 @@ const PasoInformacionComercio = ({
           </ul>
           {tipoPlan === 'pago' && (
             <p className='mt-2 text-sm font-medium text-inf7'>
-              ¡Una inversión de solo Bs. 50 al año que le permite destacar y facilitar que nuevos clientes le encuentren en línea!
+              ¡Una inversión de solo Bs. 50 al año que le permite destacar y
+              facilitar que nuevos clientes le encuentren en línea!
             </p>
           )}
         </div>
@@ -70,36 +126,34 @@ const PasoInformacionComercio = ({
       {substep === 1 && (
         <>
           <div>
-            <label className='block text-sm'>Empresa:</label>
+            <label className='block text-sm'>Empresa: {candado()}</label>
             <input
               disabled
-              value={comercio.empresa}
+              value={comercioEditable.empresa || ''}
               className='w-full p-2 rounded bg-inf2 text-black'
             />
           </div>
           <div>
-            <label className='block text-sm'>Correo electrónico:</label>
+            <label className='block text-sm'>Email: {candado()}</label>
             <input
               disabled
-              value={solicitud.email}
+              value={comercioEditable.email || ''}
               className='w-full p-2 rounded bg-inf2 text-black'
             />
           </div>
           <div>
-            <label className='block text-sm'>NIT:</label>
+            <label className='block text-sm'>NIT: {candado()}</label>
             <input
               disabled
-              value={comercio.nit}
+              value={comercioEditable.nit || ''}
               className='w-full p-2 rounded bg-inf2 text-black'
-              onInput={(e) => {
-                e.target.value = e.target.value.replace(/\D/g, '')
-              }}
             />
           </div>
           <div>
             <label className='block text-sm'>Ciudad:</label>
             <select
-              defaultValue={comercio.ciudad_id}
+              value={comercioEditable.ciudad_id || ''}
+              onChange={handleChange('ciudad_id')}
               className='w-full p-2 rounded bg-inf2 text-black'
             >
               <option value=''>Seleccione una ciudad</option>
@@ -113,7 +167,8 @@ const PasoInformacionComercio = ({
           <div>
             <label className='block text-sm'>Zona:</label>
             <select
-              defaultValue={comercio.zona_id}
+              value={comercioEditable.zona_id || ''}
+              onChange={handleChange('zona_id')}
               className='w-full p-2 rounded bg-inf2 text-black'
             >
               <option value=''>Seleccione una zona</option>
@@ -127,33 +182,32 @@ const PasoInformacionComercio = ({
           <div>
             <label className='block text-sm'>Nombre de Zona:</label>
             <input
-              defaultValue={comercio.zona_nombre}
-              onInput={(e) =>
-                (e.target.value = e.target.value.toUpperCase())
-              }
+              value={comercioEditable.zona_nombre || ''}
+              onInput={handleUppercase('zona_nombre')}
               className='w-full p-2 rounded bg-inf2 text-black focus:bg-white'
             />
           </div>
           <div>
-            <label className='block text-sm'>
-              Dirección (Calle y número):
-            </label>
+            <label className='block text-sm'>Dirección (Calle y número):</label>
             <input
-              defaultValue={comercio.calle_numero}
+              value={comercioEditable.calle_numero || ''}
+              onChange={handleChange('calle_numero')}
               className='w-full p-2 rounded bg-inf2 text-black focus:bg-white'
             />
           </div>
           <div>
             <label className='block text-sm'>Planta:</label>
             <input
-              defaultValue={comercio.planta || ''}
+              value={comercioEditable.planta || ''}
+              onChange={handleChange('planta')}
               className='w-full p-2 rounded bg-inf2 text-black focus:bg-white'
             />
           </div>
           <div>
             <label className='block text-sm'>Número de local:</label>
             <input
-              defaultValue={comercio.numero_local || ''}
+              value={comercioEditable.numero_local || ''}
+              onChange={handleChange('numero_local')}
               className='w-full p-2 rounded bg-inf2 text-black focus:bg-white'
             />
           </div>
@@ -164,111 +218,61 @@ const PasoInformacionComercio = ({
           <div>
             <label className='block text-sm'>Teléfono 1:</label>
             <input
-              defaultValue={comercio.telefono1}
-              inputMode='numeric'
-              pattern='[0-9]*'
+              value={comercioEditable.telefono1 || ''}
+              onInput={handleNumeric('telefono1')}
               className='w-full p-2 rounded bg-inf2 text-black focus:bg-white'
-              onInput={(e) => {
-                e.target.value = e.target.value.replace(/\D/g, '') // elimina todo lo que no sea dígito
-              }}
-              disabled={false}
             />
           </div>
           <div>
             <label className='block text-sm'>Palabras clave:</label>
             <textarea
-              defaultValue={comercio.palabras_clave || ''}
-              onInput={(e) =>
-                (e.target.value = e.target.value.toUpperCase())
-              }
+              value={comercioEditable.palabras_clave || ''}
+              onInput={handleUppercase('palabras_clave')}
               className='w-full p-2 rounded bg-inf2 text-black focus:bg-white'
-              disabled={false}
               rows='5'
             />
           </div>
           <div>
-            <label className='block text-sm'>
-              Teléfono 2:'
-              {tipoPlan !== 'pago' && (
-                <span
-                  title='Disponible solo con el plan de pago'
-                  className='ml-1 cursor-help'
-                >
-                  ℹ️
-                </span>
-              )}
-            </label>
+            <label className='block text-sm'>Teléfono 2:</label>
             <input
-              defaultValue={comercio.telefono2 || ''}
-              inputMode='numeric'
-              pattern='[0-9]*'
+              value={comercioEditable.telefono2 || ''}
+              onInput={handleNumeric('telefono2')}
               className='w-full p-2 rounded bg-inf2 text-black focus:bg-white'
-              onInput={(e) => {
-                e.target.value = e.target.value.replace(/\D/g, '') // elimina todo lo que no sea dígito
-              }}
             />
           </div>
           <div>
             <label className='block text-sm'>
-              WhatsApp:
-              {tipoPlan !== 'pago' && (
-                <span
-                  title='Disponible solo con el plan de pago'
-                  className='ml-1 cursor-help'
-                >
-                  ℹ️
-                </span>
-              )}
+              WhatsApp: {candado(tipoPlan === 'gratis')}
             </label>
             <input
-              defaultValue={comercio.telefono3 || ''}
-              inputMode='numeric'
-              pattern='[0-9]*'
+              value={comercioEditable.telefono3 || ''}
+              onInput={handleNumeric('telefono3')}
               className='w-full p-2 rounded bg-inf2 text-black focus:bg-white'
-              onInput={(e) => {
-                e.target.value = e.target.value.replace(/\D/g, '') // elimina todo lo que no sea dígito
-              }}
+              disabled={campoSoloPago}
             />
           </div>
           <div>
             <label className='block text-sm'>
-              Página web:
-              {tipoPlan !== 'pago' && (
-                <span
-                  title='Disponible solo con el plan de pago'
-                  className='ml-1 cursor-help'
-                >
-                  ℹ️
-                </span>
-              )}
+              Página web: {candado(tipoPlan === 'gratis')}
             </label>
             <input
               type='url'
-              defaultValue={comercio.pagina_web || ''}
+              value={comercioEditable.pagina_web || ''}
+              onChange={handleChange('pagina_web')}
               className='w-full p-2 rounded bg-inf2 text-black focus:bg-white'
-              disabled={tipoPlan !== 'pago'}
+              disabled={campoSoloPago}
             />
           </div>
           <div>
             <label className='block text-sm'>
-              Servicios:
-              {tipoPlan !== 'pago' && (
-                <span
-                  title='Disponible solo con el plan de pago'
-                  className='ml-1 cursor-help'
-                >
-                  ℹ️
-                </span>
-              )}
+              Servicios: {candado(tipoPlan === 'gratis')}
             </label>
             <textarea
-              defaultValue={comercio.servicios || ''}
-              onInput={(e) =>
-                (e.target.value = e.target.value.toUpperCase())
-              }
+              value={comercioEditable.servicios || ''}
+              onInput={handleUppercase('servicios')}
               className='w-full p-2 rounded bg-inf2 text-black focus:bg-white'
-              disabled={tipoPlan !== 'pago'}
               rows='5'
+              disabled={campoSoloPago}
             />
           </div>
         </>

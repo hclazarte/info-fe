@@ -12,14 +12,16 @@ const PasoValidacionIdentidad = ({
         Validación de Identidad
       </h2>
       <p className='text-sm text-inf1 text-justify'>
-        Antes de permitirle modificar los datos de su comercio, es necesario validar su identidad mediante los documentos requeridos. Esta verificación garantiza que usted es una persona autorizada y protege su información de accesos no deseados. De este modo, usted podrá actualizar sus datos con total seguridad y confianza.
+        Antes de permitirle modificar los datos de su comercio, es necesario
+        validar su identidad mediante los documentos requeridos. Esta
+        verificación garantiza que usted es una persona autorizada y protege su
+        información de accesos no deseados. De este modo, usted podrá actualizar
+        sus datos con total seguridad y confianza.
       </p>
 
       <div>
         <label className='block text-sm'>Empresa:</label>
-        <p className='bg-inf2 text-black p-2 rounded'>
-          {comercio.empresa}
-        </p>
+        <p className='bg-inf2 text-black p-2 rounded'>{comercio.empresa}</p>
       </div>
       <div>
         <label className='block text-sm'>Imagen del NIT:</label>
@@ -50,15 +52,16 @@ const PasoValidacionIdentidad = ({
         <button
           onClick={handleSiguiente}
           disabled={!(comercio?.documentos_validados === 1)}
-          className={`px-6 py-2 rounded-md text-lg font-medium ${comercio?.documentos_validados === 1
+          className={`px-6 py-2 rounded-md text-lg font-medium ${
+            comercio?.documentos_validados === 1
               ? 'bg-inf3 text-black hover:bg-inf5'
               : 'bg-gray-400 text-white cursor-not-allowed'
-            }`}
+          }`}
         >
           Siguiente
         </button>
       </div>
-      {(comercio?.documentos_validados === 1) && (
+      {comercio?.documentos_validados === 1 && (
         <p className='text-green-200 font-semibold text-center'>
           Registro Validado
         </p>

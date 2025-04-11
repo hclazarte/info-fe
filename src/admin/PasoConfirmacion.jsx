@@ -3,13 +3,11 @@
 const PasoConfirmacion = () => {
   return (
     <div className='space-y-6 text-center'>
-      <h2 className='text-2xl font-bold mb-2'>
-        ¡Gracias por registrarse!
-      </h2>
+      <h2 className='text-2xl font-bold mb-2'>¡Gracias por registrarse!</h2>
 
       <p className='text-inf1'>
-        La solicitud fue recibida correctamente. La información será revisada y actualizada en un plazo de{' '}
-        <strong>24 a 48 horas hábiles</strong>.
+        La solicitud fue recibida correctamente. La información será revisada y
+        actualizada en un plazo de <strong>24 a 48 horas hábiles</strong>.
       </p>
 
       <div className='text-4xl mt-4'>🎉🎉🎉</div>

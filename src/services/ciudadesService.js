@@ -8,12 +8,16 @@ export const obtenerCiudades = async () => {
 
 // Obtener una ciudad por ID
 export const obtenerCiudad = async (id) => {
-  return apiRequest(() => axios.get(`${window.infoConfig.apiUrl}/ciudades/${id}`))
+  return apiRequest(() =>
+    axios.get(`${window.infoConfig.apiUrl}/ciudades/${id}`)
+  )
 }
 
 // Obtener ciudad por IP del cliente
 export const obtenerCiudadPorIP = async () => {
-  return apiRequest(() => axios.get(`${window.infoConfig.apiUrl}/ciudades/by_client_ip`))
+  return apiRequest(() =>
+    axios.get(`${window.infoConfig.apiUrl}/ciudades/by_client_ip`)
+  )
 }
 
 // Buscar ciudades por filtro (por ejemplo, ciudad y país)
@@ -22,17 +26,23 @@ export const buscarCiudades = async ({ ciudad, pais }) => {
   if (ciudad) params.append('ciudad', ciudad)
   if (pais) params.append('pais', pais)
 
-  return apiRequest(() => axios.get(`${window.infoConfig.apiUrl}/ciudades?${params.toString()}`))
+  return apiRequest(() =>
+    axios.get(`${window.infoConfig.apiUrl}/ciudades?${params.toString()}`)
+  )
 }
 
 // Obtener zonas de una ciudad por ID
 export const obtenerZonasDeCiudad = async (ciudadId) => {
-  return apiRequest(() => axios.get(`${window.infoConfig.apiUrl}/ciudades/${ciudadId}/zonas`))
+  return apiRequest(() =>
+    axios.get(`${window.infoConfig.apiUrl}/ciudades/${ciudadId}/zonas`)
+  )
 }
 
 // Buscar zonas por ciudad y descripción
 export const buscarZonasDeCiudad = async (ciudadId, descripcion) => {
   return apiRequest(() =>
-    axios.get(`${window.infoConfig.apiUrl}/ciudades/${ciudadId}/zonas?descripcion=${encodeURIComponent(descripcion)}`)
+    axios.get(
+      `${window.infoConfig.apiUrl}/ciudades/${ciudadId}/zonas?descripcion=${encodeURIComponent(descripcion)}`
+    )
   )
 }

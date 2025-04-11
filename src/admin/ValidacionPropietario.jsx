@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import '../css/output.css'
 import backgroundImage from '../img/background-image.jpg'
 import qrPago from '../img/QR.jpeg'
@@ -9,14 +9,23 @@ import PasoPago from './PasoPago'
 import PasoConfirmacion from './PasoConfirmacion'
 import SpinnerCom from '../components/common/SpinnerCom'
 import { obtenerSolicitudToken } from '../services/solicitudesService'
-import { obtenerCiudades, obtenerZonasDeCiudad } from '../services/ciudadesService'
-import { validarDocumentoNIT, validarDocumentoCI, validarComprobantePago } from '../services/documentosService'
+import {
+  obtenerCiudades,
+  obtenerZonasDeCiudad
+} from '../services/ciudadesService'
+import {
+  validarDocumentoNIT,
+  validarDocumentoCI,
+  validarComprobantePago
+} from '../services/documentosService'
+import { actualizarComercio } from '../services/comerciosService'
 
 export default function ValidacionPropietario() {
   const [spinner, setSpinner] = useState(false)
   const [step, setStep] = useState(1)
   const [solicitud, setSolicitud] = useState(null)
   const [comercio, setComercio] = useState(null)
+  const [comercioEditable, setComercioEditable] = useState(null)
   const [ciudades, setCiudades] = useState([])
   const [zonas, setZonas] = useState([])
   const [error, setError] = useState(null)
@@ -28,31 +37,45 @@ export default function ValidacionPropietario() {
   const [comprobanteCargado, setComprobanteCargado] = useState(false)
   const [archivoNIT, setArchivoNIT] = useState(null)
   const [archivoCI, setArchivoCI] = useState(null)
+  const otp_tokenRef = useRef('')
 
   useEffect(() => {
     const url = new URL(window.location.href)
-    const otp_token = url.searchParams.get('token')
-  
-    if (!otp_token) {
+    otp_tokenRef.current = url.searchParams.get('token')
+
+    if (!otp_tokenRef.current) {
       setError('No se encontró un token en la URL')
       return
     }
-  
+
     const cargaInicial = async () => {
-      const { ok, data, error: errorSolicitud } = await obtenerSolicitudToken(otp_token)
+      const {
+        ok,
+        data,
+        error: errorSolicitud
+      } = await obtenerSolicitudToken(otp_tokenRef.current)
       if (!ok) {
         setError(errorSolicitud || 'Error al obtener la solicitud')
       } else {
         setSolicitud(data.solicitud)
         setComercio(data.comercio)
-        const { ok: ok_ciudades, data: ciudades, error: errorCiudades } = await obtenerCiudades()
+        if (data.comercio.documentos_validados === 1) setStep(2)
+        const {
+          ok: ok_ciudades,
+          data: ciudades,
+          error: errorCiudades
+        } = await obtenerCiudades()
         if (!ok_ciudades) {
           setError(errorCiudades || 'Error al obtener las ciudades')
         } else {
           setCiudades(ciudades)
         }
         var ciudad_id = data.comercio.ciudad_id
-        const { ok: ok_zonas, data: zonas, error: errorZonas } = await obtenerZonasDeCiudad(ciudad_id)
+        const {
+          ok: ok_zonas,
+          data: zonas,
+          error: errorZonas
+        } = await obtenerZonasDeCiudad(ciudad_id)
         if (!ok_zonas) {
           setError(errorZonas || 'Error al obtener las zonas')
         } else {
@@ -61,35 +84,41 @@ export default function ValidacionPropietario() {
       }
     }
     cargaInicial()
-  }, [])  
+  }, [])
 
   const handleValidar = () => {
     const Validar = async (file, solicitudId) => {
       const url = new URL(window.location.href)
-      const otp_token = url.searchParams.get('token')
-  
-      if (!otp_token) {
-        setError('No se encontró un token en la URL')
-        return
-      }
-  
+
       setSpinner(true)
       try {
-        const { ok: ok_nit, nit_resp, errorNit } = await validarDocumentoNIT(file, solicitudId)
+        const {
+          ok: ok_nit,
+          nit_resp,
+          errorNit
+        } = await validarDocumentoNIT(file, solicitudId)
         if (!ok_nit) {
           throw new Error(errorNit || 'Error al validar el NIT')
         }
-  
-        const { ok: ok_ci, ci_resp, errorCi } = await validarDocumentoCI(archivoCI, solicitudId)
+
+        const {
+          ok: ok_ci,
+          ci_resp,
+          errorCi
+        } = await validarDocumentoCI(archivoCI, solicitudId)
         if (!ok_ci) {
           throw new Error(errorCi || 'Error al validar el CI')
         }
-  
-        const { ok: ok_solicitud, data, error: errorSolicitud } = await obtenerSolicitudToken(otp_token)
+
+        const {
+          ok: ok_solicitud,
+          data,
+          error: errorSolicitud
+        } = await obtenerSolicitudToken(sendingMsgRef.current)
         if (!ok_solicitud) {
           throw new Error(errorSolicitud || 'Error al recuperar la solicitud')
         }
-  
+
         setSolicitud(data.solicitud)
         setComercio(data.comercio)
       } catch (err) {
@@ -98,21 +127,22 @@ export default function ValidacionPropietario() {
         setSpinner(false)
       }
     }
-  
+
     Validar(archivoNIT, solicitud.id)
-  }  
+  }
 
   const handleSiguiente = () => {
-    if (step === 1 && (comercio?.documentos_validados === 1)) {
+    if (step === 1 && comercio?.documentos_validados === 1) {
       setStep(2)
       setSubstep(1)
     } else if (step === 2 && substep === 1) {
       setSubstep(2)
     } else if (step === 2 && substep === 2) {
-      setStep(3) // va a autorización
+      setStep(tipoPlan === 'pago' ? 3 : 4)
     } else if (step === 3) {
-      setStep(tipoPlan === 'pago' ? 4 : 5)
+      setStep(4)
     } else if (step === 4) {
+      grabarComercio()
       setStep(5)
     }
   }
@@ -126,13 +156,16 @@ export default function ValidacionPropietario() {
       setStep(2)
       setSubstep(2)
     } else if (step === 4) {
-      setStep(3)
-    } else if (step === 5) {
-      setStep(tipoPlan === 'pago' ? 4 : 3)
+      if (tipoPlan === 'gratis') {
+        setStep(2)
+        setSubstep(2)
+      } else {
+        setStep(3)
+      }
     }
   }
 
-  const handleFileUpload = (type,file) => {
+  const handleFileUpload = (type, file) => {
     if (type === 'nit') {
       setNitCargado(true)
       setArchivoNIT(file)
@@ -140,6 +173,28 @@ export default function ValidacionPropietario() {
     if (type === 'ci') {
       setCiCargado(true)
       setArchivoCI(file)
+    }
+  }
+
+  const grabarComercio = async () => {
+    comercioEditable.autorizado = 1
+    console.log(JSON.stringify(comercioEditable, null, 2))
+    setSpinner(true)
+    try {
+      const { ok, data, error } = await actualizarComercio(
+        comercioEditable.id,
+        comercioEditable,
+        otp_tokenRef.current
+      )
+      if (ok) {
+        console.log('Comercio actualizado')
+      } else {
+        console.error(error)
+      }
+    } catch (err) {
+      console.error('Error inesperado:', err)
+    } finally {
+      setSpinner(false)
     }
   }
 
@@ -188,21 +243,23 @@ export default function ValidacionPropietario() {
               zonas={zonas}
               handleAtras={handleAtras}
               handleSiguiente={handleSiguiente}
+              comercioEditable={comercioEditable}
+              setComercioEditable={setComercioEditable}
             />
           )}
           {step === 3 && (
-            <PasoAutorizacion
-              autorizado={autorizado}
-              setAutorizado={setAutorizado}
-              handleAtras={handleAtras}
-              handleSiguiente={handleSiguiente}
-            />
-          )}
-          {step === 4 && tipoPlan === 'pago' && (
             <PasoPago
               qrPago={qrPago}
               comprobanteCargado={comprobanteCargado}
               setComprobanteCargado={setComprobanteCargado}
+              handleAtras={handleAtras}
+              handleSiguiente={handleSiguiente}
+            />
+          )}
+          {step === 4 && (
+            <PasoAutorizacion
+              autorizado={autorizado}
+              setAutorizado={setAutorizado}
               handleAtras={handleAtras}
               handleSiguiente={handleSiguiente}
             />
