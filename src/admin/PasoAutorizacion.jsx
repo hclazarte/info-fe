@@ -1,4 +1,4 @@
-// Este componente espera props: autorizado, setAutorizado, handleAtras, handleSiguiente
+import AyudaAutorizacion from './AyudaAutorizacion'
 
 const PasoAutorizacion = ({
   autorizado,
@@ -21,6 +21,9 @@ const PasoAutorizacion = ({
           />
           Sí, autorizo
         </label>
+      </div>
+      <div className='flex justify-center'>
+        <AyudaAutorizacion />
       </div>
       <div className='flex justify-between mt-4'>
         <button

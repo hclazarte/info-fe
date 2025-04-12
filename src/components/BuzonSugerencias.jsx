@@ -25,7 +25,6 @@ export default function BuzonSugerencias({ onClose }) {
 
   const handleCloseDialog = () => {
     setShowDialog(false)
-    console.log('Cerrar')
     if (success && onClose) {
       onClose()
     }

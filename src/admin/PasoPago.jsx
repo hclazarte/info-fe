@@ -1,5 +1,4 @@
-// Este componente espera props: qrPago, comprobanteCargado, handleFileUpload,
-// handleAtras, handleSiguiente
+import AyudaComprobante from './AyudaComprobante'
 
 const PasoPago = ({
   qrPago,
@@ -9,7 +8,8 @@ const PasoPago = ({
   handleValidarPago,
   handleSiguiente,
   pagoValidado,
-  setPagoValidado
+  setPagoValidado,
+  errorNegocio
 }) => {
   return (
     <div className='space-y-6'>
@@ -19,7 +19,6 @@ const PasoPago = ({
         correspondiente de <strong>Bs. 50</strong>. A continuación, cargue una
         imagen del comprobante.
       </p>
-
       <div className='flex justify-center'>
         <img
           src={qrPago}
@@ -27,7 +26,6 @@ const PasoPago = ({
           className='w-60 h-60 rounded-lg shadow-md'
         />
       </div>
-
       <div>
         <label className='block text-sm text-center mt-4'>
           Cargar comprobante de pago:
@@ -38,8 +36,8 @@ const PasoPago = ({
           className='w-full bg-inf1 p-2 rounded text-black'
           onChange={(e) => handleFileUpload('comprobante', e.target.files[0])}
         />
+        <AyudaComprobante />
       </div>
-
       <div className='flex justify-between mt-4'>
         <button
           onClick={handleAtras}
@@ -70,6 +68,14 @@ const PasoPago = ({
           Siguiente
         </button>
       </div>
+      {pagoValidado && (
+        <p className='text-green-200 font-semibold text-center'>
+          Registro Validado
+        </p>
+      )}{' '}
+      {!pagoValidado && (
+        <p className='text-red-400 font-semibold text-center'>{errorNegocio}</p>
+      )}
     </div>
   )
 }

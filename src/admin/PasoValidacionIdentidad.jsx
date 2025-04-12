@@ -1,10 +1,14 @@
+import AyudaNIT from './AyudaNIT'
+import AyudaCI from './AyudaCI'
+
 const PasoValidacionIdentidad = ({
   comercio,
   nitCargado,
   ciCargado,
   handleFileUpload,
   handleValidar,
-  handleSiguiente
+  handleSiguiente,
+  errorNegocio
 }) => {
   return (
     <div className='space-y-4'>
@@ -18,7 +22,6 @@ const PasoValidacionIdentidad = ({
         información de accesos no deseados. De este modo, usted podrá actualizar
         sus datos con total seguridad y confianza.
       </p>
-
       <div>
         <label className='block text-sm'>Empresa:</label>
         <p className='bg-inf2 text-black p-2 rounded'>{comercio.empresa}</p>
@@ -32,6 +35,7 @@ const PasoValidacionIdentidad = ({
           onChange={(e) => handleFileUpload('nit', e.target.files[0])}
         />
       </div>
+      <AyudaNIT />
       <div>
         <label className='block text-sm'>Imagen del CI:</label>
         <input
@@ -40,12 +44,19 @@ const PasoValidacionIdentidad = ({
           className='w-full bg-inf1 p-2 rounded text-black'
           onChange={(e) => handleFileUpload('ci', e.target.files[0])}
         />
+        <AyudaCI />
       </div>
       <div className='flex justify-between mt-4'>
         <button
           onClick={handleValidar}
-          disabled={!(nitCargado && ciCargado)}
-          className={`px-6 py-2 rounded-md text-lg font-medium ${nitCargado && ciCargado ? 'bg-inf3 text-black hover:bg-inf5' : 'bg-gray-400 text-white cursor-not-allowed'}`}
+          disabled={
+            comercio?.documentos_validados === 1 || !(nitCargado && ciCargado)
+          }
+          className={`px-6 py-2 rounded-md text-lg font-medium ${
+            comercio?.documentos_validados === 1 || !(nitCargado && ciCargado)
+              ? 'bg-gray-400 text-white cursor-not-allowed'
+              : 'bg-inf3 text-black hover:bg-inf5'
+          }`}
         >
           Validar
         </button>
@@ -65,6 +76,9 @@ const PasoValidacionIdentidad = ({
         <p className='text-green-200 font-semibold text-center'>
           Registro Validado
         </p>
+      )}{' '}
+      {comercio?.documentos_validados !== 1 && (
+        <p className='text-red-400 font-semibold text-center'>{errorNegocio}</p>
       )}
     </div>
   )

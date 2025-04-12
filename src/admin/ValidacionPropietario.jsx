@@ -40,6 +40,7 @@ export default function ValidacionPropietario() {
   const [archivoComprobante, setArchivoComprobante] = useState(null)
   const [pagoValidado, setPagoValidado] = useState(false)
   const [tienePlanActivo, setTienePlanActivo] = useState(false)
+  const [errorNegocio, setErrorNegocio] = useState('')
   const otp_tokenRef = useRef('')
 
   useEffect(() => {
@@ -110,14 +111,21 @@ export default function ValidacionPropietario() {
           file,
           solicitudId
         )
-        if (ok) {
-          console.log('Solicitud actualizada')
-          setPagoValidado(true)
+        if (!ok) {
+          setErrorNegocio(error)
+        }
+        if (!data.validado) {
+          setErrorNegocio(data.mensaje)
         } else {
-          console.error(error)
+          setPagoValidado(true)
+          const { ok, data } = await obtenerSolicitudToken(otp_tokenRef.current)
+          if (ok) {
+            setSolicitud(data.solicitud)
+            setComercio(data.comercio)
+          }
         }
       } catch (err) {
-        console.error('Error inesperado:', err)
+        setErrorNegocio(err)
       } finally {
         setSpinner(false)
       }
@@ -134,20 +142,26 @@ export default function ValidacionPropietario() {
       try {
         const {
           ok: ok_nit,
-          nit_resp,
-          errorNit
+          data: nit_resp,
+          error: errorNit
         } = await validarDocumentoNIT(file, solicitudId)
         if (!ok_nit) {
-          throw new Error(errorNit || 'Error al validar el NIT')
+          setErrorNegocio(errorNit)
+        }
+        if (!nit_resp.validado) {
+          setErrorNegocio(nit_resp.mensaje)
         }
 
         const {
           ok: ok_ci,
-          ci_resp,
-          errorCi
+          data: ci_resp,
+          error: errorCi
         } = await validarDocumentoCI(archivoCI, solicitudId)
         if (!ok_ci) {
-          throw new Error(errorCi || 'Error al validar el CI')
+          setErrorNegocio(errorCi)
+        }
+        if (!ci_resp.validado) {
+          setErrorNegocio(ci_resp.mensaje)
         }
 
         const {
@@ -225,7 +239,6 @@ export default function ValidacionPropietario() {
 
   const grabarComercio = async () => {
     comercioEditable.autorizado = 1
-    console.log(JSON.stringify(comercioEditable, null, 2))
     setSpinner(true)
     try {
       const { ok, data, error } = await actualizarComercio(
@@ -277,6 +290,7 @@ export default function ValidacionPropietario() {
               handleFileUpload={handleFileUpload}
               handleValidar={handleValidar}
               handleSiguiente={handleSiguiente}
+              errorNegocio={errorNegocio}
             />
           )}
           {step === 2 && (
@@ -304,6 +318,7 @@ export default function ValidacionPropietario() {
               handleSiguiente={handleSiguiente}
               pagoValidado={pagoValidado}
               setPagoValidado={setPagoValidado}
+              errorNegocio={errorNegocio}
             />
           )}
           {step === 4 && (
