@@ -1,12 +1,15 @@
-// Este componente espera props: qrPago, comprobanteCargado, setComprobanteCargado,
+// Este componente espera props: qrPago, comprobanteCargado, handleFileUpload,
 // handleAtras, handleSiguiente
 
 const PasoPago = ({
   qrPago,
   comprobanteCargado,
-  setComprobanteCargado,
+  handleFileUpload,
   handleAtras,
-  handleSiguiente
+  handleValidarPago,
+  handleSiguiente,
+  pagoValidado,
+  setPagoValidado
 }) => {
   return (
     <div className='space-y-6'>
@@ -33,7 +36,7 @@ const PasoPago = ({
           type='file'
           accept='image/jpeg, image/png, image/jpg, application/pdf'
           className='w-full bg-inf1 p-2 rounded text-black'
-          onChange={(e) => setComprobanteCargado(!!e.target.files.length)}
+          onChange={(e) => handleFileUpload('comprobante', e.target.files[0])}
         />
       </div>
 
@@ -45,10 +48,21 @@ const PasoPago = ({
           Atrás
         </button>
         <button
+          onClick={handleValidarPago}
+          disabled={!comprobanteCargado || pagoValidado}
+          className={`px-6 py-2 rounded-md text-lg font-medium ${
+            comprobanteCargado && !pagoValidado
+              ? 'bg-inf3 text-black hover:bg-inf5'
+              : 'bg-gray-400 text-white cursor-not-allowed'
+          }`}
+        >
+          Validar
+        </button>
+        <button
           onClick={handleSiguiente}
-          disabled={!comprobanteCargado}
+          disabled={!pagoValidado}
           className={`px-6 py-2 rounded-md font-medium ${
-            comprobanteCargado
+            pagoValidado
               ? 'bg-inf3 text-black hover:bg-inf5'
               : 'bg-gray-400 text-white cursor-not-allowed'
           }`}

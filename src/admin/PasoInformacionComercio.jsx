@@ -65,6 +65,9 @@ const PasoInformacionComercio = ({
   }
 
   const campoSoloPago = tipoPlan !== 'pago'
+  const planBloqueado =
+    solicitud?.fecha_fin_servicio &&
+    new Date(solicitud.fecha_fin_servicio) > new Date()
 
   return (
     <div className='space-y-4'>
@@ -81,6 +84,7 @@ const PasoInformacionComercio = ({
               value='gratis'
               checked={tipoPlan === 'gratis'}
               onChange={(e) => setTipoPlan(e.target.value)}
+              disabled={planBloqueado}
             />
             Gratuito
           </label>
@@ -91,6 +95,7 @@ const PasoInformacionComercio = ({
               value='pago'
               checked={tipoPlan === 'pago'}
               onChange={(e) => setTipoPlan(e.target.value)}
+              disabled={planBloqueado}
             />
             De Pago (Bs. 50/año)
           </label>

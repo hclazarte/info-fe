@@ -37,7 +37,23 @@ export default function ValidacionPropietario() {
   const [comprobanteCargado, setComprobanteCargado] = useState(false)
   const [archivoNIT, setArchivoNIT] = useState(null)
   const [archivoCI, setArchivoCI] = useState(null)
+  const [archivoComprobante, setArchivoComprobante] = useState(null)
+  const [pagoValidado, setPagoValidado] = useState(false)
+  const [tienePlanActivo, setTienePlanActivo] = useState(false)
   const otp_tokenRef = useRef('')
+
+  useEffect(() => {
+    const esValido =
+      solicitud?.fecha_fin_servicio &&
+      new Date(solicitud.fecha_fin_servicio) > new Date()
+
+    if (esValido) {
+      setTipoPlan('pago')
+      setTienePlanActivo(true)
+    } else {
+      setTienePlanActivo(false)
+    }
+  }, [solicitud])
 
   useEffect(() => {
     const url = new URL(window.location.href)
@@ -86,6 +102,30 @@ export default function ValidacionPropietario() {
     cargaInicial()
   }, [])
 
+  const handleValidarPago = () => {
+    const validar = async (file, solicitudId) => {
+      setSpinner(true)
+      try {
+        const { ok, data, error } = await validarComprobantePago(
+          file,
+          solicitudId
+        )
+        if (ok) {
+          console.log('Solicitud actualizada')
+          setPagoValidado(true)
+        } else {
+          console.error(error)
+        }
+      } catch (err) {
+        console.error('Error inesperado:', err)
+      } finally {
+        setSpinner(false)
+      }
+    }
+
+    validar(archivoComprobante, solicitud.id)
+  }
+
   const handleValidar = () => {
     const Validar = async (file, solicitudId) => {
       const url = new URL(window.location.href)
@@ -114,7 +154,7 @@ export default function ValidacionPropietario() {
           ok: ok_solicitud,
           data,
           error: errorSolicitud
-        } = await obtenerSolicitudToken(sendingMsgRef.current)
+        } = await obtenerSolicitudToken(otp_tokenRef.current)
         if (!ok_solicitud) {
           throw new Error(errorSolicitud || 'Error al recuperar la solicitud')
         }
@@ -138,7 +178,7 @@ export default function ValidacionPropietario() {
     } else if (step === 2 && substep === 1) {
       setSubstep(2)
     } else if (step === 2 && substep === 2) {
-      setStep(tipoPlan === 'pago' ? 3 : 4)
+      setStep(tienePlanActivo ? 4 : tipoPlan === 'pago' ? 3 : 4)
     } else if (step === 3) {
       setStep(4)
     } else if (step === 4) {
@@ -156,7 +196,10 @@ export default function ValidacionPropietario() {
       setStep(2)
       setSubstep(2)
     } else if (step === 4) {
-      if (tipoPlan === 'gratis') {
+      if (tienePlanActivo) {
+        setStep(2)
+        setSubstep(2)
+      } else if (tipoPlan === 'gratis') {
         setStep(2)
         setSubstep(2)
       } else {
@@ -173,6 +216,10 @@ export default function ValidacionPropietario() {
     if (type === 'ci') {
       setCiCargado(true)
       setArchivoCI(file)
+    }
+    if (type === 'comprobante') {
+      setComprobanteCargado(true)
+      setArchivoComprobante(file)
     }
   }
 
@@ -247,13 +294,16 @@ export default function ValidacionPropietario() {
               setComercioEditable={setComercioEditable}
             />
           )}
-          {step === 3 && (
+          {step === 3 && tipoPlan === 'pago' && (
             <PasoPago
               qrPago={qrPago}
               comprobanteCargado={comprobanteCargado}
-              setComprobanteCargado={setComprobanteCargado}
+              handleFileUpload={handleFileUpload}
               handleAtras={handleAtras}
+              handleValidarPago={handleValidarPago}
               handleSiguiente={handleSiguiente}
+              pagoValidado={pagoValidado}
+              setPagoValidado={setPagoValidado}
             />
           )}
           {step === 4 && (
