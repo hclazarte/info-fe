@@ -730,6 +730,10 @@ video {
   width: 100%;
 }
 
+.max-w-2xl {
+  max-width: 42rem;
+}
+
 .max-w-\[100px\] {
   max-width: 100px;
 }
@@ -1114,6 +1118,11 @@ video {
 .text-inf4 {
   --tw-text-opacity: 1;
   color: rgb(82 125 214 / var(--tw-text-opacity, 1));
+}
+
+.text-inf6 {
+  --tw-text-opacity: 1;
+  color: rgb(71 118 211 / var(--tw-text-opacity, 1));
 }
 
 .text-inf7 {

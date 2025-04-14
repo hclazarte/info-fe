@@ -2,6 +2,8 @@
 import { useEffect, useState, useRef } from 'react'
 import '../css/output.css'
 import Spinner from './common/SpinnerCom.jsx'
+import AcceptDialog from './common/AcceptDialog.jsx'
+import { enviarCorreo } from '../services/correosService.js'
 
 export default function BuzonSugerencias({ onClose }) {
   const [formData, setFormData] = useState({
@@ -11,13 +13,11 @@ export default function BuzonSugerencias({ onClose }) {
     asunto: '',
     mensaje: ''
   })
-  const [error, setError] = useState('')
-  const [success, setSuccess] = useState('')
   const [showDialog, setShowDialog] = useState(false)
   const [showSpinner, setShowSpinner] = useState(false)
-  const [dialogMessage, setDialogMessage] = useState('')
-  const [recaptchaToken, setRecaptchaToken] = useState('')
-  const sendingMsgRef = useRef(false)
+  const dialogMsgRef = useRef('')
+  const sendingMsgRef = useRef(false) // Para bloquear cuando está enviando msg
+  const successRef = useRef(false)
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -25,15 +25,13 @@ export default function BuzonSugerencias({ onClose }) {
 
   const handleCloseDialog = () => {
     setShowDialog(false)
-    if (success && onClose) {
+    if (successRef.current && onClose) {
       onClose()
     }
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    setError('')
-    setSuccess('')
 
     if (sendingMsgRef.current) return
 
@@ -43,68 +41,56 @@ export default function BuzonSugerencias({ onClose }) {
       !formData.asunto ||
       !formData.mensaje
     ) {
-      setDialogMessage('Por favor, complete todos los campos obligatorios.')
+      dialogMsgRef.current =
+        'Por favor, complete todos los campos obligatorios.'
       setShowDialog(true)
       return
     }
 
-    // grecaptcha.enterprise.ready(async () => {
-    //   const token = await grecaptcha.enterprise.execute('6Ldln-oqAAAAACslpXN9rUqQr2Bn7qXybNqY0o-i', { action: 'enviar_sugerencia' });
-    //   setRecaptchaToken(token);
+    grecaptcha.enterprise.ready(async () => {
+      const token = await grecaptcha.enterprise.execute(
+        '6Ldln-oqAAAAACslpXN9rUqQr2Bn7qXybNqY0o-i',
+        { action: 'enviar_sugerencia' }
+      )
 
-    //   const datosTransformados = {
-    //     correo: {
-    //       remitente: formData.email,
-    //       asunto: "Consulta de usuario",
-    //       tipo: formData.categoria.toLowerCase(),
-    //       nombre: formData.nombre,
-    //       cuerpo: formData.mensaje,
-    //     },
-    //     recaptcha_token: token,
-    //   };
+      const datosCorreo = {
+        remitente: formData.email,
+        asunto: 'Consulta de usuario',
+        tipo: formData.categoria.toLowerCase(),
+        nombre: formData.nombre,
+        cuerpo: formData.mensaje
+      }
 
-    //   try {
-    //     setShowSpinner(true)
-    //     sendingMsgRef.current = true
-    //     const response = await fetch(`${window.infoConfig.apiUrl}/correos`, {
-    //       method: "POST",
-    //       headers: { "Content-Type": "application/json" },
-    //       body: JSON.stringify(datosTransformados),
-    //     });
+      try {
+        setShowSpinner(true)
+        sendingMsgRef.current = true
 
-    //     if (response.ok) {
-    //       setSuccess("Mensaje enviado con éxito.");
-    //       setDialogMessage("Mensaje enviado con éxito.");
-    //       setShowDialog(true);
-    //       setFormData({ nombre: "", email: "", categoria: "Consulta", asunto: "", mensaje: "" });
-    //     } else {
-    //       setDialogMessage("Hubo un problema al enviar el mensaje.");
-    //       setShowDialog(true);
-    //     }
-    //   } catch (error) {
-    //     setDialogMessage("Error de conexión. Intente nuevamente más tarde.");
-    //     setShowSpinner(false)
-    //     setShowDialog(true);
-    //   } finally
-    //   {
-    //     setShowSpinner(false)
-    //     sendingMsgRef.current = false
-    //   }
-    // });
+        const { ok, data, error } = await enviarCorreo(datosCorreo, token)
 
-    // ✅ Simulación del resultado para maquetado
-    setTimeout(() => {
-      setSuccess('Mensaje enviado con éxito (simulado).')
-      setDialogMessage('Mensaje enviado con éxito (modo maquetado).')
-      setShowDialog(true)
-      setFormData({
-        nombre: '',
-        email: '',
-        categoria: 'Consulta',
-        asunto: '',
-        mensaje: ''
-      })
-    }, 800)
+        if (!ok) {
+          dialogMsgRef.current = 'Hubo un problema al enviar el mensaje.'
+          setShowDialog(true)
+        } else {
+          successRef.current = true
+          dialogMsgRef.current = 'Mensaje enviado con éxito.'
+          setShowDialog(true)
+          setFormData({
+            nombre: '',
+            email: '',
+            categoria: 'Consulta',
+            asunto: '',
+            mensaje: ''
+          })
+        }
+      } catch (error) {
+        dialogMsgRef.current =
+          'Error de conexión. Intente nuevamente más tarde.'
+        setShowDialog(true)
+      } finally {
+        setShowSpinner(false)
+        sendingMsgRef.current = false
+      }
+    })
   }
 
   return (
@@ -209,21 +195,12 @@ export default function BuzonSugerencias({ onClose }) {
           </a>{' '}
           de Google.
         </p>
-
         {showDialog && (
-          <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-50'>
-            <div className='bg-inf1 p-6 rounded-lg shadow-lg text-center'>
-              <p className='mb-4 text-lg font-semibold'>{dialogMessage}</p>
-              <button
-                onClick={handleCloseDialog}
-                className='px-6 py-3 bg-blue-500 text-white rounded-md font-medium hover:bg-blue-600'
-              >
-                Aceptar
-              </button>
-            </div>
-          </div>
+          <AcceptDialog
+            mensaje={dialogMsgRef.current}
+            onClose={handleCloseDialog}
+          />
         )}
-
         {showSpinner && <Spinner />}
       </div>
     </div>
