@@ -8,8 +8,18 @@ import Tarjeta from './Tarjeta'
 import Firma from './Firma'
 import DetalleModal from './DetalleModal'
 import BuzonSugerencias from './BuzonSugerencias'
+import {
+  obtenerCiudades,
+  buscarCiudades,
+  obtenerCiudadPorIP,
+  obtenerZonasDeCiudad
+} from '../services/ciudadesService'
+import {obtenerListaComercios} from '../services/comerciosService'
+import { capitalizarTexto, normalizarDesdePath, convertirAPath } from '../utils/texto'
+import waitImg from '../img/waiting5.gif'
 
 export default function Busquedas() {
+  // Utilizados por la vista
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
   const [filtrosAbiertos, setFiltrosAbiertos] = useState(false)
   const [ciudad, setCiudad] = useState('')
@@ -18,32 +28,31 @@ export default function Busquedas() {
   const [mostrarZonas, setMostrarZonas] = useState(false)
   const [ciudades, setCiudades] = useState([])
   const [zonas, setZonas] = useState([])
-  const [comercios, setComercios] = useState([])
+  const [comercios, setComercios] = useState({ results: [] })
   const [modalAbierto, setModalAbierto] = useState(false)
   const [comercioSeleccionado, setComercioSeleccionado] = useState(null)
   const [mostrarBuzon, setMostrarBuzon] = useState(false)
+  // Utilizados por el negocio
+  const [path, setPath] = useState(decodeURI(window.location.pathname))
+  const [texto, setTexto] = useState('')
+  const [loading, setLoading] = useState(true)
+  const grupoRef = useRef(0)
+  const gr_tamRef = useRef(15)
+  const loadingRef = useRef(false)
+  const contadorRef = useRef(1)
+  const foreceUpdateRef = useRef(false)
+  const pathRef = useRef('')
+  const lastPathRef = useRef(null)
+  // Constantes
+  const render_offset = 250
 
+  // Al cargar el formulario
   useEffect(() => {
-    fetch('/data/ciudades.json')
-      .then((res) => res.json())
-      .then((data) => setCiudades(data))
-      .catch((err) => console.error('Error al cargar ciudades:', err))
+    loadInit() // Ejecuta al cargar el componente
+    
   }, [])
 
-  useEffect(() => {
-    fetch('/data/zonas.json')
-      .then((res) => res.json())
-      .then((data) => setZonas(data))
-      .catch((err) => console.error('Error al cargar zonas:', err))
-  }, [])
-
-  useEffect(() => {
-    fetch('/data/comercios.json')
-      .then((res) => res.json())
-      .then((data) => setComercios(data.results))
-      .catch((err) => console.error('Error al cargar comercios:', err))
-  }, [])
-
+  // Al cargar el formulario
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768)
@@ -52,6 +61,194 @@ export default function Busquedas() {
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
   }, [])
+  // Intervalo de tiempo
+  useEffect(() => {
+    const interval = setInterval(async () => {      
+      if (contadorRef.current === 0) {
+        let build_path = linkBuilder()
+        if (build_path !== null && !loadingRef.current) {
+          // if (foreceUpdateRef.current){ 
+            loadingRef.current = true
+            setLoading(true)
+            await setComercios({ results: [] })
+            await loadSearch(0).then(() => {
+              loadingRef.current = false
+              setLoading(false)
+            })
+          // }
+          updateURL(build_path)
+          pathRef.current = build_path
+        }
+      }
+      contadorRef.current = contadorRef.current + 1
+    }, 50)
+
+    return () => clearInterval(interval)
+  }, [ciudad, zona, texto])
+  
+  // Agrega una nueva entrada al historial
+  const updateURL = (newPath) => {
+    if (window.location.pathname !== newPath) {
+      window.history.pushState({}, '', newPath) 
+    }
+  }
+
+  const loadInit = async (m_path = path) => {
+    try {
+      setLoading(true)
+  
+      let paths = m_path.split('/').filter((p) => p !== '')
+      let ciudad_ini = null
+      let zona_ini = null
+      let new_path = []
+      let aux_text = ''
+  
+      // 1. Cargar todas las ciudades
+      const { data: ciudades }= await obtenerCiudades()
+  
+      // 2. Buscar ciudad en la URL
+      if (paths.length >= 2) {
+        const ciudadParam = paths[1].replace(/-/g, ' ')
+        const paisParam = paths[0].replace(/-/g, ' ')
+        const { data: resultado } = await buscarCiudades({ ciudad: ciudadParam, pais: paisParam })
+  
+        if (Array.isArray(resultado) && resultado.length > 0) {
+          ciudad_ini = resultado[0]
+          new_path = paths.slice(2)
+        }
+      }
+  
+      // 3. Si no se encontró ciudad válida, usar ciudad por IP
+      if (!ciudad_ini) {
+        const { data: resultado } = await obtenerCiudadPorIP()
+        if (Array.isArray(resultado) && resultado.length > 0) {
+          ciudad_ini = resultado[0]
+          new_path = paths
+        }
+      }  
+      const ciudad = ciudad_ini
+  
+      // 4. Cargar zonas
+      let {data: zonas} = await obtenerZonasDeCiudad(ciudad_ini.id)
+      zonas = zonas.map((z) => ({
+        ...z,
+        descripcion: capitalizarTexto(z.descripcion)
+      }))
+  
+      zona_ini = zonas.find((z) => z.id === 0)
+  
+      // 5. Si en el path hay zona
+      if (new_path.length > 0) {
+        const zonaPath = new_path[0].toLowerCase().replace(/-/g, ' ')
+        const zonaEncontrada = zonas.find(
+          (z) => z.descripcion.toLowerCase() === zonaPath
+        )
+        if (zonaEncontrada) {
+          zona_ini = zonaEncontrada
+          new_path = new_path.slice(1)
+        }
+      }
+      const zona = zona_ini
+  
+      // 6. Extraer texto libre del resto del path
+      aux_text = new_path.join(' ').replace(/-/g, ' ')
+      const build_path = linkBuilder(aux_text, ciudad_ini, zona_ini)
+  
+      // 7. Actualizar URL y estados
+      window.history.replaceState({}, '', build_path)
+      setPath(build_path)
+      setCiudades(ciudades)
+      setCiudad(ciudad)
+      setZonas(zonas)
+      setZona(zona)
+      setTexto(aux_text)
+      contadorRef.current = -1
+    } catch (err) {
+      console.error('Error en loadInit:', err.message)
+    }
+    finally {
+      setLoading(false)
+    }
+  }
+
+  const loadSearch = async (
+    n_grupo = null,
+    n_text = texto,
+    n_ciudad_id = null,
+    n_zona_id = null
+  ) => {
+    foreceUpdateRef.current = false
+    let gr_aux = grupoRef.current
+
+    const text = n_text.replace(/[/\-]/g, ' ').trim()
+    const n_path = linkBuilder(text)
+
+    if (lastPathRef.current === n_path && n_grupo !== null) return
+
+    try {
+      gr_aux = n_grupo !== null ? n_grupo + 1 : gr_aux + 1
+
+      const { data: obj } = await obtenerListaComercios({
+        ciudad_id: n_ciudad_id === null ? '' : n_ciudad_id,
+        zona_id: n_zona_id === null ? '' : n_zona_id,
+        text,
+        page: gr_aux,
+        per_page: gr_tamRef.current
+      })
+
+      lastPathRef.current = n_path
+
+      if (gr_aux === 1) {
+        setComercios(obj)
+      } else {
+        setComercios((prevState) => ({
+          ...prevState,
+          results: [...(prevState.results || []), ...obj.results]
+        }))
+      }
+
+      grupoRef.current = gr_aux
+    } catch (err) {
+      console.error('Error al recuperar comercios:', err.message)
+    }
+  }
+
+  const linkBuilder = (texto_m = texto, ciudad_m = ciudad, zona_m = zona) => {
+    if (!ciudad_m || !ciudad_m.pais || !ciudad_m.ciudad) {
+      return null
+    }
+
+    let aux = `/${ciudad_m.pais.split(' ').join('-')}/${ciudad_m.ciudad.split(' ').join('-')}`
+
+    if (zona_m && zona_m.id !== 0 && zona_m.descripcion) {
+      aux += `/${zona_m.descripcion.split(' ').join('-')}`
+    }
+
+    if (texto_m && texto_m.trim() !== '') {
+      aux += `/${texto_m.split(' ').join('-')}`
+    }
+
+    return aux
+  }
+
+  const onScroll = async (e) => {
+    let element = e.target
+
+    if (
+      element.scrollHeight - element.scrollTop - element.clientHeight <=
+      render_offset
+    ) {
+      let still_loading = comercios.count > comercios.results.length
+      if (!loadingRef.current && still_loading) {
+        loadingRef.current = true
+        setLoading(true)
+        await loadSearch().then(() => {
+          loadingRef.current = false
+          setLoading(false)
+        })
+      }
+    }
+  }
 
   return (
     <div className='min-h-screen'>
@@ -63,7 +260,7 @@ export default function Busquedas() {
         }}
       >
         {isMobile ? (
-          <div className='opacity-90 grid grid-cols-1'>
+          <div className='opacity-90 grid grid-cols-1 overflow-y-auto' onScroll={onScroll}>
             <div className='controlesMobile'>
               {/* Controles */}
               <div className='bg-inf4 p-4 col-span-1 h-full'>
@@ -95,8 +292,12 @@ export default function Busquedas() {
             </div>
             <div className='resultadosMobile'>
               {/* Resultados */}
-              <div className='bg-inf3 p-4 grid grid-cols-1 sm:grid-cols-2 gap-4 col-span-1 h-full'>
-                {comercios.map((comercio, i) => (
+              <div
+                className='bg-inf3 p-4 grid grid-cols-1 sm:grid-cols-2 gap-4 col-span-1 overflow-y-auto'
+                style={{ maxHeight: 'calc(100vh - 180px)' }}
+                onScroll={onScroll}
+              >
+                {comercios.results.map((comercio, i) => (
                   <Tarjeta
                     key={i}
                     comercio={comercio}
@@ -106,6 +307,11 @@ export default function Busquedas() {
                     }}
                   />
                 ))}
+                {loading && (
+                  <div className='col-span-full flex justify-center items-center bg-inf3 p-4'>
+                    <img src={waitImg} alt='Cargando...' className='w-12 h-12' />
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -137,20 +343,25 @@ export default function Busquedas() {
               </div>
             </div>
             {/* Resultados Desktop */}
-            <div className='flex-1 bg-inf3 p-4 overflow-y-auto resultadosDesktop'>
-              <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
-                {comercios.map((comercio, i) => (
-                  <Tarjeta
-                    key={i}
-                    comercio={comercio}
-                    onClick={() => {
-                      setComercioSeleccionado(comercio)
-                      setModalAbierto(true)
-                    }}
-                  />
-                ))}
+              <div className='flex-1 bg-inf3 p-4 overflow-y-auto resultadosDesktop' onScroll={onScroll}>
+                <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
+                  {comercios.results.map((comercio, i) => (
+                    <Tarjeta
+                      key={i}
+                      comercio={comercio}
+                      onClick={() => {
+                        setComercioSeleccionado(comercio)
+                        setModalAbierto(true)
+                      }}
+                    />
+                  ))}
+                </div>
+                {loading && (
+                  <div className='col-span-full flex justify-center items-center bg-inf3 p-4'>
+                    <img src={waitImg} alt='Cargando...' className='w-12 h-12' />
+                  </div>
+                )}
               </div>
-            </div>
           </div>
         )}
       </div>
