@@ -1,3 +1,5 @@
+import { useState, useRef } from 'react'
+
 export default function Zona({
   zona,
   setZona,
@@ -5,18 +7,50 @@ export default function Zona({
   setMostrarZonas,
   zonas
 }) {
+  const [zonaOriginal, setZonaOriginal] = useState(zona)
+  const inputRef = useRef(null)
+
+  const zonasFiltradas = zonas?.filter(
+    (c) =>
+      !zona?.descripcion ||
+      c.descripcion.toLowerCase().includes(zona.descripcion.toLowerCase())
+  )
+
   const handleBorrar = () => {
     setZona((prev) => ({ ...prev, id: '', descripcion: '' }))
+    setZonaOriginal({ id: '', descripcion: '' })
+    inputRef.current?.focus()
   }
+
+  const handleChange = (e) => {
+    const nuevoValor = e.target.value
+    setZona((prev) => ({ ...prev, descripcion: nuevoValor }))
+    if (!mostrarZonas) setMostrarZonas(true)
+  }
+
+  const handleBlur = () => {
+    if (!mostrarZonas) return
+
+    setMostrarZonas(false)
+
+    if (zonasFiltradas.length === 0) {
+      setZona(zonaOriginal)
+    } else {
+      const seleccionada = zonasFiltradas[0]
+      setZona(seleccionada)
+      setZonaOriginal(seleccionada)
+    }
+  }
+
   return (
     <div className='w-full'>
       <div className='flex items-center border border-gray-300 rounded-xl px-3 py-2 bg-white'>
         <input
+          ref={inputRef}
           type='text'
           value={zona?.descripcion || ''}
-          onChange={(e) =>
-            setZona((prev) => ({ ...prev, descripcion: e.target.value }))
-          }
+          onChange={handleChange}
+          onBlur={handleBlur}
           placeholder='Zona'
           className='flex-1 focus:outline-none'
         />

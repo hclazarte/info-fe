@@ -55,7 +55,7 @@ export default function Busquedas() {
     loadInit() // Ejecuta al cargar el componente
   }, [])
 
-  // Al cargar el formulario
+  // Al cargar cambiar de tamaño
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768)
@@ -64,6 +64,7 @@ export default function Busquedas() {
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
   }, [])
+
   // Intervalo de tiempo
   useEffect(() => {
     const interval = setInterval(async () => {
@@ -216,11 +217,11 @@ export default function Busquedas() {
   }
 
   const linkBuilder = (texto_m = texto, ciudad_m = ciudad, zona_m = zona) => {
-    if (!ciudad_m || !ciudad_m.pais || !ciudad_m.ciudad) {
-      return null
-    }
+    let aux = '/bolivia'
 
-    let aux = `/${ciudad_m.pais.split(' ').join('-')}/${ciudad_m.ciudad.split(' ').join('-')}`
+    if (!ciudad_m || !ciudad_m.pais || !ciudad_m.ciudad) {
+      aux += `/${ciudad_m.ciudad.split(' ').join('-')}`
+    }
 
     if (zona_m && zona_m.id !== 0 && zona_m.descripcion) {
       aux += `/${zona_m.descripcion.split(' ').join('-')}`
@@ -252,6 +253,37 @@ export default function Busquedas() {
     }
   }
 
+  const onCiudadChanged = async (seleccionada) => {
+    try {
+      if (seleccionada?.id === '') {
+        setZonas([])
+        setZona({ id: '' })
+        return
+      }
+      setLoading(true)
+
+      // Cargar zonas
+      let { data: zonas } = await obtenerZonasDeCiudad(seleccionada.id)
+      zonas = zonas.map((z) => ({
+        ...z,
+        descripcion: capitalizarTexto(z.descripcion)
+      }))
+      setZonas(zonas)
+      setZona({ id: '' })
+    } catch (err) {
+      console.error('Error al cargar la ciudad:', err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const filtrosChanged = async () => {
+    let newPath = linkBuilder()
+    if (pathRef.current !== newPath) {
+      contadorRef.current = -1
+    }
+  }
+
   const hayCiudad = ciudad?.id && ciudad.id !== ''
   const hayZona = zona?.id && zona.id !== ''
 
@@ -277,6 +309,7 @@ export default function Busquedas() {
                       ? `${ciudad.ciudad} - ${zona.descripcion}`
                       : ciudad.ciudad
                     : 'Bolivia'}
+                  ({comercios?.count ?? 0})
                 </div>
               )}
               {/* Controles */}
@@ -286,6 +319,7 @@ export default function Busquedas() {
                   setFiltrosAbiertos={setFiltrosAbiertos}
                   texto={texto}
                   setTexto={setTexto}
+                  filtrosChanged={filtrosChanged}
                 />
                 <div
                   className={`flex-col gap-y-4 w-full transition-all ${filtrosAbiertos ? 'flex' : 'hidden'}`}
@@ -296,14 +330,17 @@ export default function Busquedas() {
                     mostrarCiudades={mostrarCiudades}
                     setMostrarCiudades={setMostrarCiudades}
                     ciudades={ciudades}
+                    onCiudadChanged={onCiudadChanged}
                   />
-                  <Zona
-                    zona={zona}
-                    setZona={setZona}
-                    mostrarZonas={mostrarZonas}
-                    setMostrarZonas={setMostrarZonas}
-                    zonas={zonas}
-                  />
+                  {zonas?.length > 1 && (
+                    <Zona
+                      zona={zona}
+                      setZona={setZona}
+                      mostrarZonas={mostrarZonas}
+                      setMostrarZonas={setMostrarZonas}
+                      zonas={zonas}
+                    />
+                  )}
                   <Firma />
                   <EnviarMensaje onClick={() => setMostrarBuzon(true)} />
                 </div>
@@ -347,6 +384,7 @@ export default function Busquedas() {
                 setFiltrosAbiertos={setFiltrosAbiertos}
                 texto={texto}
                 setTexto={setTexto}
+                filtrosChanged={filtrosChanged}
               />
               <div className='flex flex-col gap-y-4 w-full transition-all'>
                 <Firma />
@@ -356,14 +394,17 @@ export default function Busquedas() {
                   mostrarCiudades={mostrarCiudades}
                   setMostrarCiudades={setMostrarCiudades}
                   ciudades={ciudades}
+                  onCiudadChanged={onCiudadChanged}
                 />
-                <Zona
-                  zona={zona}
-                  setZona={setZona}
-                  mostrarZonas={mostrarZonas}
-                  setMostrarZonas={setMostrarZonas}
-                  zonas={zonas}
-                />
+                {zonas?.length > 1 && (
+                  <Zona
+                    zona={zona}
+                    setZona={setZona}
+                    mostrarZonas={mostrarZonas}
+                    setMostrarZonas={setMostrarZonas}
+                    zonas={zonas}
+                  />
+                )}
                 <EnviarMensaje onClick={() => setMostrarBuzon(true)} />
               </div>
             </div>

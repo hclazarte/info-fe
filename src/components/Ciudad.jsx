@@ -1,22 +1,59 @@
+import { useState, useRef } from 'react'
+
 export default function Ciudad({
   ciudad,
   setCiudad,
   mostrarCiudades,
   setMostrarCiudades,
-  ciudades
+  ciudades,
+  onCiudadChanged
 }) {
+  const [ciudadOriginal, setCiudadOriginal] = useState(ciudad)
+  const inputRef = useRef(null)
+
+  const ciudadesFiltradas = ciudades?.filter(
+    (c) =>
+      !ciudad?.ciudad ||
+      c.ciudad.toLowerCase().includes(ciudad.ciudad.toLowerCase())
+  )
+
   const handleBorrar = () => {
     setCiudad((prev) => ({ ...prev, id: '', ciudad: '' }))
+    setCiudadOriginal({ id: '', ciudad: '' })
+    inputRef.current?.focus()
+    onCiudadChanged?.({ id: '', ciudad: '' })
   }
+
+  const handleChange = (e) => {
+    const nuevoValor = e.target.value
+    setCiudad((prev) => ({ ...prev, ciudad: nuevoValor }))
+    if (!mostrarCiudades) setMostrarCiudades(true)
+  }
+
+  const handleBlur = () => {
+    if (!mostrarCiudades) return
+
+    setMostrarCiudades(false)
+
+    if (ciudadesFiltradas.length === 0) {
+      setCiudad(ciudadOriginal)
+    } else {
+      const seleccionada = ciudadesFiltradas[0]
+      setCiudad(seleccionada)
+      onCiudadChanged?.(seleccionada)
+      setCiudadOriginal(seleccionada)
+    }
+  }
+
   return (
     <div className='w-full'>
       <div className='flex items-center border border-gray-300 rounded-xl px-3 py-2 bg-white'>
         <input
+          ref={inputRef}
           type='text'
           value={ciudad?.ciudad || ''}
-          onChange={(e) =>
-            setCiudad((prev) => ({ ...prev, ciudad: e.target.value }))
-          }
+          onChange={handleChange}
+          onBlur={handleBlur}
           placeholder='Ciudad'
           className='flex-1 focus:outline-none'
         />
@@ -36,26 +73,23 @@ export default function Ciudad({
           {mostrarCiudades ? '▲' : '▼'}
         </button>
       </div>
-      {mostrarCiudades && ciudades?.length > 0 && (
+
+      {mostrarCiudades && ciudadesFiltradas.length > 0 && (
         <ul className='bg-white border border-gray-300 mt-1 w-full shadow max-h-60 overflow-y-auto'>
-          {ciudades
-            .filter(
-              (c) =>
-                !ciudad?.ciudad ||
-                c.ciudad.toLowerCase().includes(ciudad.ciudad.toLowerCase())
-            )
-            .map((c) => (
-              <li
-                key={c.id}
-                className='px-3 py-2 hover:bg-inf2 cursor-pointer'
-                onClick={() => {
-                  setCiudad(c)
-                  setMostrarCiudades(false)
-                }}
-              >
-                {c.ciudad}
-              </li>
-            ))}
+          {ciudadesFiltradas.map((c) => (
+            <li
+              key={c.id}
+              className='px-3 py-2 hover:bg-inf2 cursor-pointer'
+              onMouseDown={() => {
+                setCiudad(c)
+                setMostrarCiudades(false)
+                setCiudadOriginal(c)
+                onCiudadChanged?.(c)
+              }}
+            >
+              {c.ciudad}
+            </li>
+          ))}
         </ul>
       )}
     </div>
