@@ -6,7 +6,7 @@ export default function Ciudad({
   ciudades
 }) {
   const handleBorrar = () => {
-    setCiudad((prev) => ({ ...prev, ciudad: '' }))
+    setCiudad((prev) => ({ ...prev, id: '', ciudad: '' }))
   }
   return (
     <div className='w-full'>

@@ -14,16 +14,20 @@ import {
   obtenerCiudadPorIP,
   obtenerZonasDeCiudad
 } from '../services/ciudadesService'
-import {obtenerListaComercios} from '../services/comerciosService'
-import { capitalizarTexto, normalizarDesdePath, convertirAPath } from '../utils/texto'
+import { obtenerListaComercios } from '../services/comerciosService'
+import {
+  capitalizarTexto,
+  normalizarDesdePath,
+  convertirAPath
+} from '../utils/texto'
 import waitImg from '../img/waiting5.gif'
 
 export default function Busquedas() {
   // Utilizados por la vista
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
   const [filtrosAbiertos, setFiltrosAbiertos] = useState(false)
-  const [ciudad, setCiudad] = useState('')
-  const [zona, setZona] = useState('')
+  const [ciudad, setCiudad] = useState({ id: '' })
+  const [zona, setZona] = useState({ id: '' })
   const [mostrarCiudades, setMostrarCiudades] = useState(false)
   const [mostrarZonas, setMostrarZonas] = useState(false)
   const [ciudades, setCiudades] = useState([])
@@ -49,7 +53,6 @@ export default function Busquedas() {
   // Al cargar el formulario
   useEffect(() => {
     loadInit() // Ejecuta al cargar el componente
-    
   }, [])
 
   // Al cargar el formulario
@@ -63,18 +66,18 @@ export default function Busquedas() {
   }, [])
   // Intervalo de tiempo
   useEffect(() => {
-    const interval = setInterval(async () => {      
+    const interval = setInterval(async () => {
       if (contadorRef.current === 0) {
         let build_path = linkBuilder()
         if (build_path !== null && !loadingRef.current) {
-          // if (foreceUpdateRef.current){ 
-            loadingRef.current = true
-            setLoading(true)
-            await setComercios({ results: [] })
-            await loadSearch(0).then(() => {
-              loadingRef.current = false
-              setLoading(false)
-            })
+          // if (foreceUpdateRef.current){
+          loadingRef.current = true
+          setLoading(true)
+          await setComercios({ results: [] })
+          await loadSearch(0).then(() => {
+            loadingRef.current = false
+            setLoading(false)
+          })
           // }
           updateURL(build_path)
           pathRef.current = build_path
@@ -85,58 +88,59 @@ export default function Busquedas() {
 
     return () => clearInterval(interval)
   }, [ciudad, zona, texto])
-  
+
   // Agrega una nueva entrada al historial
   const updateURL = (newPath) => {
     if (window.location.pathname !== newPath) {
-      window.history.pushState({}, '', newPath) 
+      window.history.pushState({}, '', newPath)
     }
   }
 
   const loadInit = async (m_path = path) => {
     try {
       setLoading(true)
-  
+
       let paths = m_path.split('/').filter((p) => p !== '')
-      let ciudad_ini = null
-      let zona_ini = null
+      let ciudad_ini = { id: '' }
+      let zona_ini = { id: '' }
       let new_path = []
       let aux_text = ''
-  
+
       // 1. Cargar todas las ciudades
-      const { data: ciudades }= await obtenerCiudades()
-  
+      const { data: ciudades } = await obtenerCiudades()
+
       // 2. Buscar ciudad en la URL
       if (paths.length >= 2) {
         const ciudadParam = paths[1].replace(/-/g, ' ')
         const paisParam = paths[0].replace(/-/g, ' ')
-        const { data: resultado } = await buscarCiudades({ ciudad: ciudadParam, pais: paisParam })
-  
+        const { data: resultado } = await buscarCiudades({
+          ciudad: ciudadParam,
+          pais: paisParam
+        })
+
         if (Array.isArray(resultado) && resultado.length > 0) {
           ciudad_ini = resultado[0]
           new_path = paths.slice(2)
         }
       }
-  
+
       // 3. Si no se encontró ciudad válida, usar ciudad por IP
-      if (!ciudad_ini) {
+      if (ciudad_ini.id === '') {
         const { data: resultado } = await obtenerCiudadPorIP()
         if (Array.isArray(resultado) && resultado.length > 0) {
           ciudad_ini = resultado[0]
           new_path = paths
         }
-      }  
+      }
       const ciudad = ciudad_ini
-  
+
       // 4. Cargar zonas
-      let {data: zonas} = await obtenerZonasDeCiudad(ciudad_ini.id)
+      let { data: zonas } = await obtenerZonasDeCiudad(ciudad_ini.id)
       zonas = zonas.map((z) => ({
         ...z,
         descripcion: capitalizarTexto(z.descripcion)
       }))
-  
-      zona_ini = zonas.find((z) => z.id === 0)
-  
+
       // 5. Si en el path hay zona
       if (new_path.length > 0) {
         const zonaPath = new_path[0].toLowerCase().replace(/-/g, ' ')
@@ -149,11 +153,11 @@ export default function Busquedas() {
         }
       }
       const zona = zona_ini
-  
+
       // 6. Extraer texto libre del resto del path
       aux_text = new_path.join(' ').replace(/-/g, ' ')
       const build_path = linkBuilder(aux_text, ciudad_ini, zona_ini)
-  
+
       // 7. Actualizar URL y estados
       window.history.replaceState({}, '', build_path)
       setPath(build_path)
@@ -165,8 +169,7 @@ export default function Busquedas() {
       contadorRef.current = -1
     } catch (err) {
       console.error('Error en loadInit:', err.message)
-    }
-    finally {
+    } finally {
       setLoading(false)
     }
   }
@@ -174,8 +177,8 @@ export default function Busquedas() {
   const loadSearch = async (
     n_grupo = null,
     n_text = texto,
-    n_ciudad_id = null,
-    n_zona_id = null
+    n_ciudad_id = ciudad.id,
+    n_zona_id = zona.id
   ) => {
     foreceUpdateRef.current = false
     let gr_aux = grupoRef.current
@@ -187,10 +190,9 @@ export default function Busquedas() {
 
     try {
       gr_aux = n_grupo !== null ? n_grupo + 1 : gr_aux + 1
-
       const { data: obj } = await obtenerListaComercios({
-        ciudad_id: n_ciudad_id === null ? '' : n_ciudad_id,
-        zona_id: n_zona_id === null ? '' : n_zona_id,
+        ciudad_id: n_ciudad_id,
+        zona_id: n_zona_id,
         text,
         page: gr_aux,
         per_page: gr_tamRef.current
@@ -250,6 +252,9 @@ export default function Busquedas() {
     }
   }
 
+  const hayCiudad = ciudad?.id && ciudad.id !== ''
+  const hayZona = zona?.id && zona.id !== ''
+
   return (
     <div className='min-h-screen'>
       <div
@@ -260,13 +265,27 @@ export default function Busquedas() {
         }}
       >
         {isMobile ? (
-          <div className='opacity-90 grid grid-cols-1 overflow-y-auto' onScroll={onScroll}>
+          <div
+            className='opacity-90 grid grid-cols-1 overflow-y-auto'
+            onScroll={onScroll}
+          >
             <div className='controlesMobile'>
+              {!filtrosAbiertos && (
+                <div className='absolute top-[72px] left-6 text-white text-xs'>
+                  {hayCiudad
+                    ? hayZona
+                      ? `${ciudad.ciudad} - ${zona.descripcion}`
+                      : ciudad.ciudad
+                    : 'Bolivia'}
+                </div>
+              )}
               {/* Controles */}
               <div className='bg-inf4 p-4 col-span-1 h-full'>
                 <Buscar
                   filtrosAbiertos={filtrosAbiertos}
                   setFiltrosAbiertos={setFiltrosAbiertos}
+                  texto={texto}
+                  setTexto={setTexto}
                 />
                 <div
                   className={`flex-col gap-y-4 w-full transition-all ${filtrosAbiertos ? 'flex' : 'hidden'}`}
@@ -309,7 +328,11 @@ export default function Busquedas() {
                 ))}
                 {loading && (
                   <div className='col-span-full flex justify-center items-center bg-inf3 p-4'>
-                    <img src={waitImg} alt='Cargando...' className='w-12 h-12' />
+                    <img
+                      src={waitImg}
+                      alt='Cargando...'
+                      className='w-12 h-12'
+                    />
                   </div>
                 )}
               </div>
@@ -322,6 +345,8 @@ export default function Busquedas() {
               <Buscar
                 filtrosAbiertos={filtrosAbiertos}
                 setFiltrosAbiertos={setFiltrosAbiertos}
+                texto={texto}
+                setTexto={setTexto}
               />
               <div className='flex flex-col gap-y-4 w-full transition-all'>
                 <Firma />
@@ -343,25 +368,28 @@ export default function Busquedas() {
               </div>
             </div>
             {/* Resultados Desktop */}
-              <div className='flex-1 bg-inf3 p-4 overflow-y-auto resultadosDesktop' onScroll={onScroll}>
-                <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
-                  {comercios.results.map((comercio, i) => (
-                    <Tarjeta
-                      key={i}
-                      comercio={comercio}
-                      onClick={() => {
-                        setComercioSeleccionado(comercio)
-                        setModalAbierto(true)
-                      }}
-                    />
-                  ))}
-                </div>
-                {loading && (
-                  <div className='col-span-full flex justify-center items-center bg-inf3 p-4'>
-                    <img src={waitImg} alt='Cargando...' className='w-12 h-12' />
-                  </div>
-                )}
+            <div
+              className='flex-1 bg-inf3 p-4 overflow-y-auto resultadosDesktop'
+              onScroll={onScroll}
+            >
+              <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
+                {comercios.results.map((comercio, i) => (
+                  <Tarjeta
+                    key={i}
+                    comercio={comercio}
+                    onClick={() => {
+                      setComercioSeleccionado(comercio)
+                      setModalAbierto(true)
+                    }}
+                  />
+                ))}
               </div>
+              {loading && (
+                <div className='col-span-full flex justify-center items-center bg-inf3 p-4'>
+                  <img src={waitImg} alt='Cargando...' className='w-12 h-12' />
+                </div>
+              )}
+            </div>
           </div>
         )}
       </div>

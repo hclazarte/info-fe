@@ -6,7 +6,7 @@ export default function Zona({
   zonas
 }) {
   const handleBorrar = () => {
-    setZona((prev) => ({ ...prev, descripcion: '' }))
+    setZona((prev) => ({ ...prev, id: '', descripcion: '' }))
   }
   return (
     <div className='w-full'>
