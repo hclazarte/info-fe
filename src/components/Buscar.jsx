@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef} from 'react'
 
 export default function Buscar({
   filtrosAbiertos,
@@ -22,17 +22,17 @@ export default function Buscar({
   const handleChange = (e) => {
     const nuevoTexto = e.target.value
     setTexto(nuevoTexto)
-
+  
     // Cancelar temporizador previo
     if (debounceTimeout.current) {
       clearTimeout(debounceTimeout.current)
     }
-
+  
     // Iniciar nuevo temporizador
     debounceTimeout.current = setTimeout(() => {
       filtrosChanged()
     }, 600)
-  }
+  }  
   const handleBlur = (e) => {
     filtrosChanged()
   }

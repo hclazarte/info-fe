@@ -219,7 +219,7 @@ export default function Busquedas() {
   const linkBuilder = (texto_m = texto, ciudad_m = ciudad, zona_m = zona) => {
     let aux = '/bolivia'
 
-    if (!ciudad_m || !ciudad_m.pais || !ciudad_m.ciudad) {
+    if (ciudad_m && ciudad_m.ciudad) {
       aux += `/${ciudad_m.ciudad.split(' ').join('-')}`
     }
 
