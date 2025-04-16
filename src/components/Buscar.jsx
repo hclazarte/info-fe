@@ -9,6 +9,8 @@ export default function Buscar({
 }) {
   const inputRef = useRef(null)
   const debounceTimeout = useRef(null)
+  const touchStartY = useRef(null)
+  const touchEndY = useRef(null)
 
   const handleClear = () => {
     setTexto('')
@@ -42,9 +44,25 @@ export default function Buscar({
       filtrosChanged()
     }
   }
+  const handleTouchStart = (e) => {
+    touchStartY.current = e.touches[0].clientY
+  }
+  const handleTouchEnd = (e) => {
+    touchEndY.current = e.changedTouches[0].clientY
+    if (
+      filtrosAbiertos &&
+      touchStartY.current - touchEndY.current > 50 // Umbral para considerar swipe hacia arriba
+    ) {
+      setFiltrosAbiertos(false)
+      filtrosChanged()
+    }
+  }
+
 
   return (
-    <div className='relative flex flex-col gap-1 mb-4'>
+    <div className='relative flex flex-col gap-1 mb-4'
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}>
       <div className='flex items-center gap-2'>
         <input
           ref={inputRef}
