@@ -5,7 +5,9 @@ export default function Zona({
   setZona,
   mostrarZonas,
   setMostrarZonas,
-  zonas
+  zonas,
+  isMobile,
+  filtrosChanged
 }) {
   const [zonaOriginal, setZonaOriginal] = useState(zona)
   const inputRef = useRef(null)
@@ -20,6 +22,7 @@ export default function Zona({
     setZona((prev) => ({ ...prev, id: '', descripcion: '' }))
     setZonaOriginal({ id: '', descripcion: '' })
     inputRef.current?.focus()
+    if (!isMobile) filtrosChanged(undefined, undefined, { id: '', descripcion: '' })
   }
 
   const handleChange = (e) => {
@@ -39,7 +42,14 @@ export default function Zona({
       const seleccionada = zonasFiltradas[0]
       setZona(seleccionada)
       setZonaOriginal(seleccionada)
+      if (!isMobile) filtrosChanged(undefined, undefined, seleccionada)
     }
+  }
+
+  const handleSeleccionZona = (zonaSeleccionada) => {
+    setZona(zonaSeleccionada)
+    setMostrarZonas(false)
+    if (!isMobile) filtrosChanged(undefined, undefined, zonaSeleccionada)
   }
 
   return (
@@ -84,10 +94,7 @@ export default function Zona({
               <li
                 key={z.id}
                 className='px-3 py-2 hover:bg-inf2 cursor-pointer'
-                onClick={() => {
-                  setZona(z)
-                  setMostrarZonas(false)
-                }}
+                onClick={() => handleSeleccionZona(z)}
               >
                 {z.descripcion}
               </li>

@@ -6,7 +6,9 @@ export default function Ciudad({
   mostrarCiudades,
   setMostrarCiudades,
   ciudades,
-  onCiudadChanged
+  onCiudadChanged,
+  isMobile,
+  filtrosChanged
 }) {
   const [ciudadOriginal, setCiudadOriginal] = useState(ciudad)
   const inputRef = useRef(null)
@@ -22,6 +24,7 @@ export default function Ciudad({
     setCiudadOriginal({ id: '', ciudad: '' })
     inputRef.current?.focus()
     onCiudadChanged?.({ id: '', ciudad: '' })
+    if (!isMobile) filtrosChanged(undefined, { id: '', descripcion: '' }, undefined)
   }
 
   const handleChange = (e) => {
@@ -42,8 +45,17 @@ export default function Ciudad({
       setCiudad(seleccionada)
       onCiudadChanged?.(seleccionada)
       setCiudadOriginal(seleccionada)
+      if (!isMobile) filtrosChanged(undefined, seleccionada, undefined)
     }
   }
+
+  const handleSeleccionCiudad = (ciudadSeleccionada) => {
+    setCiudad(ciudadSeleccionada)
+    setMostrarCiudades(false)
+    setCiudadOriginal(ciudadSeleccionada)
+    onCiudadChanged?.(ciudadSeleccionada)
+    if (!isMobile) filtrosChanged(undefined, ciudadSeleccionada, undefined)
+  }  
 
   return (
     <div className='w-full'>
@@ -80,12 +92,7 @@ export default function Ciudad({
             <li
               key={c.id}
               className='px-3 py-2 hover:bg-inf2 cursor-pointer'
-              onMouseDown={() => {
-                setCiudad(c)
-                setMostrarCiudades(false)
-                setCiudadOriginal(c)
-                onCiudadChanged?.(c)
-              }}
+              onMouseDown={() => handleSeleccionCiudad(c)}
             >
               {c.ciudad}
             </li>

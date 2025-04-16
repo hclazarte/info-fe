@@ -279,8 +279,9 @@ export default function Busquedas() {
     }
   }
 
-  const filtrosChanged = async () => {
-    let newPath = linkBuilder()
+  const filtrosChanged = async (texto_m = texto, ciudad_m = ciudad, zona_m = zona) => {
+    console.log('filtrosChanged')
+    let newPath = linkBuilder(texto_m, ciudad_m, zona_m)
     if (pathRef.current !== newPath) {
       contadorRef.current = -1
     }
@@ -351,6 +352,8 @@ export default function Busquedas() {
                     setMostrarCiudades={setMostrarCiudades}
                     ciudades={ciudades}
                     onCiudadChanged={onCiudadChanged}
+                    isMobile={isMobile}
+                    filtrosChanged={filtrosChanged}
                   />
                   {zonas?.length > 1 && (
                     <Zona
@@ -359,6 +362,8 @@ export default function Busquedas() {
                       mostrarZonas={mostrarZonas}
                       setMostrarZonas={setMostrarZonas}
                       zonas={zonas}
+                      isMobile={isMobile}
+                      filtrosChanged={filtrosChanged}
                     />
                   )}
                   <Firma />
@@ -399,6 +404,14 @@ export default function Busquedas() {
           <div className='flex h-screen'>
             {/* Controles Desktop */} //TODO
             <div className='w-[326px] bg-inf4 p-4 overflow-y-auto controlesDesktop'>
+              <div className='absolute top-[72px] left-6 text-white text-xs'>
+                {hayCiudad
+                  ? hayZona
+                    ? `${ciudad.ciudad} - ${zona.descripcion}`
+                    : ciudad.ciudad
+                  : 'Bolivia'}
+                ({comercios?.count ?? 0})
+              </div>
               <Buscar
                 filtrosAbiertos={filtrosAbiertos}
                 setFiltrosAbiertos={setFiltrosAbiertos}
@@ -415,6 +428,8 @@ export default function Busquedas() {
                   setMostrarCiudades={setMostrarCiudades}
                   ciudades={ciudades}
                   onCiudadChanged={onCiudadChanged}
+                  isMobile={isMobile}
+                  filtrosChanged={filtrosChanged}
                 />
                 {zonas?.length > 1 && (
                   <Zona
@@ -423,6 +438,8 @@ export default function Busquedas() {
                     mostrarZonas={mostrarZonas}
                     setMostrarZonas={setMostrarZonas}
                     zonas={zonas}
+                    isMobile={isMobile}
+                    filtrosChanged={filtrosChanged}
                   />
                 )}
                 <EnviarMensaje onClick={() => setMostrarBuzon(true)} />
