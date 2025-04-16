@@ -36,6 +36,8 @@ export default function Busquedas() {
   const [modalAbierto, setModalAbierto] = useState(false)
   const [comercioSeleccionado, setComercioSeleccionado] = useState(null)
   const [mostrarBuzon, setMostrarBuzon] = useState(false)
+  const touchStartY = useRef(null)
+  const touchEndY = useRef(null)
   // Utilizados por el negocio
   const [path, setPath] = useState(decodeURI(window.location.pathname))
   const [texto, setTexto] = useState('')
@@ -284,6 +286,22 @@ export default function Busquedas() {
     }
   }
 
+  const handleTouchStart = (e) => {
+    touchStartY.current = e.touches[0].clientY
+    console.log('handleTouchStart')
+  }
+
+  const handleTouchEnd = (e) => {
+    console.log('handleTouchEnd')
+    touchEndY.current = e.changedTouches[0].clientY
+    if (
+      filtrosAbiertos &&
+      touchStartY.current - touchEndY.current > 50 // Umbral para considerar swipe hacia arriba
+    ) {
+      setFiltrosAbiertos(false)
+      filtrosChanged()
+    }
+  }
   const hayCiudad = ciudad?.id && ciudad.id !== ''
   const hayZona = zona?.id && zona.id !== ''
 
@@ -313,7 +331,9 @@ export default function Busquedas() {
                 </div>
               )}
               {/* Controles */}
-              <div className='bg-inf4 p-4 col-span-1 h-full'>
+              <div className='bg-inf4 p-4 col-span-1 h-full'
+                onTouchStart={handleTouchStart}
+                onTouchEnd={handleTouchEnd}>
                 <Buscar
                   filtrosAbiertos={filtrosAbiertos}
                   setFiltrosAbiertos={setFiltrosAbiertos}
