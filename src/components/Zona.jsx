@@ -81,7 +81,7 @@ export default function Zona({
         </button>
       </div>
       {mostrarZonas && zonas?.length > 0 && (
-        <ul className='bg-white border border-gray-300 mt-1 w-full shadow max-h-60 overflow-y-auto'>
+        <ul className='area-lista bg-white border border-gray-300 mt-1 w-full shadow max-h-60 overflow-y-auto'>
           {zonas
             .filter(
               (z) =>

@@ -38,6 +38,8 @@ export default function Busquedas() {
   const [mostrarBuzon, setMostrarBuzon] = useState(false)
   const touchStartY = useRef(null)
   const touchEndY = useRef(null)
+  const touchStartYRef = useRef(null)
+  const touchStartTargetRef = useRef(null)
   // Utilizados por el negocio
   const [path, setPath] = useState(decodeURI(window.location.pathname))
   const [texto, setTexto] = useState('')
@@ -280,7 +282,6 @@ export default function Busquedas() {
   }
 
   const filtrosChanged = async (texto_m = texto, ciudad_m = ciudad, zona_m = zona) => {
-    console.log('filtrosChanged')
     let newPath = linkBuilder(texto_m, ciudad_m, zona_m)
     if (pathRef.current !== newPath) {
       contadorRef.current = -1
@@ -289,15 +290,23 @@ export default function Busquedas() {
 
   const handleTouchStart = (e) => {
     touchStartY.current = e.touches[0].clientY
-    console.log('handleTouchStart')
+
+    touchStartYRef.current = e.touches[0].clientY
+    touchStartTargetRef.current = e.target
   }
 
   const handleTouchEnd = (e) => {
-    console.log('handleTouchEnd')
+    const target = touchStartTargetRef.current
+    const estaEnLista = target.closest('ul')?.classList.contains('area-lista')
+
+    console.log(estaEnLista)
+
+
     touchEndY.current = e.changedTouches[0].clientY
     if (
       filtrosAbiertos &&
-      touchStartY.current - touchEndY.current > 50 // Umbral para considerar swipe hacia arriba
+      touchStartY.current - touchEndY.current > 50 && // Umbral para considerar swipe hacia arriba
+      !estaEnLista
     ) {
       setFiltrosAbiertos(false)
       filtrosChanged()
@@ -317,7 +326,7 @@ export default function Busquedas() {
       >
         {isMobile ? (
           <div
-            className='opacity-90 grid grid-cols-1 overflow-y-auto'
+            className='opacity-90 grid grid-cols-1'
             onScroll={onScroll}
           >
             <div className='controlesMobile'>
