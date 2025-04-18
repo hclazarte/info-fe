@@ -281,7 +281,11 @@ export default function Busquedas() {
     }
   }
 
-  const filtrosChanged = async (texto_m = texto, ciudad_m = ciudad, zona_m = zona) => {
+  const filtrosChanged = async (
+    texto_m = texto,
+    ciudad_m = ciudad,
+    zona_m = zona
+  ) => {
     let newPath = linkBuilder(texto_m, ciudad_m, zona_m)
     if (pathRef.current !== newPath) {
       contadorRef.current = -1
@@ -298,9 +302,6 @@ export default function Busquedas() {
   const handleTouchEnd = (e) => {
     const target = touchStartTargetRef.current
     const estaEnLista = target.closest('ul')?.classList.contains('area-lista')
-
-    console.log(estaEnLista)
-
 
     touchEndY.current = e.changedTouches[0].clientY
     if (
@@ -325,11 +326,8 @@ export default function Busquedas() {
         }}
       >
         {isMobile ? (
-          <div
-            className='opacity-90 grid grid-cols-1'
-            onScroll={onScroll}
-          >
-            <div className='controlesMobile'>
+          <div className='opacity-90 grid grid-cols-1'>
+            <div className='controlesMobile bg-inf4'>
               {!filtrosAbiertos && (
                 <div className='absolute top-[72px] left-6 text-white text-xs'>
                   {hayCiudad
@@ -341,9 +339,11 @@ export default function Busquedas() {
                 </div>
               )}
               {/* Controles */}
-              <div className='bg-inf4 p-4 col-span-1 h-full'
+              <div
+                className='w-full bg-inf4 rounded-xl p-4'
                 onTouchStart={handleTouchStart}
-                onTouchEnd={handleTouchEnd}>
+                onTouchEnd={handleTouchEnd}
+              >
                 <Buscar
                   filtrosAbiertos={filtrosAbiertos}
                   setFiltrosAbiertos={setFiltrosAbiertos}
@@ -380,13 +380,9 @@ export default function Busquedas() {
                 </div>
               </div>
             </div>
-            <div className='resultadosMobile'>
+            <div className='resultadosMobile' onScroll={onScroll}>
               {/* Resultados */}
-              <div
-                className='bg-inf3 p-4 grid grid-cols-1 sm:grid-cols-2 gap-4 col-span-1 overflow-y-auto'
-                style={{ maxHeight: 'calc(100vh - 180px)' }}
-                onScroll={onScroll}
-              >
+              <div className='pt-4 pb-28 px-4 grid grid-cols-1 sm:grid-cols-2 gap-4'>
                 {comercios.results.map((comercio, i) => (
                   <Tarjeta
                     key={i}

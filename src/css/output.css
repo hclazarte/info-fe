@@ -605,10 +605,6 @@ video {
   z-index: 50;
 }
 
-.col-span-1 {
-  grid-column: span 1 / span 1;
-}
-
 .col-span-full {
   grid-column: 1 / -1;
 }
@@ -696,10 +692,6 @@ video {
 
 .h-auto {
   height: auto;
-}
-
-.h-full {
-  height: 100%;
 }
 
 .h-screen {
@@ -1008,6 +1000,10 @@ video {
   padding-bottom: 1rem;
 }
 
+.pb-28 {
+  padding-bottom: 7rem;
+}
+
 .pl-8 {
   padding-left: 2rem;
 }
@@ -1231,13 +1227,22 @@ body {
 
 .controlesMobile {
   position: fixed;
-  left: 0;
   top: 0;
+  left: 0;
   right: 0;
+  height: 100px;
+  z-index: 100;
 }
 
 .resultadosMobile {
-  padding-top: 100px;
+  position: fixed;
+  top: 100px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow-y: auto;
+  background-color: #c3cce9;
+  /* bg-inf3 */
 }
 
 .controlesDesktop {
@@ -1249,11 +1254,6 @@ body {
 
 .resultadosDesktop {
   padding-left: 286px;
-}
-
-.ubicacion-movil {
-  top: 72px;
-  left: 24px;
 }
 
 .hover\:bg-blue-600:hover {
@@ -1279,6 +1279,11 @@ body {
 .hover\:bg-inf7:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(58 109 211 / var(--tw-bg-opacity, 1));
+}
+
+.hover\:bg-inf8:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(43 82 161 / var(--tw-bg-opacity, 1));
 }
 
 .hover\:text-gray-800:hover {

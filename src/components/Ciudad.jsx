@@ -24,7 +24,8 @@ export default function Ciudad({
     setCiudadOriginal({ id: '', ciudad: '' })
     inputRef.current?.focus()
     onCiudadChanged?.({ id: '', ciudad: '' })
-    if (!isMobile) filtrosChanged(undefined, { id: '', descripcion: '' }, undefined)
+    if (!isMobile)
+      filtrosChanged(undefined, { id: '', descripcion: '' }, undefined)
   }
 
   const handleChange = (e) => {
@@ -55,7 +56,7 @@ export default function Ciudad({
     setCiudadOriginal(ciudadSeleccionada)
     onCiudadChanged?.(ciudadSeleccionada)
     if (!isMobile) filtrosChanged(undefined, ciudadSeleccionada, undefined)
-  }  
+  }
 
   return (
     <div className='w-full'>

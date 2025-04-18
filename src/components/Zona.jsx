@@ -22,7 +22,8 @@ export default function Zona({
     setZona((prev) => ({ ...prev, id: '', descripcion: '' }))
     setZonaOriginal({ id: '', descripcion: '' })
     inputRef.current?.focus()
-    if (!isMobile) filtrosChanged(undefined, undefined, { id: '', descripcion: '' })
+    if (!isMobile)
+      filtrosChanged(undefined, undefined, { id: '', descripcion: '' })
   }
 
   const handleChange = (e) => {
