@@ -47,12 +47,20 @@ export default function Busquedas() {
   const grupoRef = useRef(0)
   const gr_tamRef = useRef(15)
   const loadingRef = useRef(false)
+  const initLoadinRef = useRef(false)
   const contadorRef = useRef(1)
   const foreceUpdateRef = useRef(false)
   const pathRef = useRef('')
   const lastPathRef = useRef(null)
   // Constantes
   const render_offset = 250
+
+  // // Agrega una nueva entrada al historial
+  // const updateURL = (newPath) => {
+  //   if (window.location.pathname !== newPath) {
+  //     window.history.pushState({}, '', newPath)
+  //   }
+  // }
 
   // Al cargar el formulario
   useEffect(() => {
@@ -69,13 +77,24 @@ export default function Busquedas() {
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
+  useEffect(() => {
+    const handlePopState = () => {
+      loadInit(window.location.pathname)
+    }
+
+    window.addEventListener('popstate', handlePopState)
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState)
+    }
+  }, [])
+
   // Intervalo de tiempo
   useEffect(() => {
     const interval = setInterval(async () => {
       if (contadorRef.current === 0) {
         let build_path = linkBuilder()
         if (build_path !== null && !loadingRef.current) {
-          // if (foreceUpdateRef.current){
           loadingRef.current = true
           setLoading(true)
           await setComercios({ results: [] })
@@ -83,8 +102,7 @@ export default function Busquedas() {
             loadingRef.current = false
             setLoading(false)
           })
-          // }
-          updateURL(build_path)
+          //updateURL(build_path)
           pathRef.current = build_path
         }
       }
@@ -94,88 +112,87 @@ export default function Busquedas() {
     return () => clearInterval(interval)
   }, [ciudad, zona, texto])
 
-  // Agrega una nueva entrada al historial
-  const updateURL = (newPath) => {
-    if (window.location.pathname !== newPath) {
-      window.history.pushState({}, '', newPath)
-    }
-  }
-
   const loadInit = async (m_path = path) => {
+    if (initLoadinRef.current) return
     try {
+      initLoadinRef.current = true
       setLoading(true)
 
       let paths = m_path.split('/').filter((p) => p !== '')
       let ciudad_ini = { id: '' }
       let zona_ini = { id: '' }
+      let zonas_ini = []
       let new_path = []
       let aux_text = ''
 
       // 1. Cargar todas las ciudades
       const { data: ciudades } = await obtenerCiudades()
 
-      // 2. Buscar ciudad en la URL
-      if (paths.length >= 2) {
-        const ciudadParam = paths[1].replace(/-/g, ' ')
-        const paisParam = paths[0].replace(/-/g, ' ')
-        const { data: resultado } = await buscarCiudades({
-          ciudad: ciudadParam,
-          pais: paisParam
-        })
+      if (m_path.toLowerCase() !== '/bolivia') {
+        // 2. Buscar ciudad en la URL
+        if (paths.length >= 2) {
+          const ciudadParam = paths[1].replace(/-/g, ' ')
+          const paisParam = paths[0].replace(/-/g, ' ')
+          const { data: resultado } = await buscarCiudades({
+            ciudad: ciudadParam,
+            pais: paisParam
+          })
 
-        if (Array.isArray(resultado) && resultado.length > 0) {
-          ciudad_ini = resultado[0]
-          new_path = paths.slice(2)
+          if (Array.isArray(resultado) && resultado.length > 0) {
+            ciudad_ini = resultado[0]
+            new_path = paths.slice(2)
+          }
         }
-      }
 
-      // 3. Si no se encontró ciudad válida, usar ciudad por IP
-      if (ciudad_ini.id === '') {
-        const { data: resultado } = await obtenerCiudadPorIP()
-        if (Array.isArray(resultado) && resultado.length > 0) {
-          ciudad_ini = resultado[0]
-          new_path = paths
+        // 3. Si no se encontró ciudad válida, usar ciudad por IP
+        if (ciudad_ini.id === '') {
+          const { data: resultado } = await obtenerCiudadPorIP()
+          if (Array.isArray(resultado) && resultado.length > 0) {
+            ciudad_ini = resultado[0]
+            new_path = paths
+          }
         }
-      }
-      const ciudad = ciudad_ini
 
-      // 4. Cargar zonas
-      let { data: zonas } = await obtenerZonasDeCiudad(ciudad_ini.id)
-      zonas = zonas.map((z) => ({
-        ...z,
-        descripcion: capitalizarTexto(z.descripcion)
-      }))
+        // 4. Cargar zonas
+        let { data: zonas } = await obtenerZonasDeCiudad(ciudad_ini.id)
+        zonas = zonas.map((z) => ({
+          ...z,
+          descripcion: capitalizarTexto(z.descripcion)
+        }))
+        zonas_ini = zonas
 
-      // 5. Si en el path hay zona
-      if (new_path.length > 0) {
-        const zonaPath = new_path[0].toLowerCase().replace(/-/g, ' ')
-        const zonaEncontrada = zonas.find(
-          (z) => z.descripcion.toLowerCase() === zonaPath
-        )
-        if (zonaEncontrada) {
-          zona_ini = zonaEncontrada
-          new_path = new_path.slice(1)
+        // 5. Si en el path hay zona
+        if (new_path.length > 0) {
+          const zonaPath = new_path[0].toLowerCase().replace(/-/g, ' ')
+          const zonaEncontrada = zonas.find(
+            (z) => z.descripcion.toLowerCase() === zonaPath
+          )
+          if (zonaEncontrada) {
+            zona_ini = zonaEncontrada
+            new_path = new_path.slice(1)
+          }
         }
-      }
-      const zona = zona_ini
 
-      // 6. Extraer texto libre del resto del path
-      aux_text = new_path.join(' ').replace(/-/g, ' ')
+        // 6. Extraer texto libre del resto del path
+        aux_text = new_path.join(' ').replace(/-/g, ' ')
+      }
       const build_path = linkBuilder(aux_text, ciudad_ini, zona_ini)
 
       // 7. Actualizar URL y estados
       window.history.replaceState({}, '', build_path)
+
       setPath(build_path)
       setCiudades(ciudades)
-      setCiudad(ciudad)
-      setZonas(zonas)
-      setZona(zona)
+      setCiudad(ciudad_ini)
+      setZonas(zonas_ini)
+      setZona(zona_ini)
       setTexto(aux_text)
       contadorRef.current = -1
     } catch (err) {
       console.error('Error en loadInit:', err.message)
     } finally {
       setLoading(false)
+      initLoadinRef.current = false
     }
   }
 
