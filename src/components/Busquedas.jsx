@@ -55,12 +55,12 @@ export default function Busquedas() {
   // Constantes
   const render_offset = 250
 
-  // // Agrega una nueva entrada al historial
-  // const updateURL = (newPath) => {
-  //   if (window.location.pathname !== newPath) {
-  //     window.history.pushState({}, '', newPath)
-  //   }
-  // }
+  // Agrega una nueva entrada al historial
+  const updateURL = (newPath) => {
+    if (window.location.pathname !== newPath) {
+      window.history.pushState({}, '', newPath)
+    }
+  }
 
   // Al cargar el formulario
   useEffect(() => {
@@ -102,7 +102,7 @@ export default function Busquedas() {
             loadingRef.current = false
             setLoading(false)
           })
-          //updateURL(build_path)
+          updateURL(build_path)
           pathRef.current = build_path
         }
       }
