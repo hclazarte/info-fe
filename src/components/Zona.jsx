@@ -37,13 +37,22 @@ export default function Zona({
 
     setMostrarZonas(false)
 
-    if (zonasFiltradas.length === 0) {
+    const zonaInput = zona?.descripcion?.trim().toLowerCase()
+    if (!zonaInput) {
       setZona(zonaOriginal)
-    } else {
-      const seleccionada = zonasFiltradas[0]
+      return
+    }
+
+    const seleccionada = zonasFiltradas.find(
+      (z) => z.descripcion.toLowerCase() === zonaInput
+    )
+
+    if (seleccionada) {
       setZona(seleccionada)
       setZonaOriginal(seleccionada)
       if (!isMobile) filtrosChanged(undefined, undefined, seleccionada)
+    } else {
+      setZona(zonaOriginal)
     }
   }
 
@@ -95,7 +104,7 @@ export default function Zona({
               <li
                 key={z.id}
                 className='px-3 py-2 hover:bg-inf2 cursor-pointer'
-                onClick={() => handleSeleccionZona(z)}
+                onMouseDown={() => handleSeleccionZona(z)}
               >
                 {z.descripcion}
               </li>

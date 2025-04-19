@@ -410,6 +410,17 @@ export default function Busquedas() {
                     }}
                   />
                 ))}
+                {!loading && comercios.results.length === 0 && (
+                  <div className='col-span-full text-center py-10 text-inf7 text-lg'>
+                    <p className='mb-2 font-semibold'>
+                      No se encontraron comercios
+                    </p>
+                    <p className='text-sm text-gray-600'>
+                      Intente cambiar los filtros o revise si escribió
+                      correctamente.
+                    </p>
+                  </div>
+                )}
                 {loading && (
                   <div className='col-span-full flex justify-center items-center bg-inf3 p-4'>
                     <img
@@ -484,6 +495,17 @@ export default function Busquedas() {
                   />
                 ))}
               </div>
+              {!loading && comercios.results.length === 0 && (
+                <div className='col-span-full text-center py-10 text-inf7 text-lg'>
+                  <p className='mb-2 font-semibold'>
+                    No se encontraron comercios
+                  </p>
+                  <p className='text-sm text-gray-600'>
+                    Intente cambiar los filtros o revise si escribió
+                    correctamente.
+                  </p>
+                </div>
+              )}
               {loading && (
                 <div className='col-span-full flex justify-center items-center bg-inf3 p-4'>
                   <img src={waitImg} alt='Cargando...' className='w-12 h-12' />
