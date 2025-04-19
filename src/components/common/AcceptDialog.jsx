@@ -2,7 +2,7 @@
 
 export default function AcceptDialog({ mensaje, onClose }) {
   return (
-    <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-50'>
+    <div className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50'>
       <div className='bg-inf1 p-6 rounded-lg shadow-lg text-center'>
         <p className='mb-4 text-lg text-inf6 font-semibold'>{mensaje}</p>
         <button
