@@ -189,13 +189,9 @@ export default function ValidacionPropietario() {
     if (step === 1 && comercio?.documentos_validados === 1) {
       setStep(2)
       setSubstep(1)
-    }
-  
-    else if (step === 2 && substep === 1) {
+    } else if (step === 2 && substep === 1) {
       setSubstep(2)
-    }
-  
-    else if (step === 2 && substep === 2) {
+    } else if (step === 2 && substep === 2) {
       if (tienePlanActivo) {
         // No necesita paso 3, verificar si necesita paso 4
         if (comercio?.autorizado === 1 || autorizado) {
@@ -215,9 +211,7 @@ export default function ValidacionPropietario() {
           setStep(4)
         }
       }
-    }
-  
-    else if (step === 3) {
+    } else if (step === 3) {
       // Ya pagó, ahora verificar si requiere autorización
       if (comercio?.autorizado === 1 || autorizado) {
         await grabarComercio()
@@ -225,18 +219,14 @@ export default function ValidacionPropietario() {
       } else {
         setStep(4)
       }
-    }
-  
-    else if (step === 4) {
+    } else if (step === 4) {
       // Autoriza manualmente
       await grabarComercio()
       setStep(5)
-    }
-  
-    else if (step === 5) {
+    } else if (step === 5) {
       window.location.href = `${window.location.origin}/`
     }
-  } 
+  }
 
   const handleAtras = () => {
     if (step === 2 && substep === 2) {
@@ -366,8 +356,7 @@ export default function ValidacionPropietario() {
               handleSiguiente={handleSiguiente}
             />
           )}
-          {step === 5 && <PasoConfirmacion
-            handleSiguiente={handleSiguiente} />}
+          {step === 5 && <PasoConfirmacion handleSiguiente={handleSiguiente} />}
           <p className='mt-4 text-sm text-center text-gray-200'>
             Este sitio está protegido por reCAPTCHA y se aplican la
             <a

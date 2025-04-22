@@ -250,8 +250,8 @@ const PasoInformacionComercio = ({
               WhatsApp: {candado(tipoPlan === 'gratis')}
             </label>
             <input
-              value={comercioEditable.telefono3 || ''}
-              onInput={handleNumeric('telefono3')}
+              value={comercioEditable.telefono_whatsapp || ''}
+              onInput={handleNumeric('telefono_whatsapp')}
               className='w-full p-2 rounded bg-inf2 text-black focus:bg-white'
               disabled={campoSoloPago}
             />

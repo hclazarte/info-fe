@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { enviarSolicitud } from '../services/solicitudesService'
 import AcceptDialog from './common/AcceptDialog'
 import SpinnerCom from '../components/common/SpinnerCom'
+import { FaWhatsapp, FaCheckCircle } from 'react-icons/fa'
 
 export default function DetalleModal({ comercio, onClose }) {
   const [email, setEmail] = useState('')
@@ -19,11 +20,12 @@ export default function DetalleModal({ comercio, onClose }) {
     servicios,
     telefono1,
     telefono2,
-    telefono3,
-    id
+    telefono_whatsapp,
+    id,
+    autorizado
   } = comercio
 
-  const telefonos = [telefono1, telefono2, telefono3].filter(Boolean)
+  const telefonos = [telefono1, telefono2].filter(Boolean)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -84,6 +86,26 @@ export default function DetalleModal({ comercio, onClose }) {
           {/* Título */}
           <h2 className='pt-4 text-2xl font-bold mb-2 text-inf7'>{empresa}</h2>
 
+          {/* Estado del comercio: validado, ubicación, etc. */}
+          <div className='flex items-center gap-4 mb-4'>
+            {autorizado && (
+              <div className='flex items-center gap-1 text-blue-600 text-sm'>
+                <FaCheckCircle />
+                <span>Comercio validado</span>
+              </div>
+            )}
+
+            {/* Aquí se podrán añadir más íconos en el futuro, por ejemplo: */}
+            {/* 
+              {latitud && longitud && (
+                  <div className='flex items-center gap-1 text-gray-600 text-sm'>
+                    <FaMapMarkerAlt />
+                    <span>Ubicación disponible</span>
+                  </div>
+                )} 
+                */}
+          </div>
+
           {/* Dirección */}
           <p className='text-gray-700 mb-1'>
             <strong>Zona:</strong> {zona_nombre}
@@ -109,33 +131,50 @@ export default function DetalleModal({ comercio, onClose }) {
             </div>
           )}
 
-          {/* Reclamar comercio */}
-          <div className='mt-6 border-t pt-4'>
-            <h3 className='text-lg font-semibold mb-2'>
-              Reclamar este comercio
-            </h3>
-            <p className='text-sm text-gray-600 mb-2'>
-              Si usted es el propietario de este comercio, ingrese su correo
-              electrónico para iniciar el proceso de validación:
-            </p>
-            <form className='flex flex-col gap-2' onSubmit={handleSubmit}>
-              <input
-                type='email'
-                placeholder='tucorreo@ejemplo.com'
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className='p-2 border rounded-md w-full text-sm'
-              />
-              <button
-                type='submit'
-                disabled={enviando}
-                className='bg-inf4 text-white font-medium py-2 px-4 rounded-md hover:bg-inf7 disabled:opacity-50'
+          {/* WhatsApp si autorizado */}
+          {autorizado && telefono_whatsapp && (
+            <div className='mb-4 flex items-center gap-2'>
+              <FaWhatsapp className='text-green-500 text-2xl' />
+              <a
+                href={`https://wa.me/${telefono_whatsapp}`}
+                target='_blank'
+                rel='noopener noreferrer'
+                className='text-green-600 underline font-medium'
               >
-                {enviando ? 'Enviando...' : 'Enviar solicitud'}
-              </button>
-            </form>
-          </div>
+                Enviar mensaje por WhatsApp
+              </a>
+            </div>
+          )}
+
+          {/* Reclamar comercio solo si NO está autorizado */}
+          {!autorizado && (
+            <div className='mt-6 border-t pt-4'>
+              <h3 className='text-lg font-semibold mb-2'>
+                Reclamar este comercio
+              </h3>
+              <p className='text-sm text-gray-600 mb-2'>
+                Si usted es el propietario de este comercio, ingrese su correo
+                electrónico para iniciar el proceso de validación:
+              </p>
+              <form className='flex flex-col gap-2' onSubmit={handleSubmit}>
+                <input
+                  type='email'
+                  placeholder='tucorreo@ejemplo.com'
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  className='p-2 border rounded-md w-full text-sm'
+                />
+                <button
+                  type='submit'
+                  disabled={enviando}
+                  className='bg-inf4 text-white font-medium py-2 px-4 rounded-md hover:bg-inf7 disabled:opacity-50'
+                >
+                  {enviando ? 'Enviando...' : 'Enviar solicitud'}
+                </button>
+              </form>
+            </div>
+          )}
         </div>
       </div>
       {mostrarDialogo && (

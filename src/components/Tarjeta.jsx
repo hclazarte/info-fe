@@ -1,4 +1,5 @@
 import React from 'react'
+import { FaWhatsapp, FaCheckCircle } from 'react-icons/fa'
 
 const truncarTexto = (texto, longitudMaxima = 80) => {
   if (!texto) return ''
@@ -7,15 +8,31 @@ const truncarTexto = (texto, longitudMaxima = 80) => {
 }
 
 const Tarjeta = ({ comercio, onClick }) => {
-  truncarTexto
+  const tarjetaBase =
+    'max-w-sm rounded overflow-hidden shadow-lg cursor-pointer relative transition-shadow hover:shadow-xl'
+  const fondo = comercio.autorizado
+    ? 'bg-yellow-50 border border-yellow-300'
+    : 'bg-white'
+
   return (
-    <div
-      onClick={onClick}
-      className='max-w-sm rounded overflow-hidden shadow-lg bg-white cursor-pointer'
-    >
+    <div onClick={onClick} className={`${tarjetaBase} ${fondo}`}>
       <div className='px-6 py-4'>
         {/* Nombre de la Empresa */}
-        <div className='font-bold text-xl mb-2'>{comercio.empresa}</div>
+        <div className='font-bold text-xl mb-2 flex items-center gap-2'>
+          {comercio.empresa}
+          {comercio.autorizado && (
+            <FaCheckCircle
+              className='text-blue-600'
+              title='Comercio validado'
+            />
+          )}
+          {comercio.telefono_whatsapp && (
+            <FaWhatsapp
+              className='text-green-500'
+              title='Contacto por WhatsApp'
+            />
+          )}
+        </div>
 
         {/* Descripción de Servicios */}
         <p className='text-gray-700 text-base'>
@@ -31,7 +48,7 @@ const Tarjeta = ({ comercio, onClick }) => {
         <p className='text-gray-600 text-sm'>
           {comercio.telefono1}
           {comercio.telefono2 ? `, ${comercio.telefono2}` : ''}
-          {comercio.telefono3 ? `, ${comercio.telefono3}` : ''}
+          {comercio.telefono_whatsapp ? `, ${comercio.telefono_whatsapp}` : ''}
         </p>
       </div>
     </div>
