@@ -1,6 +1,6 @@
 // Este componente no necesita props, solo muestra mensaje de cierre
 
-const PasoConfirmacion = () => {
+const PasoConfirmacion = ({handleSiguiente}) => {
   return (
     <div className='space-y-6 text-center'>
       <h2 className='text-2xl font-bold mb-2'>¡Gracias por registrarse!</h2>
@@ -23,7 +23,7 @@ const PasoConfirmacion = () => {
       <div className='mt-6'>
         <button
           className='bg-inf3 text-black px-6 py-2 rounded-md font-medium hover:bg-inf5'
-          onClick={() => window.location.reload()}
+          onClick={handleSiguiente}
         >
           Finalizar
         </button>

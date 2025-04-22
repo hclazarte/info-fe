@@ -30,7 +30,7 @@ export default function ValidacionPropietario() {
   const [zonas, setZonas] = useState([])
   const [error, setError] = useState(null)
   const [tipoPlan, setTipoPlan] = useState('gratis')
-  const [autorizado, setAutorizado] = useState(false)
+  const [autorizado, setAutorizado] = useState(comercio?.autorizado === 1)
   const [substep, setSubstep] = useState(1)
   const [nitCargado, setNitCargado] = useState(false)
   const [ciCargado, setCiCargado] = useState(false)
@@ -185,21 +185,58 @@ export default function ValidacionPropietario() {
     Validar(archivoNIT, solicitud.id)
   }
 
-  const handleSiguiente = () => {
+  const handleSiguiente = async () => {
     if (step === 1 && comercio?.documentos_validados === 1) {
       setStep(2)
       setSubstep(1)
-    } else if (step === 2 && substep === 1) {
+    }
+  
+    else if (step === 2 && substep === 1) {
       setSubstep(2)
-    } else if (step === 2 && substep === 2) {
-      setStep(tienePlanActivo ? 4 : tipoPlan === 'pago' ? 3 : 4)
-    } else if (step === 3) {
-      setStep(4)
-    } else if (step === 4) {
-      grabarComercio()
+    }
+  
+    else if (step === 2 && substep === 2) {
+      if (tienePlanActivo) {
+        // No necesita paso 3, verificar si necesita paso 4
+        if (comercio?.autorizado === 1 || autorizado) {
+          await grabarComercio()
+          setStep(5)
+        } else {
+          setStep(4)
+        }
+      } else if (tipoPlan === 'pago') {
+        setStep(3)
+      } else {
+        // tipoPlan === 'gratis'
+        if (comercio?.autorizado === 1 || autorizado) {
+          await grabarComercio()
+          setStep(5)
+        } else {
+          setStep(4)
+        }
+      }
+    }
+  
+    else if (step === 3) {
+      // Ya pagó, ahora verificar si requiere autorización
+      if (comercio?.autorizado === 1 || autorizado) {
+        await grabarComercio()
+        setStep(5)
+      } else {
+        setStep(4)
+      }
+    }
+  
+    else if (step === 4) {
+      // Autoriza manualmente
+      await grabarComercio()
       setStep(5)
     }
-  }
+  
+    else if (step === 5) {
+      window.location.href = `${window.location.origin}/`
+    }
+  } 
 
   const handleAtras = () => {
     if (step === 2 && substep === 2) {
@@ -329,7 +366,8 @@ export default function ValidacionPropietario() {
               handleSiguiente={handleSiguiente}
             />
           )}
-          {step === 5 && <PasoConfirmacion />}
+          {step === 5 && <PasoConfirmacion
+            handleSiguiente={handleSiguiente} />}
           <p className='mt-4 text-sm text-center text-gray-200'>
             Este sitio está protegido por reCAPTCHA y se aplican la
             <a
