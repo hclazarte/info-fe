@@ -21,8 +21,7 @@ const PasoInformacionComercio = ({
     if (comercio && solicitud) {
       setComercioEditable((prev) => ({
         ...prev,
-        ...comercio,
-        email: solicitud.email
+        ...comercio
       }))
     }
   }, [comercio, solicitud])
