@@ -142,7 +142,7 @@ const PasoInformacionComercio = ({
             <label className='block text-sm'>Email: {candado()}</label>
             <input
               disabled
-              value={comercioEditable.email || ''}
+              value={solicitud.email || ''}
               className='w-full p-2 rounded bg-inf2 text-black'
             />
           </div>
