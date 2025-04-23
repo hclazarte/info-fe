@@ -22,13 +22,13 @@ const Tarjeta = ({ comercio, onClick }) => {
           {comercio.empresa}
           {comercio.autorizado && (
             <FaCheckCircle
-              className='text-blue-600'
+              className='text-blue-600 w-5 h-5'
               title='Comercio validado'
             />
           )}
           {comercio.telefono_whatsapp && (
             <FaWhatsapp
-              className='text-green-500'
+              className='text-green-500 w-5 h-5'
               title='Contacto por WhatsApp'
             />
           )}
