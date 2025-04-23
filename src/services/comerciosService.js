@@ -48,3 +48,26 @@ export const contarComercios = async ({ ciudad_id, zona_id, text = '' }) => {
     )
   )
 }
+
+// POST /comercios/no_seprec?recaptcha_token=...
+export const registrarComercioNoSeprec = async (data, recaptchaToken) => {
+  const params = new URLSearchParams({ recaptcha_token: recaptchaToken })
+
+  return apiRequest(() =>
+    axios.post(
+      `${window.infoConfig.apiUrl}/comercios/no_seprec?${params.toString()}`,
+      data
+    )
+  )
+}
+
+// GET /comercios/por_email?email=...
+export const obtenerComercioPorEmail = async (email) => {
+  const params = new URLSearchParams({ email })
+
+  return apiRequest(() =>
+    axios.get(
+      `${window.infoConfig.apiUrl}/comercios/por_email?${params.toString()}`
+    )
+  )
+}

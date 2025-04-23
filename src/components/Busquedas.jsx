@@ -4,10 +4,12 @@ import Buscar from './Buscar'
 import Ciudad from './Ciudad'
 import Zona from './Zona'
 import EnviarMensaje from './EnviarMensaje'
+import BotonAltaComercio from './BotonAltaComercio'
 import Tarjeta from './Tarjeta'
 import Firma from './Firma'
 import DetalleModal from './DetalleModal'
 import BuzonSugerencias from './BuzonSugerencias'
+import AltaNoSeprec from './AltaNoSeprec'
 import {
   obtenerCiudades,
   buscarCiudades,
@@ -36,6 +38,7 @@ export default function Busquedas() {
   const [modalAbierto, setModalAbierto] = useState(false)
   const [comercioSeleccionado, setComercioSeleccionado] = useState(null)
   const [mostrarBuzon, setMostrarBuzon] = useState(false)
+  const [mostrarAlta, setMostrarAlta] = useState(false)
   const touchStartY = useRef(null)
   const touchEndY = useRef(null)
   const touchStartYRef = useRef(null)
@@ -393,7 +396,10 @@ export default function Busquedas() {
                     />
                   )}
                   <Firma />
-                  <EnviarMensaje onClick={() => setMostrarBuzon(true)} />
+                  <div className='flex flex-row items-center gap-x-4 mt-4'>
+                    <EnviarMensaje onClick={() => setMostrarBuzon(true)} />
+                    <BotonAltaComercio onClick={() => setMostrarAlta(true)} />
+                  </div>
                 </div>
               </div>
             </div>
@@ -475,7 +481,10 @@ export default function Busquedas() {
                     filtrosChanged={filtrosChanged}
                   />
                 )}
-                <EnviarMensaje onClick={() => setMostrarBuzon(true)} />
+                <div className='flex flex-row items-center gap-x-4 mt-4'>
+                  <EnviarMensaje onClick={() => setMostrarBuzon(true)} />
+                  <BotonAltaComercio onClick={() => setMostrarAlta(true)} />
+                </div>
               </div>
             </div>
             {/* Resultados Desktop */}
@@ -528,6 +537,7 @@ export default function Busquedas() {
           onClose={() => setMostrarBuzon(false)}
         />
       )}
+      {mostrarAlta && <AltaNoSeprec onClose={() => setMostrarAlta(false)} />}
     </div>
   )
 }
