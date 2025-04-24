@@ -15,7 +15,8 @@ const PasoInformacionComercio = ({
   handleAtras,
   handleSiguiente,
   comercioEditable,
-  setComercioEditable
+  setComercioEditable,
+  bloquearAtras
 }) => {
   useEffect(() => {
     if (comercio && solicitud) {
@@ -25,6 +26,12 @@ const PasoInformacionComercio = ({
       }))
     }
   }, [comercio, solicitud])
+
+  useEffect(() => {
+    if (comercio?.seprec === false) {
+      setTipoPlan('pago')
+    }
+  }, [comercio])
 
   if (!comercioEditable) {
     return (
@@ -83,7 +90,7 @@ const PasoInformacionComercio = ({
               value='gratis'
               checked={tipoPlan === 'gratis'}
               onChange={(e) => setTipoPlan(e.target.value)}
-              disabled={planBloqueado}
+              disabled={planBloqueado || comercio?.seprec === false}
             />
             Gratuito
           </label>
@@ -284,6 +291,7 @@ const PasoInformacionComercio = ({
       <div className='flex justify-between mt-4'>
         <button
           onClick={handleAtras}
+          disabled={bloquearAtras}
           className='bg-inf3 text-black px-6 py-2 rounded-md font-medium hover:bg-inf5'
         >
           Atrás

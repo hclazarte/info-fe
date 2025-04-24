@@ -333,6 +333,7 @@ export default function ValidacionPropietario() {
               handleSiguiente={handleSiguiente}
               comercioEditable={comercioEditable}
               setComercioEditable={setComercioEditable}
+              bloquearAtras={comercio.documentos_validados === 1}
             />
           )}
           {step === 3 && tipoPlan === 'pago' && (
