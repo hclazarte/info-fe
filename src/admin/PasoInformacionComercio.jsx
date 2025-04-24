@@ -289,18 +289,15 @@ const PasoInformacionComercio = ({
         </>
       )}
       <div className='flex justify-between mt-4'>
-
-      <button
-  onClick={handleAtras}
-  disabled={bloquearAtras}
-  className={`px-6 py-2 rounded-md font-medium bg-inf3 text-black ${
-    bloquearAtras ? 'opacity-50 cursor-not-allowed' : 'hover:bg-inf5'
-  }`}
->
-  Atrás
-</button>
-
-
+        <button
+          onClick={handleAtras}
+          disabled={bloquearAtras}
+          className={`px-6 py-2 rounded-md font-medium bg-inf3 text-black ${
+            bloquearAtras ? 'opacity-50 cursor-not-allowed' : 'hover:bg-inf5'
+          }`}
+        >
+          Atrás
+        </button>
         <button
           onClick={handleSiguiente}
           className='bg-inf3 text-black px-6 py-2 rounded-md font-medium hover:bg-inf5'

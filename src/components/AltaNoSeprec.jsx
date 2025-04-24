@@ -24,6 +24,7 @@ export default function AltaNoSeprec({ onClose }) {
   const [crearNuevo, setCrearNuevo] = useState(false)
   const [ciudades, setCiudades] = useState([])
   const [formBloqueado, setFormBloqueado] = useState(false)
+  const [habilitarAdmin, setHabilitarAdmin] = useState(false)
 
   useEffect(() => {
     const cargarCiudades = async () => {
@@ -64,6 +65,7 @@ export default function AltaNoSeprec({ onClose }) {
       } else {
         setComerciosEncontrados(data)
       }
+      setHabilitarAdmin(true)
     } catch (err) {
       setDialogMsg('Error al buscar. Intente más tarde.')
       setShowDialog(true)
@@ -96,7 +98,6 @@ export default function AltaNoSeprec({ onClose }) {
           setShowDialog(true)
           return
         }
-
       } else {
         // Comercio nuevo → registrar
         const { empresa, calle_numero, ciudad_id } = formData
@@ -136,7 +137,9 @@ export default function AltaNoSeprec({ onClose }) {
   return (
     <div className='fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center'>
       <div className='bg-inf4 text-white rounded-xl shadow-lg p-6 w-full max-w-xl max-h-[95vh] overflow-y-auto'>
-        <h2 className='text-2xl font-bold mb-6 text-center'>Administración de Comercios</h2>
+        <h2 className='text-2xl font-bold mb-6 text-center'>
+          Administración de Comercios
+        </h2>
         {/* Buscar por email */}
         <div className='mb-6 space-y-2'>
           <label className='block'>Correo electrónico del administrador:</label>
@@ -158,8 +161,13 @@ export default function AltaNoSeprec({ onClose }) {
           </div>
         </div>
         <div className='mb-6'>
-          <p className='font-semibold mb-2 text-white'>Comercios Administrados:</p>
-          <div className='bg-inf1 rounded-md overflow-y-auto' style={{ height: '192px', padding: '12px' }}>
+          <p className='font-semibold mb-2 text-white'>
+            Comercios Administrados:
+          </p>
+          <div
+            className='bg-inf1 rounded-md overflow-y-auto'
+            style={{ height: '192px', padding: '12px' }}
+          >
             <div className='flex flex-col h-full'>
               {comerciosEncontrados.length > 0 ? (
                 comerciosEncontrados.map((com, idx) => (
@@ -218,6 +226,7 @@ export default function AltaNoSeprec({ onClose }) {
                 onChange={(e) => {
                   const checked = e.target.checked
                   setCrearNuevo(checked)
+                  setHabilitarAdmin(checked)
                   if (checked) {
                     setFormData({
                       empresa: '',
@@ -229,7 +238,9 @@ export default function AltaNoSeprec({ onClose }) {
                   }
                 }}
               />
-              <span className='text-base font-medium'>Crear nuevo comercio</span>
+              <span className='text-base font-medium'>
+                Crear nuevo comercio
+              </span>
             </label>
           </div>
         </div>
@@ -295,7 +306,12 @@ export default function AltaNoSeprec({ onClose }) {
             </button>
             <button
               type='submit'
-              className='px-6 py-2 bg-inf3 text-black rounded-md text-lg font-medium hover:bg-blue-600'
+              disabled={!habilitarAdmin}
+              className={`px-6 py-2 bg-inf3 text-black rounded-md text-lg font-medium ${
+                habilitarAdmin
+                  ? 'hover:bg-inf5'
+                  : 'opacity-50 cursor-not-allowed'
+              }`}
             >
               Administrar
             </button>
@@ -310,18 +326,23 @@ export default function AltaNoSeprec({ onClose }) {
           <a
             href='https://policies.google.com/privacy'
             className='text-blue-300 hover:underline'
-            target='_blank' rel='noopener noreferrer'
+            target='_blank'
+            rel='noopener noreferrer'
           >
-            {' '}Política de Privacidad{' '}
+            {' '}
+            Política de Privacidad{' '}
           </a>
           y los
           <a
             href='https://policies.google.com/terms'
             className='text-blue-300 hover:underline'
-            target='_blank' rel='noopener noreferrer'
+            target='_blank'
+            rel='noopener noreferrer'
           >
-            {' '}Términos de Servicio{' '}
-          </a>{' '}de Google.
+            {' '}
+            Términos de Servicio{' '}
+          </a>{' '}
+          de Google.
         </p>
       </div>
     </div>

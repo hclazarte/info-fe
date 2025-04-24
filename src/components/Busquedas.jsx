@@ -5,6 +5,7 @@ import Ciudad from './Ciudad'
 import Zona from './Zona'
 import EnviarMensaje from './EnviarMensaje'
 import BotonAltaComercio from './BotonAltaComercio'
+import GloboSugerencia from './GloboSugerencia'
 import Tarjeta from './Tarjeta'
 import Firma from './Firma'
 import DetalleModal from './DetalleModal'
@@ -399,6 +400,7 @@ export default function Busquedas() {
                   <div className='flex flex-row items-center gap-x-4 mt-4'>
                     <EnviarMensaje onClick={() => setMostrarBuzon(true)} />
                     <BotonAltaComercio onClick={() => setMostrarAlta(true)} />
+                    <GloboSugerencia />
                   </div>
                 </div>
               </div>
@@ -484,6 +486,7 @@ export default function Busquedas() {
                 <div className='flex flex-row items-center gap-x-4 mt-4'>
                   <EnviarMensaje onClick={() => setMostrarBuzon(true)} />
                   <BotonAltaComercio onClick={() => setMostrarAlta(true)} />
+                  <GloboSugerencia />
                 </div>
               </div>
             </div>
