@@ -56,6 +56,7 @@ export default function Busquedas() {
   const foreceUpdateRef = useRef(false)
   const pathRef = useRef('')
   const lastPathRef = useRef(null)
+  const abortControllerRef = useRef(null)
   // Constantes
   const render_offset = 250
 
@@ -81,6 +82,7 @@ export default function Busquedas() {
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
+  // La historia
   useEffect(() => {
     const handlePopState = () => {
       loadInit(window.location.pathname)
@@ -96,6 +98,7 @@ export default function Busquedas() {
   // Intervalo de tiempo
   useEffect(() => {
     const interval = setInterval(async () => {
+      // console.log(`${loadingRef.current}-->${contadorRef.current}`)
       if (contadorRef.current === 0) {
         let build_path = linkBuilder()
         if (build_path !== null && !loadingRef.current) {
@@ -110,7 +113,7 @@ export default function Busquedas() {
           pathRef.current = build_path
         }
       }
-      contadorRef.current = contadorRef.current + 1
+      if (!loadingRef.current) contadorRef.current++
     }, 50)
 
     return () => clearInterval(interval)
@@ -120,6 +123,7 @@ export default function Busquedas() {
     if (initLoadinRef.current) return
     try {
       initLoadinRef.current = true
+
       setLoading(true)
 
       let paths = m_path.split('/').filter((p) => p !== '')
@@ -206,6 +210,16 @@ export default function Busquedas() {
     n_ciudad_id = ciudad.id,
     n_zona_id = zona.id
   ) => {
+    // Cancelar solicitud anterior si existe
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort()
+    }
+
+    // Crear nuevo controlador para esta solicitud
+    const controller = new AbortController()
+    abortControllerRef.current = controller
+    const signal = controller.signal
+
     foreceUpdateRef.current = false
     let gr_aux = grupoRef.current
 
@@ -216,13 +230,16 @@ export default function Busquedas() {
 
     try {
       gr_aux = n_grupo !== null ? n_grupo + 1 : gr_aux + 1
-      const { data: obj } = await obtenerListaComercios({
-        ciudad_id: n_ciudad_id,
-        zona_id: n_zona_id,
-        text,
-        page: gr_aux,
-        per_page: gr_tamRef.current
-      })
+      const { data: obj } = await obtenerListaComercios(
+        {
+          ciudad_id: n_ciudad_id,
+          zona_id: n_zona_id,
+          text,
+          page: gr_aux,
+          per_page: gr_tamRef.current
+        },
+        signal
+      )
 
       lastPathRef.current = n_path
 

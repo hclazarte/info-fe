@@ -13,7 +13,7 @@ export default function Buscar({
   const handleClear = () => {
     setTexto('')
     inputRef.current?.focus()
-    filtrosChanged()
+    filtrosChanged('', undefined, undefined)
   }
   const handleOpenClose = () => {
     setFiltrosAbiertos(!filtrosAbiertos)
@@ -33,9 +33,6 @@ export default function Buscar({
       filtrosChanged()
     }, 600)
   }
-  const handleBlur = (e) => {
-    filtrosChanged()
-  }
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
       clearTimeout(debounceTimeout.current)
@@ -53,7 +50,6 @@ export default function Buscar({
           className='flex-1 px-3 py-2 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-100'
           value={texto}
           onChange={handleChange}
-          onBlur={handleBlur}
           onKeyDown={handleKeyDown}
         />
         <button

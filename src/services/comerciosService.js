@@ -34,21 +34,6 @@ export const obtenerListaComercios = async ({
   )
 }
 
-// GET /comercios/contar?ciudad_id=...&zona_id=...&text=...
-export const contarComercios = async ({ ciudad_id, zona_id, text = '' }) => {
-  const params = new URLSearchParams({
-    ciudad_id,
-    zona_id,
-    text
-  })
-
-  return apiRequest(() =>
-    axios.get(
-      `${window.infoConfig.apiUrl}/comercios/contar?${params.toString()}`
-    )
-  )
-}
-
 // POST /comercios/no_seprec?recaptcha_token=...
 export const registrarComercioNoSeprec = async (data, recaptchaToken) => {
   const params = new URLSearchParams({ recaptcha_token: recaptchaToken })

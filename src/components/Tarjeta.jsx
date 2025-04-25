@@ -20,7 +20,7 @@ const Tarjeta = ({ comercio, onClick }) => {
         {/* Nombre de la Empresa */}
         <div className='font-bold text-xl mb-2 flex items-center gap-2'>
           {comercio.empresa}
-          {comercio.autorizado===1 && (
+          {comercio.autorizado === 1 && (
             <FaCheckCircle
               className='text-blue-600 w-5 h-5'
               title='Comercio validado'

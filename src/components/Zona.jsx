@@ -32,26 +32,16 @@ export default function Zona({
     if (!mostrarZonas) setMostrarZonas(true)
   }
 
-  const handleBlur = () => {
-    if (!mostrarZonas) return
-
-    setMostrarZonas(false)
-
-    const zonaInput = zona?.descripcion?.trim().toLowerCase()
-    if (!zonaInput) {
-      setZona(zonaOriginal)
-      return
-    }
-
-    const seleccionada = zonasFiltradas.find(
-      (z) => z.descripcion.toLowerCase() === zonaInput
-    )
-
-    if (seleccionada) {
-      setZona(seleccionada)
-      setZonaOriginal(seleccionada)
-      if (!isMobile) filtrosChanged(undefined, undefined, seleccionada)
+  const handlePullUpDown = () => {
+    if (!mostrarZonas) {
+      // ▼ PullDown
+      setZonaOriginal(zona)
+      setMostrarZonas(true)
+      setZona({ id: '', descripcion: '' })
+      inputRef.current?.focus()
     } else {
+      //  ▲ PullUp
+      setMostrarZonas(false)
       setZona(zonaOriginal)
     }
   }
@@ -70,7 +60,6 @@ export default function Zona({
           type='text'
           value={zona?.descripcion || ''}
           onChange={handleChange}
-          onBlur={handleBlur}
           placeholder='Zona'
           className='flex-1 focus:outline-none'
         />
@@ -84,7 +73,7 @@ export default function Zona({
           ✕
         </button>
         <button
-          onClick={() => setMostrarZonas(!mostrarZonas)}
+          onClick={handlePullUpDown}
           className='py-0 px-0 text-inf4 ml-2 text-4xl'
         >
           {mostrarZonas ? '▲' : '▼'}

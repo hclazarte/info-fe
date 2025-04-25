@@ -34,19 +34,17 @@ export default function Ciudad({
     if (!mostrarCiudades) setMostrarCiudades(true)
   }
 
-  const handleBlur = () => {
-    if (!mostrarCiudades) return
-
-    setMostrarCiudades(false)
-
-    if (ciudadesFiltradas.length === 0) {
-      setCiudad(ciudadOriginal)
+  const handlePullUpDown = () => {
+    if (!mostrarCiudades) {
+      // ▼ PullDown
+      setCiudadOriginal(ciudad)
+      setMostrarCiudades(true)
+      setCiudad({ id: '', ciudad: '' })
+      inputRef.current?.focus()
     } else {
-      const seleccionada = ciudadesFiltradas[0]
-      setCiudad(seleccionada)
-      onCiudadChanged?.(seleccionada)
-      setCiudadOriginal(seleccionada)
-      if (!isMobile) filtrosChanged(undefined, seleccionada, undefined)
+      //  ▲ PullUp
+      setMostrarCiudades(false)
+      setCiudad(ciudadOriginal)
     }
   }
 
@@ -66,7 +64,6 @@ export default function Ciudad({
           type='text'
           value={ciudad?.ciudad || ''}
           onChange={handleChange}
-          onBlur={handleBlur}
           placeholder='Ciudad'
           className='flex-1 focus:outline-none'
         />
@@ -80,7 +77,7 @@ export default function Ciudad({
           ✕
         </button>
         <button
-          onClick={() => setMostrarCiudades(!mostrarCiudades)}
+          onClick={handlePullUpDown}
           className='py-0 px-0 text-inf4 ml-2 text-4xl'
         >
           {mostrarCiudades ? '▲' : '▼'}
