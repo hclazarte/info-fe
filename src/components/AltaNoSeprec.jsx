@@ -7,6 +7,8 @@ import {
 } from '../services/comerciosService.js'
 import { obtenerCiudades } from '../services/ciudadesService.js'
 import { enviarSolicitud } from '../services/solicitudesService.js'
+import AyudaRegistroCorreo from './AyudaRegistroCorreo.jsx'
+import AyudaAdministrarComercio from './AyudaAdministrarComercio.jsx'
 
 export default function AltaNoSeprec({ onClose }) {
   const [emailBusqueda, setEmailBusqueda] = useState('')
@@ -138,7 +140,7 @@ export default function AltaNoSeprec({ onClose }) {
     <div className='fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center'>
       <div className='bg-inf4 text-white rounded-xl shadow-lg p-6 w-full max-w-xl max-h-[95vh] overflow-y-auto'>
         <h2 className='text-2xl font-bold mb-6 text-center'>
-          Administración de Comercios
+          Registro de Comercios
         </h2>
         {/* Buscar por email */}
         <div className='mb-6 space-y-2'>
@@ -159,6 +161,7 @@ export default function AltaNoSeprec({ onClose }) {
               {cargando ? '...' : 'Buscar'}
             </button>
           </div>
+          <AyudaRegistroCorreo />
         </div>
         <div className='mb-6'>
           <p className='font-semibold mb-2 text-white'>
@@ -296,6 +299,8 @@ export default function AltaNoSeprec({ onClose }) {
               disabled={formBloqueado}
             />
           </div>
+
+          <AyudaAdministrarComercio />
           <div className='flex justify-end gap-4 mt-6'>
             <button
               type='button'

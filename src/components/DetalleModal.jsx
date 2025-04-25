@@ -88,7 +88,7 @@ export default function DetalleModal({ comercio, onClose }) {
 
           {/* Estado del comercio: validado, ubicación, etc. */}
           <div className='flex items-center gap-4 mb-4'>
-            {autorizado===1 && (
+            {autorizado === 1 && (
               <div className='flex items-center gap-1 text-blue-600 text-sm'>
                 <FaCheckCircle />
                 <span>Comercio validado</span>
@@ -132,7 +132,7 @@ export default function DetalleModal({ comercio, onClose }) {
           )}
 
           {/* WhatsApp si autorizado */}
-          {autorizado===1 && telefono_whatsapp && (
+          {autorizado === 1 && telefono_whatsapp && (
             <div className='mb-4 flex items-center gap-2'>
               <FaWhatsapp className='text-green-500 text-2xl' />
               <a
