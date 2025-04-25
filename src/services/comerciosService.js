@@ -12,13 +12,10 @@ export const actualizarComercio = async (comercioId, data, otp_token) => {
 }
 
 // GET /comercios/lista?ciudad_id=...&zona_id=...&text=...&page=1&per_page=100
-export const obtenerListaComercios = async ({
-  ciudad_id,
-  zona_id = '',
-  text = '',
-  page = 1,
-  per_page = 100
-}) => {
+export const obtenerListaComercios = async (
+  { ciudad_id, zona_id = '', text = '', page = 1, per_page = 100 },
+  signal = null
+) => {
   const params = new URLSearchParams({
     ciudad_id,
     zona_id,
@@ -29,7 +26,8 @@ export const obtenerListaComercios = async ({
 
   return apiRequest(() =>
     axios.get(
-      `${window.infoConfig.apiUrl}/comercios/lista?${params.toString()}`
+      `${window.infoConfig.apiUrl}/comercios/lista?${params.toString()}`,
+      { signal }
     )
   )
 }
