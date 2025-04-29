@@ -121,8 +121,13 @@ export default function AltaNoSeprec({ onClose }) {
         }
       }
 
-      // Éxito: cerrar diálogo
-      onClose()
+      // Éxito: mostrar diálogo
+      setDialogMsg(
+        'Se ha enviado un mensaje a su correo.\n\nSi es la primera vez que solicita, revise su bandeja de correo no deseado y apruébelo.\n\n¡Muchas gracias!'
+      )
+      setSuccess(true)
+      setShowDialog(true)
+
     } catch (err) {
       setDialogMsg('Error de conexión.')
       setShowDialog(true)

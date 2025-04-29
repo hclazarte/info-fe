@@ -45,7 +45,7 @@ export default function DetalleModal({ comercio, onClose }) {
             recaptcha_token: token
           })
           setMensaje(
-            'Se ha enviado un mensaje a su correo. Si es la primera vez que solicita, revise su bandeja de correo no deseado y apruébelo. ¡Muchas gracias!'
+            'Se ha enviado un mensaje a su correo.\n\nSi es la primera vez que solicita, revise su bandeja de correo no deseado y apruébelo.\n\n¡Muchas gracias!'
           )
         } catch (error) {
           console.error('Error al enviar solicitud:', error)
