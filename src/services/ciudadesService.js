@@ -13,13 +13,6 @@ export const obtenerCiudad = async (id) => {
   )
 }
 
-// Obtener ciudad por IP del cliente
-export const obtenerCiudadPorIP = async () => {
-  return apiRequest(() =>
-    axios.get(`${window.infoConfig.apiUrl}/ciudades/by_client_ip`)
-  )
-}
-
 // Buscar ciudades por filtro (por ejemplo, ciudad y país)
 export const buscarCiudades = async ({ ciudad, pais }) => {
   const params = new URLSearchParams()

@@ -30,7 +30,7 @@ export default function Buscar({
 
     // Iniciar nuevo temporizador
     debounceTimeout.current = setTimeout(() => {
-      filtrosChanged()
+      filtrosChanged(nuevoTexto, undefined, undefined)
     }, 600)
   }
   const handleKeyDown = (e) => {
@@ -39,6 +39,7 @@ export default function Buscar({
       filtrosChanged()
     }
   }
+  const handlePaste = () => {}
 
   return (
     <div className='relative flex flex-col gap-1 mb-4'>
@@ -51,6 +52,7 @@ export default function Buscar({
           value={texto}
           onChange={handleChange}
           onKeyDown={handleKeyDown}
+          onPaste={handlePaste}
         />
         <button
           onClick={handleClear}

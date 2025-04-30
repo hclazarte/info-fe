@@ -11,10 +11,9 @@ import Firma from './Firma'
 import DetalleModal from './DetalleModal'
 import BuzonSugerencias from './BuzonSugerencias'
 import AltaNoSeprec from './AltaNoSeprec'
+import { obtenerObjetosInicio } from '../services/iniciosService'
 import {
   obtenerCiudades,
-  buscarCiudades,
-  obtenerCiudadPorIP,
   obtenerZonasDeCiudad
 } from '../services/ciudadesService'
 import { obtenerListaComercios } from '../services/comerciosService'
@@ -126,75 +125,31 @@ export default function Busquedas() {
 
       setLoading(true)
 
-      let paths = m_path.split('/').filter((p) => p !== '')
-      let ciudad_ini = { id: '' }
-      let zona_ini = { id: '' }
-      let zonas_ini = []
-      let new_path = []
-      let aux_text = ''
-
-      // 1. Cargar todas las ciudades
-      const { data: ciudades } = await obtenerCiudades()
-
-      if (m_path.toLowerCase() !== '/bolivia') {
-        // 2. Buscar ciudad en la URL
-        if (paths.length >= 2) {
-          const ciudadParam = paths[1].replace(/-/g, ' ')
-          const paisParam = paths[0].replace(/-/g, ' ')
-          const { data: resultado } = await buscarCiudades({
-            ciudad: ciudadParam,
-            pais: paisParam
-          })
-
-          if (Array.isArray(resultado) && resultado.length > 0) {
-            ciudad_ini = resultado[0]
-            new_path = paths.slice(2)
-          }
-        }
-
-        // 3. Si no se encontró ciudad válida, usar ciudad por IP
-        if (ciudad_ini.id === '') {
-          const { data: resultado } = await obtenerCiudadPorIP()
-          if (Array.isArray(resultado) && resultado.length > 0) {
-            ciudad_ini = resultado[0]
-            new_path = paths
-          }
-        }
-
-        // 4. Cargar zonas
-        let { data: zonas } = await obtenerZonasDeCiudad(ciudad_ini.id)
-        zonas = zonas.map((z) => ({
-          ...z,
-          descripcion: capitalizarTexto(z.descripcion)
-        }))
-        zonas_ini = zonas
-
-        // 5. Si en el path hay zona
-        if (new_path.length > 0) {
-          const zonaPath = new_path[0].toLowerCase().replace(/-/g, ' ')
-          const zonaEncontrada = zonas.find(
-            (z) => z.descripcion.toLowerCase() === zonaPath
-          )
-          if (zonaEncontrada) {
-            zona_ini = zonaEncontrada
-            new_path = new_path.slice(1)
-          }
-        }
-
-        // 6. Extraer texto libre del resto del path
-        aux_text = new_path.join(' ').replace(/-/g, ' ')
+      const { ok, data, error } = await obtenerCiudades()
+      if (!ok) {
+        throw new Error(error || 'Error al obtener ciudades')
       }
-      const build_path = linkBuilder(aux_text, ciudad_ini, zona_ini)
+      const ciudades_ini = data
 
-      // 7. Actualizar URL y estados
+      const {
+        ok: ok_ini,
+        data: data_ini,
+        error: error_ini
+      } = await obtenerObjetosInicio(m_path)
+      if (!ok_ini) {
+        throw new Error(error_ini || 'Error al obtener objetos')
+      }
+      const { ciudad_ini, zonas_ini, zona_ini, text_ini } = data_ini
+      const build_path = linkBuilder(text_ini, ciudad_ini, zona_ini)
+
       window.history.replaceState({}, '', build_path)
 
       setPath(build_path)
-      setCiudades(ciudades)
+      setCiudades(ciudades_ini)
       setCiudad(ciudad_ini)
       setZonas(zonas_ini)
       setZona(zona_ini)
-      setTexto(aux_text)
+      setTexto(text_ini)
       contadorRef.current = -1
     } catch (err) {
       console.error('Error en loadInit:', err.message)
@@ -273,7 +228,7 @@ export default function Busquedas() {
       aux += `/${texto_m.split(' ').join('-')}`
     }
 
-    return aux
+    return aux.toLowerCase()
   }
 
   const onScroll = async (e) => {

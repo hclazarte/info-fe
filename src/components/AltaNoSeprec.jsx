@@ -127,7 +127,6 @@ export default function AltaNoSeprec({ onClose }) {
       )
       setSuccess(true)
       setShowDialog(true)
-
     } catch (err) {
       setDialogMsg('Error de conexión.')
       setShowDialog(true)
