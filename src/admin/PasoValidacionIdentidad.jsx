@@ -73,12 +73,12 @@ const PasoValidacionIdentidad = ({
         </button>
       </div>
       {comercio?.documentos_validados === 1 && (
-        <p className='text-green-200 font-semibold text-center'>
+        <p className='text-inf_exi font-semibold text-center'>
           Registro Validado
         </p>
       )}{' '}
       {comercio?.documentos_validados !== 1 && (
-        <p className='text-red-400 font-semibold text-center'>{errorNegocio}</p>
+        <p className='text-inf_err font-semibold text-center'>{errorNegocio}</p>
       )}
     </div>
   )

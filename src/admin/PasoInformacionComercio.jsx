@@ -1,7 +1,7 @@
 // Este componente espera props: step, substep, tipoPlan, setTipoPlan, comercio, solicitud,
 // ciudades, zonas, handleAtras, handleSiguiente, comercioEditable, setComercioEditable
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Lock } from 'lucide-react'
 
 const PasoInformacionComercio = ({
@@ -33,6 +33,8 @@ const PasoInformacionComercio = ({
     }
   }, [comercio])
 
+  const [errores, setErrores] = useState({})
+
   if (!comercioEditable) {
     return (
       <p className='text-center text-sm text-gray-500'>
@@ -62,6 +64,23 @@ const PasoInformacionComercio = ({
     setComercioEditable((prev) => ({
       ...prev,
       [field]: value
+    }))
+  }
+
+  const handleInputWhatsApp = (e) => {
+    let valor = e.target.value.replace(/\D/g, '') // solo dígitos
+    setComercioEditable((prev) => ({ ...prev, telefono_whatsapp: `+${valor}` }))
+  }
+
+  const handleBlurWhatsApp = () => {
+    const valor = comercioEditable.telefono_whatsapp || ''
+    const regex = /^\+[1-9]\d{7,14}$/
+    const esValido = regex.test(valor)
+    setErrores((prev) => ({
+      ...prev,
+      whatsapp: esValido
+        ? null
+        : 'El número debe tener entre 8 y 15 dígitos incluyendo el código de país. Ej: 59171234567'
     }))
   }
 
@@ -257,10 +276,15 @@ const PasoInformacionComercio = ({
             </label>
             <input
               value={comercioEditable.telefono_whatsapp || ''}
-              onInput={handleNumeric('telefono_whatsapp')}
+              onInput={handleInputWhatsApp}
+              onBlur={handleBlurWhatsApp}
               className='w-full p-2 rounded bg-inf2 text-black focus:bg-white'
               disabled={campoSoloPago}
+              placeholder='59171234567'
             />
+            {errores.whatsapp && (
+              <p className='text-inf_err text-sm mt-1'>{errores.whatsapp}</p>
+            )}
           </div>
           <div>
             <label className='block text-sm'>

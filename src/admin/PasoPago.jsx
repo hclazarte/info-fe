@@ -69,12 +69,12 @@ const PasoPago = ({
         </button>
       </div>
       {pagoValidado && (
-        <p className='text-green-200 font-semibold text-center'>
+        <p className='text-inf_exi font-semibold text-center'>
           Registro Validado
         </p>
       )}{' '}
       {!pagoValidado && (
-        <p className='text-red-400 font-semibold text-center'>{errorNegocio}</p>
+        <p className='text-inf_err font-semibold text-center'>{errorNegocio}</p>
       )}
     </div>
   )

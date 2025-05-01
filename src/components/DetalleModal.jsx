@@ -139,7 +139,7 @@ export default function DetalleModal({ comercio, onClose }) {
                 href={`https://wa.me/${telefono_whatsapp}`}
                 target='_blank'
                 rel='noopener noreferrer'
-                className='text-green-600 underline font-medium'
+                className='text-inf_exi underline font-medium'
               >
                 Enviar mensaje por WhatsApp
               </a>

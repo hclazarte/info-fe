@@ -287,7 +287,7 @@ export default function ValidacionPropietario() {
 
   if (error) {
     return (
-      <div className='p-6 bg-red-100 text-red-700 rounded-xl max-w-xl mx-auto mt-10'>
+      <div className='p-6 bg-red-100 text-inf_err rounded-xl max-w-xl mx-auto mt-10'>
         <h2 className='text-xl font-bold mb-4'>Error en la solicitud</h2>
         <p>{error}</p>
       </div>
