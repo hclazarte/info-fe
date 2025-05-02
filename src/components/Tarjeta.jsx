@@ -16,7 +16,7 @@ const Tarjeta = ({ comercio, onClick }) => {
 
   return (
     <div onClick={onClick} className={`${tarjetaBase} ${fondo}`}>
-      <div className='px-6 py-4'>
+      <section className='px-6 py-4'>
         {/* Nombre de la Empresa */}
         <div className='font-bold text-xl mb-2 flex items-center gap-2'>
           {comercio.empresa}
@@ -50,7 +50,7 @@ const Tarjeta = ({ comercio, onClick }) => {
           {comercio.telefono2 ? `, ${comercio.telefono2}` : ''}
           {comercio.telefono_whatsapp ? `, ${comercio.telefono_whatsapp}` : ''}
         </p>
-      </div>
+      </section>
     </div>
   )
 }
