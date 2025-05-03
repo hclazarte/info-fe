@@ -119,45 +119,40 @@ export default function Busquedas() {
   }, [ciudad, zona, texto])
 
   const loadInit = async (m_path = path) => {
-    if (initLoadinRef.current) return
+    if (initLoadinRef.current) return;
+
     try {
-      initLoadinRef.current = true
+      initLoadinRef.current = true;
+      setLoading(true);
 
-      setLoading(true)
-
-      const { ok, data, error } = await obtenerCiudades()
-      if (!ok) {
-        throw new Error(error || 'Error al obtener ciudades')
-      }
-      const ciudades_ini = data
+      const { ok, data, error } = await obtenerObjetosInicio(m_path);
+      if (!ok) throw new Error(error || 'Error al obtener datos de inicio');
 
       const {
-        ok: ok_ini,
-        data: data_ini,
-        error: error_ini
-      } = await obtenerObjetosInicio(m_path)
-      if (!ok_ini) {
-        throw new Error(error_ini || 'Error al obtener objetos')
-      }
-      const { ciudad_ini, zonas_ini, zona_ini, text_ini } = data_ini
-      const build_path = linkBuilder(text_ini, ciudad_ini, zona_ini)
+        ciudades_ini,
+        ciudad_ini,
+        zonas_ini,
+        zona_ini,
+        text_ini
+      } = data;
 
-      window.history.replaceState({}, '', build_path)
+      const build_path = linkBuilder(text_ini, ciudad_ini, zona_ini);
+      window.history.replaceState({}, '', build_path);
 
-      setPath(build_path)
-      setCiudades(ciudades_ini)
-      setCiudad(ciudad_ini)
-      setZonas(zonas_ini)
-      setZona(zona_ini)
-      setTexto(text_ini)
-      contadorRef.current = -1
+      setPath(build_path);
+      setCiudades(ciudades_ini);
+      setCiudad(ciudad_ini);
+      setZonas(zonas_ini);
+      setZona(zona_ini);
+      setTexto(text_ini);
+      contadorRef.current = -1;
     } catch (err) {
-      console.error('Error en loadInit:', err.message)
+      console.error('Error en loadInit:', err.message);
     } finally {
-      setLoading(false)
-      initLoadinRef.current = false
+      setLoading(false);
+      initLoadinRef.current = false;
     }
-  }
+  };
 
   const loadSearch = async (
     n_grupo = null,
