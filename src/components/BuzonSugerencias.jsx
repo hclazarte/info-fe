@@ -99,6 +99,11 @@ export default function BuzonSugerencias({ onClose }) {
         <h2 className='text-2xl font-bold mb-6 text-center'>
           Buzón de Sugerencias
         </h2>
+        <p className='text-center mb-4 text-sm text-inf_adv'>
+          Este formulario envía su mensaje directamente al equipo de{' '}
+          <strong>Infomóvil</strong>. Si desea contactar a un comercio, use el
+          botón “Contactar comercio” en la ficha del negocio.
+        </p>
         <form onSubmit={handleSubmit} className='space-y-4'>
           <div>
             <label className='block mb-1'>Nombre:</label>

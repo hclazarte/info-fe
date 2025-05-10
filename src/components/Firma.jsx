@@ -1,10 +1,10 @@
-import FirmaSvg from '../assets/Firma.svg?react';
+import FirmaSvg from '../assets/Firma.svg?react'
 export default function Firma() {
   return (
     <div className='mb-4'>
       <img
         src={FirmaSvg}
-        alt="Correo"
+        alt='Correo'
         style={{
           width: '80%',
           maxWidth: '400px', // opcional, limita el tamaño si deseas
