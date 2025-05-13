@@ -98,13 +98,11 @@ export default function Busquedas() {
   // Intervalo de tiempo
   useEffect(() => {
     const interval = setInterval(async () => {
-      // console.log(`${loadingRef.current}-->${contadorRef.current}`)
       if (contadorRef.current === 0) {
         let build_path = linkBuilder()
         if (build_path !== null && !loadingRef.current) {
           loadingRef.current = true
           setLoading(true)
-          await setComercios({ results: [] })
           await loadSearch(0).then(() => {
             loadingRef.current = false
             setLoading(false)
