@@ -5,6 +5,7 @@ test('Verificación de la ciudad por defecto, sin zonas en la página principal'
 }) => {
   await page.goto('/tarija/el-molino')
   await expect(page).toHaveURL('/bolivia/tarija/el-molino')
+  await page.waitForResponse('**/api/comercios/lista?**')
   const etiquetaBusqueda = page.locator('[data-testid="etiqueta-busqueda"]')
   const rawText = await etiquetaBusqueda.innerText()
   const match = rawText.match(/\((\d+)\)/)
