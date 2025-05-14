@@ -1,0 +1,49 @@
+name: e2e
+
+on:
+  pull_request:         # pruebas en cada PR
+    branches: [ main, develop ]
+  push:                 # y en los commits directos a main
+    branches: [ main ]
+
+jobs:
+  playwright:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        env:
+          - name: dev
+            url: https://dev.infomovil.com.bo
+          - name: prod
+            url: https://infomovil.com.bo
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      # Ejecuta el script adecuado según el entorno del matrix
+      - name: Run E2E tests (${{ matrix.env.name }})
+        env:
+          BASE_URL: ${{ matrix.env.url }}
+        run: npm run test:${{ matrix.env.name }}
+
+      # Publica el reporte HTML (opcional)
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-${{ matrix.env.name }}
+          path: playwright-report
+          retention-days: 7
