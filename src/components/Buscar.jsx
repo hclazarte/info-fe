@@ -42,8 +42,10 @@ export default function Buscar({
   const handlePaste = () => {}
 
   return (
-    <div className='relative flex flex-col gap-1 mb-4'
-      data-testid='buscar-control'>
+    <div
+      className='relative flex flex-col gap-1 mb-4'
+      data-testid='buscar-control'
+    >
       <div className='flex items-center gap-2'>
         <input
           ref={inputRef}

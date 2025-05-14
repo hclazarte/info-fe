@@ -310,8 +310,10 @@ export default function Busquedas() {
           <div className='opacity-90 grid grid-cols-1'>
             <div className='controlesMobile bg-inf4'>
               {!filtrosAbiertos && (
-                <div className='absolute top-[72px] left-6 text-white text-xs'
-                  data-testid='etiqueta-busqueda'>
+                <div
+                  className='absolute top-[72px] left-6 text-white text-xs'
+                  data-testid='etiqueta-busqueda'
+                >
                   {hayCiudad
                     ? hayZona
                       ? `${ciudad.ciudad} - ${zona.descripcion}`
@@ -409,8 +411,10 @@ export default function Busquedas() {
           <div className='flex h-screen'>
             {/* Controles Desktop */} //TODO
             <div className='w-[326px] bg-inf4 p-4 overflow-y-auto controlesDesktop'>
-              <div className='absolute top-[72px] left-6 text-white text-xs'
-                data-testid='etiqueta-busqueda'>
+              <div
+                className='absolute top-[72px] left-6 text-white text-xs'
+                data-testid='etiqueta-busqueda'
+              >
                 {hayCiudad
                   ? hayZona
                     ? `${ciudad.ciudad} - ${zona.descripcion}`

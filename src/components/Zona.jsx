@@ -53,8 +53,7 @@ export default function Zona({
   }
 
   return (
-    <div className='w-full'
-      data-testid='zona-control'>
+    <div className='w-full' data-testid='zona-control'>
       <div className='flex items-center border border-gray-300 rounded-xl px-3 py-2 bg-white'>
         <input
           ref={inputRef}
@@ -67,8 +66,9 @@ export default function Zona({
         />
         <button
           onClick={handleBorrar}
-          className={`text-4xl mr-3 text-inf7 hover:text-gray-800 px-2 ${zona?.descripcion ? 'visible' : 'invisible'
-            }`}
+          className={`text-4xl mr-3 text-inf7 hover:text-gray-800 px-2 ${
+            zona?.descripcion ? 'visible' : 'invisible'
+          }`}
           title='Borrar'
           data-testid='zona-erase-button'
         >
@@ -83,8 +83,10 @@ export default function Zona({
         </button>
       </div>
       {mostrarZonas && zonas?.length > 0 && (
-        <ul className='area-lista bg-white border border-gray-300 mt-1 w-full shadow max-h-60 overflow-y-auto'
-          data-testid='zona-ul'>
+        <ul
+          className='area-lista bg-white border border-gray-300 mt-1 w-full shadow max-h-60 overflow-y-auto'
+          data-testid='zona-ul'
+        >
           {zonas
             .filter(
               (z) =>
