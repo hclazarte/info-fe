@@ -15,10 +15,14 @@ const Tarjeta = ({ comercio, onClick }) => {
     : 'bg-white'
 
   return (
-    <section onClick={onClick} className={`${tarjetaBase} ${fondo}`}>
+    <section 
+      onClick={onClick} 
+      className={`${tarjetaBase} ${fondo}`}
+      data-testclass='tarjeta-control'>
       <div className='px-6 py-4'>
         {/* Nombre de la Empresa */}
-        <div className='font-bold text-xl mb-2 flex items-center gap-2'>
+        <div className='font-bold text-xl mb-2 flex items-center gap-2'
+          data-testclass='tarjeta-title'>
           {comercio.empresa}
           {comercio.autorizado === 1 && (
             <FaCheckCircle

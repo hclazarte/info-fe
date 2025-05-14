@@ -310,7 +310,8 @@ export default function Busquedas() {
           <div className='opacity-90 grid grid-cols-1'>
             <div className='controlesMobile bg-inf4'>
               {!filtrosAbiertos && (
-                <div className='absolute top-[72px] left-6 text-white text-xs'>
+                <div className='absolute top-[72px] left-6 text-white text-xs'
+                  data-testid='etiqueta-busqueda'>
                   {hayCiudad
                     ? hayZona
                       ? `${ciudad.ciudad} - ${zona.descripcion}`
@@ -408,7 +409,8 @@ export default function Busquedas() {
           <div className='flex h-screen'>
             {/* Controles Desktop */} //TODO
             <div className='w-[326px] bg-inf4 p-4 overflow-y-auto controlesDesktop'>
-              <div className='absolute top-[72px] left-6 text-white text-xs'>
+              <div className='absolute top-[72px] left-6 text-white text-xs'
+                data-testid='etiqueta-busqueda'>
                 {hayCiudad
                   ? hayZona
                     ? `${ciudad.ciudad} - ${zona.descripcion}`
@@ -458,6 +460,7 @@ export default function Busquedas() {
             <div
               className='flex-1 bg-inf3 p-4 overflow-y-auto resultadosDesktop'
               onScroll={onScroll}
+              data-testid='resultados-div'
             >
               <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
                 {comercios.results.map((comercio, i) => (

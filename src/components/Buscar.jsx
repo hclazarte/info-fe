@@ -42,7 +42,8 @@ export default function Buscar({
   const handlePaste = () => {}
 
   return (
-    <div className='relative flex flex-col gap-1 mb-4'>
+    <div className='relative flex flex-col gap-1 mb-4'
+      data-testid='buscar-control'>
       <div className='flex items-center gap-2'>
         <input
           ref={inputRef}
@@ -53,18 +54,21 @@ export default function Buscar({
           onChange={handleChange}
           onKeyDown={handleKeyDown}
           onPaste={handlePaste}
+          data-testid='buscar-input'
         />
         <button
           onClick={handleClear}
           className={`px-4 py-2 text-white bg-inf8 hover:bg-inf8 rounded-xl text-2xl ${
             texto ? 'visible' : 'invisible'
           }`}
+          data-testid='buscar-erase-button'
         >
           X
         </button>
         <button
           onClick={handleOpenClose}
           className='px-3 py-2 bg-inf8 hover:bg-inf8 text-white rounded-xl text-3xl md:hidden'
+          data-testid='buscar-pulldown-button'
         >
           {filtrosAbiertos ? '▲' : '☰'}
         </button>

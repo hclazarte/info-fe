@@ -57,7 +57,8 @@ export default function Ciudad({
   }
 
   return (
-    <div className='w-full'>
+    <div className='w-full'
+      data-testid='ciudad-control'>
       <div className='flex items-center border border-gray-300 rounded-xl px-3 py-2 bg-white'>
         <input
           ref={inputRef}
@@ -66,31 +67,35 @@ export default function Ciudad({
           onChange={handleChange}
           placeholder='Ciudad'
           className='flex-1 focus:outline-none'
+          data-testid='ciudad-input'
         />
         <button
           onClick={handleBorrar}
-          className={`text-4xl mr-3 text-inf7 hover:text-gray-800 px-2 ${
-            ciudad?.ciudad ? 'visible' : 'invisible'
-          }`}
+          className={`text-4xl mr-3 text-inf7 hover:text-gray-800 px-2 ${ciudad?.ciudad ? 'visible' : 'invisible'
+            }`}
           title='Borrar'
+          data-testid='ciudad-erase-button'
         >
           ✕
         </button>
         <button
           onClick={handlePullUpDown}
           className='py-0 px-0 text-inf4 ml-2 text-4xl'
+          data-testid='ciudad-pulldown-button'
         >
           {mostrarCiudades ? '▲' : '▼'}
         </button>
       </div>
 
       {mostrarCiudades && ciudadesFiltradas.length > 0 && (
-        <ul className='area-lista bg-white border border-gray-300 mt-1 w-full shadow max-h-60 overflow-y-auto'>
+        <ul className='area-lista bg-white border border-gray-300 mt-1 w-full shadow max-h-60 overflow-y-auto'
+          data-testid='ciudad-ul'>
           {ciudadesFiltradas.map((c) => (
             <li
               key={c.id}
               className='px-3 py-2 hover:bg-inf2 cursor-pointer'
               onMouseDown={() => handleSeleccionCiudad(c)}
+              data-testclass='ciudad-li'
             >
               {c.ciudad}
             </li>
