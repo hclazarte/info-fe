@@ -4,6 +4,7 @@ test('Verificación que la búsqueda se recargue al cambiar ciudades', async ({
   page
 }) => {
   await page.goto('/')
+  await page.waitForResponse('**/api/comercios/lista?**')
   await page.locator('[data-testid="ciudad-pulldown-button"]').click()
   const ciudades = await page.locator('[data-testclass="ciudad-li"]')
   const primera = ciudades.nth(0)
