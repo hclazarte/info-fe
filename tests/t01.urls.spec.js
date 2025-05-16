@@ -7,12 +7,12 @@ test('Verificación de la ciudad por defecto, sin zonas en la página principal'
 }) => {
   await gotoAndWait(page, '/')
   await expect(page).toHaveTitle(/Infomóvil/)
-  await expect(page).toHaveURL('/bolivia/la-paz')
   await expect(page.locator('[data-testid="buscar-input"]')).toHaveValue('')
   await expect(page.locator('[data-testid="ciudad-input"]')).toHaveValue(
     /la paz/i
   )
   await expect(page.locator('[data-testid="zona-input"]')).toHaveValue('')
+  await expect(page).toHaveURL('/bolivia/la-paz')
 })
 
 test('Verificación de ciudad que no tiene zonas en la URL de una ciudad específica', async ({
@@ -20,12 +20,12 @@ test('Verificación de ciudad que no tiene zonas en la URL de una ciudad especí
 }) => {
   await gotoAndWait(page, '/Bolivia/La-Guardia')
 
-  await expect(page).toHaveURL('bolivia/la-guardia')
   await expect(page.locator('[data-testid="buscar-input"]')).toHaveValue('')
   await expect(page.locator('[data-testid="ciudad-input"]')).toHaveValue(
     /la guardia/i
   )
   await expect(page.locator('[data-testid="zona-input"]')).not.toBeVisible()
+  await expect(page).toHaveURL('bolivia/la-guardia')
 })
 
 test('Verificación sin pais, sin ciudad y texto "transporte"', async ({
@@ -33,12 +33,12 @@ test('Verificación sin pais, sin ciudad y texto "transporte"', async ({
 }) => {
   await gotoAndWait(page, '/transporte')
 
-  await expect(page).toHaveURL('bolivia/transporte')
   await expect(page.locator('[data-testid="buscar-input"]')).toHaveValue(
     /transporte/i
   )
   await expect(page.locator('[data-testid="ciudad-input"]')).toHaveValue('')
   await expect(page.locator('[data-testid="zona-input"]')).not.toBeVisible()
+  await expect(page).toHaveURL('bolivia/transporte')
 })
 
 test('Verificación con bolivia, sin ciudad y texto "baritina"', async ({
@@ -46,29 +46,28 @@ test('Verificación con bolivia, sin ciudad y texto "baritina"', async ({
 }) => {
   await gotoAndWait(page, '/bolivia/Baritina')
 
-  await expect(page).toHaveURL('bolivia/baritina')
   await expect(page.locator('[data-testid="buscar-input"]')).toHaveValue(
     'baritina'
   )
   await expect(page.locator('[data-testid="ciudad-input"]')).toHaveValue('')
   await expect(page.locator('[data-testid="zona-input"]')).not.toBeVisible()
+  await expect(page).toHaveURL('bolivia/baritina')
 })
 
 test('Verificación con pais y ciudad', async ({ page }) => {
   await gotoAndWait(page, '/Bolivia/La Paz')
 
-  await expect(page).toHaveURL('bolivia/la-paz')
   await expect(page.locator('[data-testid="buscar-input"]')).toHaveValue('')
   await expect(page.locator('[data-testid="ciudad-input"]')).toHaveValue(
     /la paz/i
   )
   await expect(page.locator('[data-testid="zona-input"]')).toHaveValue('')
+  await expect(page).toHaveURL('bolivia/la-paz')
 })
 
 test('Verificación con pais, ciudad y texto', async ({ page }) => {
   await gotoAndWait(page, '/Bolivia/La-Paz/mercancias')
 
-  await expect(page).toHaveURL('bolivia/la-paz/mercancias')
   await expect(page.locator('[data-testid="buscar-input"]')).toHaveValue(
     'mercancias'
   )
@@ -76,12 +75,12 @@ test('Verificación con pais, ciudad y texto', async ({ page }) => {
     /la paz/i
   )
   await expect(page.locator('[data-testid="zona-input"]')).toHaveValue('')
+  await expect(page).toHaveURL('bolivia/la-paz/mercancias')
 })
 
 test('Verificación con pais, ciudad y zona', async ({ page }) => {
   await gotoAndWait(page, '/Bolivia/La-Paz/Achumani')
 
-  await expect(page).toHaveURL('bolivia/la-paz/achumani')
   await expect(page.locator('[data-testid="buscar-input"]')).toHaveValue('')
   await expect(page.locator('[data-testid="ciudad-input"]')).toHaveValue(
     /la paz/i
@@ -89,4 +88,5 @@ test('Verificación con pais, ciudad y zona', async ({ page }) => {
   await expect(page.locator('[data-testid="zona-input"]')).toHaveValue(
     /achumani/i
   )
+  await expect(page).toHaveURL('bolivia/la-paz/achumani')
 })
