@@ -1,10 +1,14 @@
 import { test, expect } from '@playwright/test'
+import { gotoAndWait } from './utils'
 
 test('Verificación que la búsqueda se recargue al cambiar ciudades', async ({
   page
 }) => {
-  await page.goto('/')
-  await page.waitForResponse('**/api/comercios/lista?**')
+  const responsePromise = page.waitForResponse(
+    (r) => r.url().includes('/api/comercios/lista') && r.status() === 200
+  )
+  await gotoAndWait(page, '/')
+  await responsePromise
   await page.locator('[data-testid="ciudad-pulldown-button"]').click()
   const ciudades = await page.locator('[data-testclass="ciudad-li"]')
   const primera = ciudades.nth(0)

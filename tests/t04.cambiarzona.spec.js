@@ -1,9 +1,10 @@
 import { test, expect } from '@playwright/test'
+import { gotoAndWait } from './utils'
 
 test('Verificación que la búsqueda se recargue al cambiar zonas', async ({
   page
 }) => {
-  await page.goto('/oruro')
+  await gotoAndWait(page, '/oruro')
   await expect(page).toHaveURL('/bolivia/oruro')
   await page.locator('[data-testid="zona-pulldown-button"]').click()
   const zonas = await page.locator('[data-testclass="zona-li"]')

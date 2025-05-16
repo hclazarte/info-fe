@@ -1,10 +1,11 @@
 // @ts-check
 import { test, expect } from '@playwright/test'
+import { gotoAndWait } from './utils'
 
 test('Verificación de la ciudad por defecto, sin zonas en la página principal', async ({
   page
 }) => {
-  await page.goto('/')
+  await gotoAndWait(page, '/')
   await expect(page).toHaveTitle(/Infomóvil/)
   await expect(page).toHaveURL('/bolivia/la-paz')
   await expect(page.locator('[data-testid="buscar-input"]')).toHaveValue('')
@@ -17,7 +18,7 @@ test('Verificación de la ciudad por defecto, sin zonas en la página principal'
 test('Verificación de ciudad que no tiene zonas en la URL de una ciudad específica', async ({
   page
 }) => {
-  await page.goto('/Bolivia/La-Guardia')
+  await gotoAndWait(page, '/Bolivia/La-Guardia')
 
   await expect(page).toHaveURL('bolivia/la-guardia')
   await expect(page.locator('[data-testid="buscar-input"]')).toHaveValue('')
@@ -30,7 +31,7 @@ test('Verificación de ciudad que no tiene zonas en la URL de una ciudad especí
 test('Verificación sin pais, sin ciudad y texto "transporte"', async ({
   page
 }) => {
-  await page.goto('/transporte')
+  await gotoAndWait(page, '/transporte')
 
   await expect(page).toHaveURL('bolivia/transporte')
   await expect(page.locator('[data-testid="buscar-input"]')).toHaveValue(
@@ -43,7 +44,7 @@ test('Verificación sin pais, sin ciudad y texto "transporte"', async ({
 test('Verificación con bolivia, sin ciudad y texto "baritina"', async ({
   page
 }) => {
-  await page.goto('/bolivia/Baritina')
+  await gotoAndWait(page, '/bolivia/Baritina')
 
   await expect(page).toHaveURL('bolivia/baritina')
   await expect(page.locator('[data-testid="buscar-input"]')).toHaveValue(
@@ -54,7 +55,7 @@ test('Verificación con bolivia, sin ciudad y texto "baritina"', async ({
 })
 
 test('Verificación con pais y ciudad', async ({ page }) => {
-  await page.goto('/Bolivia/La Paz')
+  await gotoAndWait(page, '/Bolivia/La Paz')
 
   await expect(page).toHaveURL('bolivia/la-paz')
   await expect(page.locator('[data-testid="buscar-input"]')).toHaveValue('')
@@ -65,7 +66,7 @@ test('Verificación con pais y ciudad', async ({ page }) => {
 })
 
 test('Verificación con pais, ciudad y texto', async ({ page }) => {
-  await page.goto('/Bolivia/La-Paz/mercancias')
+  await gotoAndWait(page, '/Bolivia/La-Paz/mercancias')
 
   await expect(page).toHaveURL('bolivia/la-paz/mercancias')
   await expect(page.locator('[data-testid="buscar-input"]')).toHaveValue(
@@ -78,7 +79,7 @@ test('Verificación con pais, ciudad y texto', async ({ page }) => {
 })
 
 test('Verificación con pais, ciudad y zona', async ({ page }) => {
-  await page.goto('/Bolivia/La-Paz/Achumani')
+  await gotoAndWait(page, '/Bolivia/La-Paz/Achumani')
 
   await expect(page).toHaveURL('bolivia/la-paz/achumani')
   await expect(page.locator('[data-testid="buscar-input"]')).toHaveValue('')

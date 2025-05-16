@@ -2,10 +2,10 @@ name: e2e
 
 on:
   workflow_dispatch:
-  pull_request:         # pruebas en cada PR
-    branches: [ master ]
-  push:                 # y en los commits directos a main
-    branches: [ master ]
+  pull_request: # pruebas en cada PR
+    branches: [master]
+  push: # y en los commits directos a main
+    branches: [master]
 
 jobs:
   playwright:

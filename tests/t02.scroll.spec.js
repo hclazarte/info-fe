@@ -1,16 +1,13 @@
 import { test, expect, errors } from '@playwright/test'
+import { gotoAndWait, searchCount } from './utils'
 
 test('Verificación de la ciudad por defecto, sin zonas en la página principal', async ({
   page
 }) => {
-  await page.goto('/tarija/el-molino')
+  await gotoAndWait(page, '/tarija/el-molino')
   await expect(page).toHaveURL('/bolivia/tarija/el-molino')
-  await page.waitForResponse('**/api/comercios/lista?**')
-  const etiquetaBusqueda = page.locator('[data-testid="etiqueta-busqueda"]')
-  const rawText = await etiquetaBusqueda.innerText()
-  const match = rawText.match(/\((\d+)\)/)
-  if (!match) throw new Error('Formato inesperado')
-  const cantidad = parseInt(match[1], 10)
+
+  const cantidad = await searchCount(page)
   await expect(cantidad).toBeGreaterThan(0)
 
   const resultados = page.locator('[data-testid="resultados-div"]')

@@ -7,13 +7,32 @@
 
 ---
 
+# Tests End‑to‑End (Playwright) – guía rápida
+
+## Comandos
+
+````bash
+# Local (localhost:5173)
+npm run test:local          # headless
+npm run test:open:local     # modo UI interactiva
+
+# Desarrollo (https://dev.infomovil.com.bo)
+npm run test:dev
+npm run test:open:dev
+
+# Producción (https://infomovil.com.bo)
+npm run test:prod
+npm run test:open:prod
+
+---
+
 ## 🔄 Despliegue
 
 Para hacer deploy, primero conéctate al servidor:
 
 ```sh
 ssh <nombre_de_usuario>@linx.infomovil.com.bo
-```
+````
 
 Luego ejecuta el siguiente comando según el entorno:
 
@@ -43,11 +62,5 @@ Si el dominio ya está configurado, la aplicación estará accesible en `https:/
 El backend de Infomóvil está desarrollado en **Ruby on Rails**. Puedes encontrar el código fuente e instrucciones de instalación en el siguiente repositorio:
 
 🔗 [Repositorio del backend](https://github.com/hclazarte/info_be)
-
----
-
-## 📞 Contacto y soporte
-
-Si tienes preguntas o problemas con la aplicación, puedes contactarnos en: 📧 [**soporte@infomovil.com.bo**](mailto:soporte@infomovil.com.bo)\
 
 ---

@@ -57,6 +57,8 @@ export default function Busquedas() {
   const pathRef = useRef('')
   const lastPathRef = useRef(null)
   const abortControllerRef = useRef(null)
+  const desktopRef = useRef(null)
+  const mobileRef = useRef(null)
   // Constantes
   const render_offset = 250
 
@@ -187,7 +189,13 @@ export default function Busquedas() {
       lastPathRef.current = n_path
 
       if (gr_aux === 1) {
+        // 1) Reemplazamos la lista
         setComercios(obj)
+
+        // 2) Creamos un array con los dos refs y hacemos scrollTop=0
+        ;[desktopRef.current, mobileRef.current].forEach((el) => {
+          if (el) el.scrollTop = 0
+        })
       } else {
         setComercios((prevState) => ({
           ...prevState,
@@ -371,7 +379,11 @@ export default function Busquedas() {
                 </div>
               </div>
             </div>
-            <div className='resultadosMobile' onScroll={onScroll}>
+            <div
+              className='resultadosMobile'
+              onScroll={onScroll}
+              ref={mobileRef}
+            >
               {/* Resultados */}
               <div className='pt-4 pb-28 px-4 grid grid-cols-1 sm:grid-cols-2 gap-4'>
                 {comercios.results.map((comercio, i) => (
@@ -465,6 +477,7 @@ export default function Busquedas() {
               className='flex-1 bg-inf3 p-4 overflow-y-auto resultadosDesktop'
               onScroll={onScroll}
               data-testid='resultados-div'
+              ref={desktopRef}
             >
               <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
                 {comercios.results.map((comercio, i) => (

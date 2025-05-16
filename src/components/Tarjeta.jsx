@@ -42,7 +42,10 @@ const Tarjeta = ({ comercio, onClick }) => {
         </div>
 
         {/* Descripción de Servicios */}
-        <p className='text-gray-700 text-base'>
+        <p
+          className='text-gray-700 text-base'
+          data-testclass='tarjeta-servicios'
+        >
           {truncarTexto(comercio.servicios)}
         </p>
 
