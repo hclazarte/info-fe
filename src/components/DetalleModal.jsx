@@ -41,7 +41,7 @@ export default function DetalleModal({ comercio, onClose }) {
         try {
           await enviarSolicitud({
             email,
-            id_comercio: id,
+            comercio_id: id,
             recaptcha_token: token
           })
           setMensaje(

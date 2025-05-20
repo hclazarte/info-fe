@@ -11,13 +11,13 @@ export const obtenerSolicitudToken = async (otp_token) => {
 
 export const enviarSolicitud = async ({
   email,
-  id_comercio,
+  comercio_id,
   recaptcha_token
 }) => {
   return apiRequest(() =>
     axios.post(
       `${window.infoConfig.apiUrl}/solicitudes?recaptcha_token=${recaptcha_token}`,
-      { email, id_comercio }
+      { email, comercio_id }
     )
   )
 }

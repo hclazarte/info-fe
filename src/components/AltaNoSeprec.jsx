@@ -91,7 +91,7 @@ export default function AltaNoSeprec({ onClose }) {
         // Comercio existente → enviar solicitud
         const { ok, error } = await enviarSolicitud({
           email: emailBusqueda,
-          id_comercio: formData.id, // id debe estar en el formData también
+          comercio_id: formData.id, // id debe estar en el formData también
           token
         })
 
