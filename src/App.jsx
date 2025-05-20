@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Busquedas from './components/Busquedas'
 import ValidacionPropietario from './admin/ValidacionPropietario'
+import Unsubscribe from './admin/Unsubscribe'
 import SpinnerCom from './components/common/SpinnerCom'
 
 function App() {
@@ -34,6 +35,10 @@ function App() {
       <Route
         path='/app/registro-comercio'
         element={<ValidacionPropietario />}
+      />
+      <Route
+        path='/app/cancelar-suscripcion'
+        element={<Unsubscribe />}
       />
       <Route path='/*' element={<Busquedas />} />
     </Routes>
