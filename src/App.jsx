@@ -36,10 +36,7 @@ function App() {
         path='/app/registro-comercio'
         element={<ValidacionPropietario />}
       />
-      <Route
-        path='/app/cancelar-suscripcion'
-        element={<Unsubscribe />}
-      />
+      <Route path='/app/cancelar-suscripcion' element={<Unsubscribe />} />
       <Route path='/*' element={<Busquedas />} />
     </Routes>
   )
