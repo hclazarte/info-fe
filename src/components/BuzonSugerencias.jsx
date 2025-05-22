@@ -16,7 +16,7 @@ export default function BuzonSugerencias({ onClose }) {
   const [showDialog, setShowDialog] = useState(false)
   const [showSpinner, setShowSpinner] = useState(false)
   const dialogMsgRef = useRef('')
-  const sendingMsgRef = useRef(false) // Para bloquear cuando está enviando msg
+  const sendingMsgRef = useRef(false)
   const successRef = useRef(false)
 
   const handleChange = (e) => {

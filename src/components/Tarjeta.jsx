@@ -1,5 +1,6 @@
 import React from 'react'
 import { FaWhatsapp, FaCheckCircle } from 'react-icons/fa'
+import { MdMarkEmailRead } from 'react-icons/md'
 
 const truncarTexto = (texto, longitudMaxima = 80) => {
   if (!texto) return ''
@@ -39,8 +40,13 @@ const Tarjeta = ({ comercio, onClick }) => {
               title='Contacto por WhatsApp'
             />
           )}
+          {comercio.email_verificado && (
+            <MdMarkEmailRead
+              className='text-inf4 w-5 h-5'
+              title='Contacto por Email'
+            />
+          )}
         </div>
-
         {/* Descripción de Servicios */}
         <p
           className='text-gray-700 text-base'

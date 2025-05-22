@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
 import { enviarSolicitud } from '../services/solicitudesService'
+import { enviarCorreoUsuario } from '../services/correosUsuariosService'
 import AcceptDialog from './common/AcceptDialog'
 import SpinnerCom from '../components/common/SpinnerCom'
 import { FaWhatsapp, FaCheckCircle } from 'react-icons/fa'
+import IconoCorreo from '../assets/CorreoUsuario.svg?react'
+import FormularioCorreo from './FormularioCorreo'
 
 export default function DetalleModal({ comercio, onClose }) {
   const [email, setEmail] = useState('')
@@ -10,6 +13,7 @@ export default function DetalleModal({ comercio, onClose }) {
   const [enviando, setEnviando] = useState(false)
   const [mostrarDialogo, setMostrarDialogo] = useState(false)
   const [spinner, setSpinner] = useState(false)
+  const [mostrarFormularioCorreo, setMostrarFormularioCorreo] = useState(false)
 
   if (!comercio) return null
 
@@ -22,7 +26,8 @@ export default function DetalleModal({ comercio, onClose }) {
     telefono2,
     telefono_whatsapp,
     id,
-    autorizado
+    autorizado,
+    email_verificado
   } = comercio
 
   const telefonos = [telefono1, telefono2].filter(Boolean)
@@ -130,7 +135,6 @@ export default function DetalleModal({ comercio, onClose }) {
               </ul>
             </div>
           )}
-
           {/* WhatsApp si autorizado */}
           {autorizado === 1 && telefono_whatsapp && (
             <div className='mb-4 flex items-center gap-2'>
@@ -145,7 +149,30 @@ export default function DetalleModal({ comercio, onClose }) {
               </a>
             </div>
           )}
-
+          {email_verificado && (
+            <div
+              style={{
+                display: 'inline-flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                fontSize: '0.7rem',
+                lineHeight: 1,
+                gap: '1px',
+                cursor: 'pointer'
+              }}
+              onClick={() => setMostrarFormularioCorreo((prev) => !prev)}
+            >
+              <img src={IconoCorreo} alt='Correo' width={80} height={80} />
+              <strong style={{ marginTop: '1px' }}>Enviar correo</strong>
+            </div>
+          )}
+          {mostrarFormularioCorreo && (
+            <FormularioCorreo
+              comercioId={id}
+              nombreComercio={empresa}
+              onEnviado={() => setMostrarFormularioCorreo(false)}
+            />
+          )}
           {/* Reclamar comercio solo si NO está autorizado */}
           {!autorizado && (
             <div className='mt-6 border-t pt-4'>
