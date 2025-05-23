@@ -1,6 +1,6 @@
-import React from 'react'
 import { FaWhatsapp, FaCheckCircle } from 'react-icons/fa'
-import { MdMarkEmailRead } from 'react-icons/md'
+import { MdMarkEmailRead, MdEmail } from 'react-icons/md'
+import { LuMapPinCheckInside, LuMapPin } from 'react-icons/lu'
 
 const truncarTexto = (texto, longitudMaxima = 80) => {
   if (!texto) return ''
@@ -14,6 +14,10 @@ const Tarjeta = ({ comercio, onClick }) => {
   const fondo = comercio.autorizado
     ? 'bg-yellow-50 border border-yellow-300'
     : 'bg-white'
+
+  const tieneMapa = comercio.latitud !== null && comercio.longitud !== null
+  const tieneWhatsApp = !!comercio.telefono_whatsapp
+  const tieneCorreo = !!comercio.email_verificado
 
   return (
     <section
@@ -34,19 +38,8 @@ const Tarjeta = ({ comercio, onClick }) => {
               title='Comercio validado'
             />
           )}
-          {comercio.telefono_whatsapp && (
-            <FaWhatsapp
-              className='text-green-500 w-5 h-5'
-              title='Contacto por WhatsApp'
-            />
-          )}
-          {comercio.email_verificado && (
-            <MdMarkEmailRead
-              className='text-inf4 w-5 h-5'
-              title='Contacto por Email'
-            />
-          )}
         </div>
+
         {/* Descripción de Servicios */}
         <p
           className='text-gray-700 text-base'
@@ -66,6 +59,45 @@ const Tarjeta = ({ comercio, onClick }) => {
           {comercio.telefono2 ? `, ${comercio.telefono2}` : ''}
           {comercio.telefono_whatsapp ? `, ${comercio.telefono_whatsapp}` : ''}
         </p>
+      </div>
+
+      {/* Íconos de contacto */}
+      <div className='flex justify-around items-center py-2 border-t border-gray-200'>
+        {tieneCorreo ? (
+          <MdMarkEmailRead
+            className='text-inf4 w-8 h-8'
+            title='Email disponible'
+          />
+        ) : (
+          <MdEmail
+            className='text-gray-400 w-8 h-8'
+            title='Email no disponible'
+          />
+        )}
+
+        {tieneMapa ? (
+          <LuMapPinCheckInside
+            className='text-inf4 w-8 h-8'
+            title='Ubicación disponible'
+          />
+        ) : (
+          <LuMapPin
+            className='text-gray-400 w-8 h-8'
+            title='Ubicación no disponible'
+          />
+        )}
+
+        {tieneWhatsApp ? (
+          <FaWhatsapp
+            className='text-green-500 w-8 h-8'
+            title='WhatsApp disponible'
+          />
+        ) : (
+          <FaWhatsapp
+            className='text-gray-400 w-8 h-8'
+            title='WhatsApp no disponible'
+          />
+        )}
       </div>
     </section>
   )
