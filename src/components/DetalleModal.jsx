@@ -29,46 +29,6 @@ export default function DetalleModal({ comercio, onClose }) {
 
   const telefonos = [telefono1, telefono2].filter(Boolean)
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault()
-  //   setEnviando(true)
-  //   setSpinner(true)
-  //   try {
-  //     grecaptcha.enterprise.ready(async () => {
-  //       const token = await grecaptcha.enterprise.execute(
-  //         '6Ldln-oqAAAAACslpXN9rUqQr2Bn7qXybNqY0o-i',
-  //         { action: 'enviar_solicitud' }
-  //       )
-
-  //       try {
-  //         await enviarSolicitud({
-  //           email,
-  //           comercio_id: id,
-  //           recaptcha_token: token
-  //         })
-  //         setMensaje(
-  //           'Se ha enviado un mensaje a su correo.\n\nSi es la primera vez que solicita, revise su bandeja de correo no deseado y apruébelo.\n\n¡Muchas gracias!'
-  //         )
-  //       } catch (error) {
-  //         console.error('Error al enviar solicitud:', error)
-  //         setMensaje(
-  //           'Hubo un error al enviar la solicitud. Intente nuevamente.'
-  //         )
-  //       } finally {
-  //         setMostrarDialogo(true)
-  //         setEnviando(false)
-  //       }
-  //     })
-  //   } catch (error) {
-  //     console.error('Error al ejecutar reCAPTCHA:', error)
-  //     setMensaje('No se pudo validar el reCAPTCHA. Intente nuevamente.')
-  //     setMostrarDialogo(true)
-  //     setEnviando(false)
-  //   } finally {
-  //     setSpinner(false)
-  //   }
-  // }
-
   return (
     <>
       {spinner && <SpinnerCom />}
