@@ -1,6 +1,6 @@
 import IconoCorreo from '../assets/Correo.svg?react'
 
-export default function EnviarMensaje({ onClick }) {
+export default function IconoBuzon({ onClick }) {
   return (
     <button
       onClick={onClick}
