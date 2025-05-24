@@ -1,4 +1,4 @@
-import { FaWhatsapp, FaCheckCircle } from 'react-icons/fa'
+import { FaWhatsapp, FaStar } from 'react-icons/fa'
 import { MdMarkEmailRead, MdEmail } from 'react-icons/md'
 import { LuMapPinCheckInside, LuMapPin } from 'react-icons/lu'
 
@@ -25,19 +25,20 @@ const Tarjeta = ({ comercio, onClick }) => {
       className={`${tarjetaBase} ${fondo}`}
       data-testclass='tarjeta-control'
     >
+      {/* Estrella solo si autorizado */}
+      {comercio.autorizado === 1 && (
+        <div className='absolute top-2 right-2'>
+          <FaStar
+            className='text-yellow-400 w-5 h-5'
+            title='Comercio destacado'
+          />
+        </div>
+      )}
+
       <div className='px-6 py-4'>
         {/* Nombre de la Empresa */}
-        <div
-          className='font-bold text-xl mb-2 flex items-center gap-2'
-          data-testclass='tarjeta-title'
-        >
+        <div className='font-bold text-xl mb-2' data-testclass='tarjeta-title'>
           {comercio.empresa}
-          {comercio.autorizado === 1 && (
-            <FaCheckCircle
-              className='text-blue-600 w-5 h-5'
-              title='Comercio validado'
-            />
-          )}
         </div>
 
         {/* Descripción de Servicios */}
@@ -53,11 +54,10 @@ const Tarjeta = ({ comercio, onClick }) => {
           {comercio.calle_numero}, {comercio.zona_nombre}
         </p>
 
-        {/* Teléfonos */}
+        {/* Teléfonos (sin mostrar WhatsApp) */}
         <p className='text-gray-600 text-sm'>
           {comercio.telefono1}
           {comercio.telefono2 ? `, ${comercio.telefono2}` : ''}
-          {comercio.telefono_whatsapp ? `, ${comercio.telefono_whatsapp}` : ''}
         </p>
       </div>
 
@@ -65,36 +65,36 @@ const Tarjeta = ({ comercio, onClick }) => {
       <div className='flex justify-around items-center py-2 border-t border-gray-200'>
         {tieneCorreo ? (
           <MdMarkEmailRead
-            className='text-inf4 w-8 h-8'
+            className='text-inf4 w-6 h-6'
             title='Email disponible'
           />
         ) : (
           <MdEmail
-            className='text-gray-400 w-8 h-8'
+            className='text-gray-400 w-6 h-6'
             title='Email no disponible'
           />
         )}
 
         {tieneMapa ? (
           <LuMapPinCheckInside
-            className='text-inf4 w-8 h-8'
+            className='text-inf4 w-6 h-6'
             title='Ubicación disponible'
           />
         ) : (
           <LuMapPin
-            className='text-gray-400 w-8 h-8'
+            className='text-gray-400 w-6 h-6'
             title='Ubicación no disponible'
           />
         )}
 
         {tieneWhatsApp ? (
           <FaWhatsapp
-            className='text-green-500 w-8 h-8'
+            className='text-green-500 w-6 h-6'
             title='WhatsApp disponible'
           />
         ) : (
           <FaWhatsapp
-            className='text-gray-400 w-8 h-8'
+            className='text-gray-400 w-6 h-6'
             title='WhatsApp no disponible'
           />
         )}
