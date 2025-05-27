@@ -3,7 +3,10 @@ import AcceptDialog from './common/AcceptDialog'
 import SpinnerCom from '../components/common/SpinnerCom'
 import { FaWhatsapp, FaCheckCircle } from 'react-icons/fa'
 import IconoCorreo from '../assets/CorreoUsuario.svg?react'
+import IconoMapa from '../assets/Mapa.svg?react'
+import IconoWhatsApp from '../assets/WhatsApp.svg?react'
 import FormularioCorreo from './FormularioCorreo'
+import FormularioMapa from './FormularioMapa'
 import ReclamarComercio from './ReclamarComercio'
 
 export default function DetalleModal({ comercio, onClose }) {
@@ -11,6 +14,7 @@ export default function DetalleModal({ comercio, onClose }) {
   const [mostrarDialogo, setMostrarDialogo] = useState(false)
   const [spinner, setSpinner] = useState(false)
   const [mostrarFormularioCorreo, setMostrarFormularioCorreo] = useState(false)
+  const [mostrarMapa, setMostrarMapa] = useState(false)
 
   if (!comercio) return null
 
@@ -106,23 +110,73 @@ export default function DetalleModal({ comercio, onClose }) {
               </a>
             </div>
           )}
-          {email_verificado && (
-            <div
-              style={{
-                display: 'inline-flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                fontSize: '0.7rem',
-                lineHeight: 1,
-                gap: '1px',
-                cursor: 'pointer'
-              }}
-              onClick={() => setMostrarFormularioCorreo((prev) => !prev)}
-            >
-              <img src={IconoCorreo} alt='Correo' width={80} height={80} />
-              <strong style={{ marginTop: '1px' }}>Enviar correo</strong>
-            </div>
-          )}
+
+
+
+{(email_verificado || (comercio.latitud && comercio.longitud) || comercio.telefono_whatsapp) && (
+  <div
+    style={{
+      display: 'flex',
+      gap: '2rem',
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginTop: '1rem',
+    }}
+  >
+    {email_verificado && (
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          fontSize: '0.7rem',
+          lineHeight: 1,
+          cursor: 'pointer'
+        }}
+        onClick={() => setMostrarFormularioCorreo((prev) => !prev)}
+      >
+        <img src={IconoCorreo} alt='Correo' width={80} height={80} />
+        <strong style={{ marginTop: '4px' }}>Enviar correo</strong>
+      </div>
+    )}
+
+    {(comercio.latitud && comercio.longitud) && (
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          fontSize: '0.7rem',
+          lineHeight: 1,
+          cursor: 'pointer'
+        }}
+        onClick={() => setMostrarMapa((prev) => !prev)}
+      >
+        <img src={IconoMapa} alt='Mapa' width={64} height={64} />
+        <strong style={{ marginTop: '4px' }}>Ver mapa</strong>
+      </div>
+    )}
+
+    {comercio.telefono_whatsapp && (
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          fontSize: '0.7rem',
+          lineHeight: 1,
+          cursor: 'pointer'
+        }}
+        onClick={() => window.open(`https://wa.me/${comercio.telefono_whatsapp}`, '_blank')}
+      >
+        <img src={IconoWhatsApp} alt='WhatsApp' width={64} height={64} />
+        <strong style={{ marginTop: '4px' }}>WhatsApp</strong>
+      </div>
+    )}
+  </div>
+)}
+
+
           {mostrarFormularioCorreo && (
             <FormularioCorreo
               comercioId={id}
