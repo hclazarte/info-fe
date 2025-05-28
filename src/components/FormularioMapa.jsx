@@ -1,31 +1,50 @@
-import React from 'react';
-import { GoogleMap, Marker, LoadScript } from '@react-google-maps/api';
+import React, { useCallback } from 'react'
+import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api'
 
 const containerStyle = {
   width: '100%',
   height: '300px',
   borderRadius: '1rem',
-};
+  minHeight: '300px' // Asegura altura visible
+}
 
 const FormularioMapa = ({ latitud, longitud }) => {
-  const center = {
-    lat: parseFloat(latitud),
-    lng: parseFloat(longitud),
-  };
+  const lat = parseFloat(latitud)
+  const lng = parseFloat(longitud)
+  console.log(lat)
+  console.log(lng)
 
-  const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+  if (isNaN(lat) || isNaN(lng)) {
+    return <p>Coordenadas inválidas</p>
+  }
+
+  const center = { lat, lng }
+
+  const { isLoaded, loadError } = useJsApiLoader({
+    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY
+  })
+
+  const onLoad = useCallback(
+    (map) => {
+      google.maps.event.trigger(map, 'resize')
+      map.panTo(center)
+    },
+    [center]
+  )
+
+  if (loadError) return <p>Error al cargar Google Maps</p>
+  if (!isLoaded) return <p>Cargando mapa...</p>
 
   return (
-    <LoadScript googleMapsApiKey={apiKey}>
-      <GoogleMap
-        mapContainerStyle={containerStyle}
-        center={center}
-        zoom={16}
-      >
-        <Marker position={center} />
-      </GoogleMap>
-    </LoadScript>
-  );
-};
+    <GoogleMap
+      mapContainerStyle={containerStyle}
+      center={center}
+      zoom={16}
+      onLoad={onLoad}
+    >
+      <Marker position={center} />
+    </GoogleMap>
+  )
+}
 
-export default FormularioMapa;
+export default FormularioMapa
