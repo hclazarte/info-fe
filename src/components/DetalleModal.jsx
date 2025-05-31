@@ -125,7 +125,7 @@ export default function DetalleModal({ comercio, onClose }) {
               )}
 
               {/* Ícono WhatsApp oculto temporalmente */}
-              {telefono_whatsapp && (
+              {/* {telefono_whatsapp && (
                 <div
                   onClick={() => toggleFormulario('whatsapp')}
                   className={`${
@@ -139,7 +139,7 @@ export default function DetalleModal({ comercio, onClose }) {
                   />
                   <span className='mt-3 text-xs font-medium'>WhatsApp</span>
                 </div>
-              )}
+              )} */}
             </div>
 
             {formularioActivo === 'correo' && (
