@@ -49,7 +49,7 @@ const FormularioCorreo = ({ comercioId, nombreComercio, onEnviado }) => {
         '6Ldln-oqAAAAACslpXN9rUqQr2Bn7qXybNqY0o-i',
         { action: 'enviar_sugerencia' }
       )
-      console.log('Hola')
+
       const datosCorreo = {
         nombre: formData.nombre,
         remitente: formData.remitente,

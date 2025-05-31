@@ -1,10 +1,10 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import AcceptDialog from './common/AcceptDialog'
 import SpinnerCom from '../components/common/SpinnerCom'
 import { FaWhatsapp, FaCheckCircle } from 'react-icons/fa'
 import IconoCorreo from '../assets/CorreoUsuario.svg?react'
 import IconoMapa from '../assets/Mapa.svg?react'
-import IconoWhatsApp from '../assets/WhatsApp.svg?react'
+// import IconoWhatsApp from '../assets/WhatsApp.svg?react'
 import FormularioCorreo from './FormularioCorreo'
 import FormularioMapa from './FormularioMapa'
 import FormularioWhatsapp from './FormularioWhatsapp'
@@ -15,6 +15,15 @@ export default function DetalleModal({ comercio, onClose }) {
   const [mostrarDialogo, setMostrarDialogo] = useState(false)
   const [spinner, setSpinner] = useState(false)
   const [formularioActivo, setFormularioActivo] = useState(null)
+  const mapaRef = useRef(null)
+
+  useEffect(() => {
+    if (formularioActivo === 'mapa' && mapaRef.current) {
+      setTimeout(() => {
+        mapaRef.current.scrollIntoView({ behavior: 'smooth' })
+      }, 300)
+    }
+  }, [formularioActivo])
 
   if (!comercio) return null
 
@@ -110,7 +119,8 @@ export default function DetalleModal({ comercio, onClose }) {
               </div>
             )}
 
-            {telefono_whatsapp && (
+            {/* Ícono WhatsApp oculto temporalmente */}
+            {/* {telefono_whatsapp && (
               <div
                 onClick={() => toggleFormulario('whatsapp')}
                 className={`${
@@ -120,7 +130,7 @@ export default function DetalleModal({ comercio, onClose }) {
                 <img src={IconoWhatsApp} alt='WhatsApp' className='w-16 h-16' />
                 <span className='mt-3 text-xs font-medium'>WhatsApp</span>
               </div>
-            )}
+            )} */}
           </div>
 
           {formularioActivo === 'correo' && (
@@ -131,11 +141,11 @@ export default function DetalleModal({ comercio, onClose }) {
             />
           )}
 
-          <div
-            style={{ display: formularioActivo === 'mapa' ? 'block' : 'none' }}
-          >
-            <FormularioMapa latitud={latitud} longitud={longitud} />
-          </div>
+          {formularioActivo === 'mapa' && (
+            <div ref={mapaRef}>
+              <FormularioMapa latitud={latitud} longitud={longitud} />
+            </div>
+          )}
 
           {formularioActivo === 'whatsapp' && (
             <FormularioWhatsapp

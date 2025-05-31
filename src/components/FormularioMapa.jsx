@@ -11,8 +11,6 @@ const containerStyle = {
 const FormularioMapa = ({ latitud, longitud }) => {
   const lat = parseFloat(latitud)
   const lng = parseFloat(longitud)
-  console.log(lat)
-  console.log(lng)
 
   if (isNaN(lat) || isNaN(lng)) {
     return <p>Coordenadas inválidas</p>
