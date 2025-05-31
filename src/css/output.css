@@ -609,8 +609,12 @@ video {
   right: 0.5rem;
 }
 
-.right-3 {
-  right: 0.75rem;
+.right-6 {
+  right: 1.5rem;
+}
+
+.top-1 {
+  top: 0.25rem;
 }
 
 .top-2 {
@@ -623,6 +627,10 @@ video {
 
 .z-20 {
   z-index: 20;
+}
+
+.z-30 {
+  z-index: 30;
 }
 
 .z-50 {

@@ -7,7 +7,6 @@ const FormularioWhatsapp = ({ comercioId, nombreComercio, onEnviado }) => {
   const [formData, setFormData] = useState({
     nombre: '',
     celular: '',
-    asunto: '',
     cuerpo: ''
   })
   const [showDialog, setShowDialog] = useState(false)
@@ -32,12 +31,7 @@ const FormularioWhatsapp = ({ comercioId, nombreComercio, onEnviado }) => {
 
     if (sendingMsgRef.current) return
 
-    if (
-      !formData.nombre ||
-      !formData.celular ||
-      !formData.asunto ||
-      !formData.cuerpo
-    ) {
+    if (!formData.nombre || !formData.celular || !formData.cuerpo) {
       dialogMsgRef.current =
         'Por favor, complete todos los campos obligatorios.'
       setShowDialog(true)
@@ -53,7 +47,6 @@ const FormularioWhatsapp = ({ comercioId, nombreComercio, onEnviado }) => {
       const datosWhatsapp = {
         nombre: formData.nombre,
         celular: formData.celular,
-        asunto: formData.asunto,
         cuerpo: formData.cuerpo,
         comercio_id: comercioId
       }
@@ -74,7 +67,7 @@ const FormularioWhatsapp = ({ comercioId, nombreComercio, onEnviado }) => {
           successRef.current = true
           dialogMsgRef.current = 'Mensaje enviado con éxito.'
           setShowDialog(true)
-          setFormData({ nombre: '', celular: '', asunto: '', cuerpo: '' })
+          setFormData({ nombre: '', celular: '', cuerpo: '' })
         }
       } catch (error) {
         dialogMsgRef.current =
@@ -106,15 +99,6 @@ const FormularioWhatsapp = ({ comercioId, nombreComercio, onEnviado }) => {
         name='celular'
         placeholder='Tu número de celular'
         value={formData.celular}
-        onChange={handleChange}
-        required
-        className='bg-inf3 p-2 border rounded-md text-sm'
-      />
-      <input
-        type='text'
-        name='asunto'
-        placeholder='Asunto'
-        value={formData.asunto}
         onChange={handleChange}
         required
         className='bg-inf3 p-2 border rounded-md text-sm'
