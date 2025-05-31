@@ -4,6 +4,7 @@ import Busquedas from './components/Busquedas'
 import ValidacionPropietario from './admin/ValidacionPropietario'
 import Unsubscribe from './admin/Unsubscribe'
 import SpinnerCom from './components/common/SpinnerCom'
+import { LoadScript } from '@react-google-maps/api'
 
 function App() {
   const [configLoaded, setConfigLoaded] = useState(false)
@@ -26,19 +27,23 @@ function App() {
     loadConfig()
   }, [])
 
+  const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY
+
   if (!configLoaded) {
     return <SpinnerCom />
   }
 
   return (
-    <Routes>
-      <Route
-        path='/app/registro-comercio'
-        element={<ValidacionPropietario />}
-      />
-      <Route path='/app/cancelar-suscripcion' element={<Unsubscribe />} />
-      <Route path='/*' element={<Busquedas />} />
-    </Routes>
+    <LoadScript googleMapsApiKey={apiKey}>
+      <Routes>
+        <Route
+          path='/app/registro-comercio'
+          element={<ValidacionPropietario />}
+        />
+        <Route path='/app/cancelar-suscripcion' element={<Unsubscribe />} />
+        <Route path='/*' element={<Busquedas />} />
+      </Routes>
+    </LoadScript>
   )
 }
 

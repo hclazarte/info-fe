@@ -1,12 +1,12 @@
 import React, { useState, useRef } from 'react'
 import Spinner from './common/SpinnerCom.jsx'
 import AcceptDialog from './common/AcceptDialog.jsx'
-import { enviarCorreoUsuario } from '../services/correosUsuariosService.js'
+// import { enviarWhatsappUsuario } from '../services/whatsappUsuariosService.js'
 
-const FormularioCorreo = ({ comercioId, nombreComercio, onEnviado }) => {
+const FormularioWhatsapp = ({ comercioId, nombreComercio, onEnviado }) => {
   const [formData, setFormData] = useState({
     nombre: '',
-    remitente: '',
+    celular: '',
     asunto: '',
     cuerpo: ''
   })
@@ -22,19 +22,19 @@ const FormularioCorreo = ({ comercioId, nombreComercio, onEnviado }) => {
 
   const handleCloseDialog = () => {
     setShowDialog(false)
-    if (successRef.current && onClose) {
-      onClose()
+    if (successRef.current && onEnviado) {
+      onEnviado()
     }
   }
 
-  const handleEnviarCorreo = async (e) => {
+  const handleEnviarWhatsapp = async (e) => {
     e.preventDefault()
 
     if (sendingMsgRef.current) return
-    console.log(formData)
+
     if (
       !formData.nombre ||
-      !formData.remitente ||
+      !formData.celular ||
       !formData.asunto ||
       !formData.cuerpo
     ) {
@@ -50,9 +50,9 @@ const FormularioCorreo = ({ comercioId, nombreComercio, onEnviado }) => {
         { action: 'enviar_sugerencia' }
       )
 
-      const datosCorreo = {
+      const datosWhatsapp = {
         nombre: formData.nombre,
-        remitente: formData.remitente,
+        celular: formData.celular,
         asunto: formData.asunto,
         cuerpo: formData.cuerpo,
         comercio_id: comercioId
@@ -62,8 +62,8 @@ const FormularioCorreo = ({ comercioId, nombreComercio, onEnviado }) => {
         setShowSpinner(true)
         sendingMsgRef.current = true
 
-        const { ok, data, error } = await enviarCorreoUsuario(
-          datosCorreo,
+        const { ok, data, error } = await enviarWhatsappUsuario(
+          datosWhatsapp,
           token
         )
 
@@ -74,12 +74,7 @@ const FormularioCorreo = ({ comercioId, nombreComercio, onEnviado }) => {
           successRef.current = true
           dialogMsgRef.current = 'Mensaje enviado con éxito.'
           setShowDialog(true)
-          setFormData({
-            nombre: '',
-            remitente: '',
-            asunto: '',
-            cuerpo: ''
-          })
+          setFormData({ nombre: '', celular: '', asunto: '', cuerpo: '' })
         }
       } catch (error) {
         dialogMsgRef.current =
@@ -93,9 +88,9 @@ const FormularioCorreo = ({ comercioId, nombreComercio, onEnviado }) => {
   }
 
   return (
-    <form className='mt-4 flex flex-col gap-2' onSubmit={handleEnviarCorreo}>
+    <form className='mt-4 flex flex-col gap-2' onSubmit={handleEnviarWhatsapp}>
       <h3 className='text-sm font-semibold text-gray-700 mb-1'>
-        Correo para <span className='text-inf7'>{nombreComercio}</span>
+        WhatsApp para <span className='text-inf7'>{nombreComercio}</span>
       </h3>
       <input
         type='text'
@@ -107,10 +102,10 @@ const FormularioCorreo = ({ comercioId, nombreComercio, onEnviado }) => {
         className='bg-inf3 p-2 border rounded-md text-sm'
       />
       <input
-        type='email'
-        name='remitente'
-        placeholder='Tu correo electrónico'
-        value={formData.remitente}
+        type='tel'
+        name='celular'
+        placeholder='Tu número de celular'
+        value={formData.celular}
         onChange={handleChange}
         required
         className='bg-inf3 p-2 border rounded-md text-sm'
@@ -149,4 +144,4 @@ const FormularioCorreo = ({ comercioId, nombreComercio, onEnviado }) => {
   )
 }
 
-export default FormularioCorreo
+export default FormularioWhatsapp

@@ -17,6 +17,7 @@
     "test:open:prod": "cross-env BASE_URL=https://infomovil.com.bo npx playwright test --ui"
   },
   "dependencies": {
+    "@react-google-maps/api": "^2.20.6",
     "axios": "^1.8.4",
     "framer-motion": "^12.9.1",
     "jwt-decode": "^4.0.0",
