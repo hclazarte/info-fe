@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react'
 import Spinner from './common/SpinnerCom.jsx'
 import AcceptDialog from './common/AcceptDialog.jsx'
-// import { enviarWhatsappUsuario } from '../services/whatsappUsuariosService.js'
+import { enviarMensajeWhatsapp } from '../services/whatsappUsuariosService.js'
 
 const FormularioWhatsapp = ({ comercioId, nombreComercio, onEnviado }) => {
   const [formData, setFormData] = useState({
@@ -38,6 +38,14 @@ const FormularioWhatsapp = ({ comercioId, nombreComercio, onEnviado }) => {
       return
     }
 
+    const celularValido = /^591\d{8}$/.test(formData.celular)
+    if (!celularValido) {
+      dialogMsgRef.current =
+        'Ingrese un número de celular válido (ej: 591XXXXXXXX).'
+      setShowDialog(true)
+      return
+    }
+
     grecaptcha.enterprise.ready(async () => {
       const token = await grecaptcha.enterprise.execute(
         '6Ldln-oqAAAAACslpXN9rUqQr2Bn7qXybNqY0o-i',
@@ -55,7 +63,7 @@ const FormularioWhatsapp = ({ comercioId, nombreComercio, onEnviado }) => {
         setShowSpinner(true)
         sendingMsgRef.current = true
 
-        const { ok, data, error } = await enviarWhatsappUsuario(
+        const { ok, data, error } = await enviarMensajeWhatsapp(
           datosWhatsapp,
           token
         )
