@@ -103,9 +103,9 @@ export default function DetalleModal({ comercio, onClose }) {
                   onClick={() => toggleFormulario('correo')}
                   className={`${
                     formularioActivo === 'correo' ? 'bg-inf3' : 'bg-inf4'
-                  } text-white rounded-xl p-4 w-[120px] h-[120px] flex flex-col items-center justify-center cursor-pointer text-center shadow-lg`}
+                  } text-white rounded-xl p-4 w-[100px] h-[100px] flex flex-col items-center justify-center cursor-pointer text-center shadow-lg`}
                 >
-                  <img src={IconoCorreo} alt='Correo' className='w-20 h-20' />
+                  <img src={IconoCorreo} alt='Correo' className='w-16 h-16' />
                   <span className='mt-3 text-xs font-medium'>
                     Enviar Correo
                   </span>
@@ -117,7 +117,7 @@ export default function DetalleModal({ comercio, onClose }) {
                   onClick={() => toggleFormulario('mapa')}
                   className={`${
                     formularioActivo === 'mapa' ? 'bg-inf3' : 'bg-inf4'
-                  } text-white rounded-xl p-4 w-[120px] h-[120px] flex flex-col items-center justify-center cursor-pointer text-center shadow-lg`}
+                  } text-white rounded-xl p-4 w-[100px] h-[100px] flex flex-col items-center justify-center cursor-pointer text-center shadow-lg`}
                 >
                   <img src={IconoMapa} alt='Mapa' className='w-16 h-16' />
                   <span className='mt-3 text-xs font-medium'>Ver Mapa</span>
@@ -129,12 +129,12 @@ export default function DetalleModal({ comercio, onClose }) {
                   onClick={() => toggleFormulario('whatsapp')}
                   className={`${
                     formularioActivo === 'whatsapp' ? 'bg-inf3' : 'bg-inf4'
-                  } text-white rounded-xl p-4 w-[120px] h-[120px] flex flex-col items-center justify-center cursor-pointer text-center shadow-lg`}
+                  } text-white rounded-xl p-4 w-[100px] h-[100px] flex flex-col items-center justify-center cursor-pointer text-center shadow-lg`}
                 >
                   <img
                     src={IconoWhatsApp}
                     alt='WhatsApp'
-                    className='w-16 h-16'
+                    className='w-12 h-12'
                   />
                   <span className='mt-3 text-xs font-medium'>WhatsApp</span>
                 </div>
