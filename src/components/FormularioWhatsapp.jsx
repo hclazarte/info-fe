@@ -73,7 +73,8 @@ const FormularioWhatsapp = ({ comercioId, nombreComercio, onEnviado }) => {
           setShowDialog(true)
         } else {
           successRef.current = true
-          dialogMsgRef.current = 'Mensaje enviado con éxito.'
+          dialogMsgRef.current =
+            'Hemos registrado su mensaje.\nPor favor, responda SI cuando reciba la confirmación en su WhatsApp'
           setShowDialog(true)
           setFormData({ nombre: '', celular: '', cuerpo: '' })
         }

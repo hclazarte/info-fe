@@ -16,11 +16,30 @@ export default function DetalleModal({ comercio, onClose }) {
   const [spinner, setSpinner] = useState(false)
   const [formularioActivo, setFormularioActivo] = useState(null)
   const mapaRef = useRef(null)
+  const correoRef = useRef(null)
+  const whatsappRef = useRef(null)
 
   useEffect(() => {
+    const scrollOptions = { behavior: 'smooth' }
+
     if (formularioActivo === 'mapa' && mapaRef.current) {
       setTimeout(() => {
-        mapaRef.current.scrollIntoView({ behavior: 'smooth' })
+        console.log('Mapa')
+        mapaRef.current.scrollIntoView(scrollOptions)
+      }, 300)
+    }
+
+    if (formularioActivo === 'correo' && correoRef.current) {
+      setTimeout(() => {
+        console.log('Correo')
+        correoRef.current.scrollIntoView(scrollOptions)
+      }, 300)
+    }
+
+    if (formularioActivo === 'whatsapp' && whatsappRef.current) {
+      setTimeout(() => {
+        console.log('WhatsApp')
+        whatsappRef.current.scrollIntoView(scrollOptions)
       }, 300)
     }
   }, [formularioActivo])
@@ -142,11 +161,13 @@ export default function DetalleModal({ comercio, onClose }) {
             </div>
 
             {formularioActivo === 'correo' && (
-              <FormularioCorreo
-                comercioId={id}
-                nombreComercio={empresa}
-                onEnviado={() => setFormularioActivo(null)}
-              />
+              <div ref={correoRef}>
+                <FormularioCorreo
+                  comercioId={id}
+                  nombreComercio={empresa}
+                  onEnviado={() => setFormularioActivo(null)}
+                />
+              </div>
             )}
 
             {formularioActivo === 'mapa' && (
@@ -156,13 +177,14 @@ export default function DetalleModal({ comercio, onClose }) {
             )}
 
             {formularioActivo === 'whatsapp' && (
-              <FormularioWhatsapp
-                comercioId={id}
-                nombreComercio={empresa}
-                onEnviado={() => setFormularioActivo(null)}
-              />
+              <div ref={whatsappRef}>
+                <FormularioWhatsapp
+                  comercioId={id}
+                  nombreComercio={empresa}
+                  onEnviado={() => setFormularioActivo(null)}
+                />
+              </div>
             )}
-
             {!autorizado && <ReclamarComercio comercioId={id} />}
           </div>
         </div>
