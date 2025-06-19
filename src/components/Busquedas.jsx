@@ -18,7 +18,7 @@ import {
   obtenerZonasDeCiudad
 } from '../services/ciudadesService'
 import { obtenerListaComercios } from '../services/comerciosService'
-import { registrarClickComercio } from '../utils/logClicksService'
+import { registrarClickComercio } from '../services/logClicksService'
 import {
   capitalizarTexto,
   normalizarDesdePath,
