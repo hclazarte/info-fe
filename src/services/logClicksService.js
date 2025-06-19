@@ -11,12 +11,9 @@ import { apiRequest } from './request'
  */
 export const registrarClickComercio = async (comercioId, plataforma) => {
   return apiRequest(() =>
-    axios.post(
-      `${window.infoConfig.apiUrl}/log_clics`,
-      {
-        comercio_id: comercioId,
-        plataforma: plataforma
-      }
-    )
+    axios.post(`${window.infoConfig.apiUrl}/log_clics`, {
+      comercio_id: comercioId,
+      plataforma: plataforma
+    })
   )
 }
