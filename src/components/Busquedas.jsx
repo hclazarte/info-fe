@@ -18,6 +18,7 @@ import {
   obtenerZonasDeCiudad
 } from '../services/ciudadesService'
 import { obtenerListaComercios } from '../services/comerciosService'
+import { registrarClickComercio } from '../utils/logClicksService'
 import {
   capitalizarTexto,
   normalizarDesdePath,
@@ -391,6 +392,10 @@ export default function Busquedas() {
                     key={i}
                     comercio={comercio}
                     onClick={() => {
+                      registrarClickComercio(
+                        comercio.id,
+                        isMobile ? 'movil' : 'escritorio'
+                      )
                       setComercioSeleccionado(comercio)
                       setModalAbierto(true)
                     }}
@@ -485,6 +490,10 @@ export default function Busquedas() {
                     key={i}
                     comercio={comercio}
                     onClick={() => {
+                      registrarClickComercio(
+                        comercio.id,
+                        isMobile ? 'movil' : 'escritorio'
+                      )
                       setComercioSeleccionado(comercio)
                       setModalAbierto(true)
                     }}
