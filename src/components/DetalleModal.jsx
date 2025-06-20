@@ -24,21 +24,18 @@ export default function DetalleModal({ comercio, onClose }) {
 
     if (formularioActivo === 'mapa' && mapaRef.current) {
       setTimeout(() => {
-        console.log('Mapa')
         mapaRef.current.scrollIntoView(scrollOptions)
       }, 300)
     }
 
     if (formularioActivo === 'correo' && correoRef.current) {
       setTimeout(() => {
-        console.log('Correo')
         correoRef.current.scrollIntoView(scrollOptions)
       }, 300)
     }
 
     if (formularioActivo === 'whatsapp' && whatsappRef.current) {
       setTimeout(() => {
-        console.log('WhatsApp')
         whatsappRef.current.scrollIntoView(scrollOptions)
       }, 300)
     }
