@@ -304,7 +304,7 @@ export default function Busquedas() {
     }
   }
 
-  const handleClickConRecaptcha = (
+  const handleClickConRecaptcha = async (
     comercio,
     isMobile,
     setComercioSeleccionado,
@@ -312,20 +312,19 @@ export default function Busquedas() {
   ) => {
     const plataforma = isMobile ? 'movil' : 'escritorio'
 
-    window.grecaptcha.ready(() => {
-      window.grecaptcha
-        .execute(window.infoConfig.recaptchaSiteKey, { action: 'log_clics' })
-        .then((token) => {
-          registrarClickComercio(comercio.id, plataforma, token)
-        })
-        .catch(() => {
-          registrarClickComercio(comercio.id, plataforma, null)
-        })
-        .finally(() => {
-          setComercioSeleccionado(comercio)
-          setModalAbierto(true)
-        })
-    })
+    const token = await grecaptcha.enterprise.execute(
+      '6LfLImkrAAAAAKzEHAVXOiv1EIx9bn1eAu0Ay4MK',
+      { action: 'log_clics' }
+    )
+
+    try {
+      registrarClickComercio(comercio.id, plataforma, token)
+    } catch {
+      registrarClickComercio(comercio.id, plataforma, null)
+    } finally {
+      setComercioSeleccionado(comercio)
+      setModalAbierto(true)
+    }
   }
 
   const hayCiudad = ciudad?.id && ciudad.id !== ''
