@@ -1,4 +1,3 @@
-// src/utils/logClicksService.js
 import axios from 'axios'
 import { apiRequest } from './request'
 
@@ -8,15 +7,20 @@ import { apiRequest } from './request'
  *
  * @param {number|string} comercioId
  * @param {'escritorio'|'movil'} plataforma
+ * @param {string} recaptchaToken - Token generado por reCAPTCHA v3
  */
-export const registrarClickComercio = (comercioId, plataforma) => {
+export const registrarClickComercio = (
+  comercioId,
+  plataforma,
+  recaptchaToken
+) => {
   apiRequest(() =>
-    axios.post(
-      `${window.infoConfig.apiUrl}/log_clics`,
-      { comercio_id: comercioId, plataforma }
-    )
-  )
-  .catch(() => {
+    axios.post(`${window.infoConfig.apiUrl}/log_clics`, {
+      comercio_id: comercioId,
+      plataforma,
+      recaptcha_token: recaptchaToken
+    })
+  ).catch(() => {
     // ignorar errores de red, 404, 500, etc.
   })
 }

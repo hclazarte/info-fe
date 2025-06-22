@@ -303,6 +303,31 @@ export default function Busquedas() {
       filtrosChanged()
     }
   }
+
+  const handleClickConRecaptcha = (
+    comercio,
+    isMobile,
+    setComercioSeleccionado,
+    setModalAbierto
+  ) => {
+    const plataforma = isMobile ? 'movil' : 'escritorio'
+
+    window.grecaptcha.ready(() => {
+      window.grecaptcha
+        .execute(window.infoConfig.recaptchaSiteKey, { action: 'log_clics' })
+        .then((token) => {
+          registrarClickComercio(comercio.id, plataforma, token)
+        })
+        .catch(() => {
+          registrarClickComercio(comercio.id, plataforma, null)
+        })
+        .finally(() => {
+          setComercioSeleccionado(comercio)
+          setModalAbierto(true)
+        })
+    })
+  }
+
   const hayCiudad = ciudad?.id && ciudad.id !== ''
   const hayZona = zona?.id && zona.id !== ''
 
@@ -391,14 +416,14 @@ export default function Busquedas() {
                   <Tarjeta
                     key={i}
                     comercio={comercio}
-                    onClick={() => {
-                      registrarClickComercio(
-                        comercio.id,
-                        isMobile ? 'movil' : 'escritorio'
+                    onClick={() =>
+                      handleClickConRecaptcha(
+                        comercio,
+                        isMobile,
+                        setComercioSeleccionado,
+                        setModalAbierto
                       )
-                      setComercioSeleccionado(comercio)
-                      setModalAbierto(true)
-                    }}
+                    }
                   />
                 ))}
                 {!loading && comercios.results.length === 0 && (
@@ -489,14 +514,14 @@ export default function Busquedas() {
                   <Tarjeta
                     key={i}
                     comercio={comercio}
-                    onClick={() => {
-                      registrarClickComercio(
-                        comercio.id,
-                        isMobile ? 'movil' : 'escritorio'
+                    onClick={() =>
+                      handleClickConRecaptcha(
+                        comercio,
+                        isMobile,
+                        setComercioSeleccionado,
+                        setModalAbierto
                       )
-                      setComercioSeleccionado(comercio)
-                      setModalAbierto(true)
-                    }}
+                    }
                   />
                 ))}
               </div>
