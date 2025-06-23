@@ -50,7 +50,7 @@ export default function DetalleModal({ comercio, onClose }) {
     servicios,
     telefono1,
     telefono2,
-    telefono_whatsapp,
+    whatsapp_verificado,
     id,
     autorizado,
     email_verificado,
@@ -140,7 +140,7 @@ export default function DetalleModal({ comercio, onClose }) {
                 </div>
               )}
 
-              {telefono_whatsapp && (
+              {whatsapp_verificado && (
                 <div
                   onClick={() => toggleFormulario('whatsapp')}
                   className={`${

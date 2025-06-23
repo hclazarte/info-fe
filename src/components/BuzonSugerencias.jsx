@@ -49,7 +49,7 @@ export default function BuzonSugerencias({ onClose }) {
 
     grecaptcha.enterprise.ready(async () => {
       const token = await grecaptcha.enterprise.execute(
-        '6Ldln-oqAAAAACslpXN9rUqQr2Bn7qXybNqY0o-i',
+        '6LfLImkrAAAAAKzEHAVXOiv1EIx9bn1eAu0Ay4MK',
         { action: 'enviar_sugerencia' }
       )
 
