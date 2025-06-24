@@ -1,15 +1,11 @@
 <svg fill="#000000" width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
   <!-- Tienda más pequeña -->
   <g transform="translate(10,10) scale(2.8)">
-    <path id="secondary" d="M21,10.75a2.25,2.25,0,0,1-4.5,0,2.25,2.25,0,0,1-4.5,0,2.25,2.25,0,0,1-4.5,0,2.25,2.25,0,0,1-4.5,0,5.22,5.22,0,0,1,.21-1.47L4.79,3.73a1,1,0,0,1,1-.73h12.5a1,1,0,0,1,1,.73l1.58,5.55A5.22,5.22,0,0,1,21,10.75Z" style="fill: #2b52a1; stroke-width: 2;"></path>
     <path id="primary" d="M19,13v7a1,1,0,0,1-1,1H6a1,1,0,0,1-1-1V13" style="fill: none; stroke: #ffffff; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path>
     <path id="primary-2" data-name="primary" d="M12,3h6.25a1,1,0,0,1,1,.73l1.58,5.55A5.22,5.22,0,0,1,21,10.75h0A2.25,2.25,0,0,1,18.75,13h0a2.25,2.25,0,0,1-2.25-2.25A2.25,2.25,0,0,1,14.25,13h0A2.25,2.25,0,0,1,12,10.75" style="fill: none; stroke: #ffffff; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path>
     <path id="primary-3" data-name="primary" d="M12,3H5.75a1,1,0,0,0-1,.73L3.21,9.28A5.22,5.22,0,0,0,3,10.75H3A2.25,2.25,0,0,0,5.25,13h0A2.25,2.25,0,0,0,7.5,10.75,2.25,2.25,0,0,0,9.75,13h0A2.25,2.25,0,0,0,12,10.75" style="fill: none; stroke: #ffffff; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path>
   </g>
-
-  <!-- Signo de más -->
-  <g transform="translate(60,60) scale(1.5)">
-    <line x1="4" y1="12" x2="20" y2="12" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
-    <line x1="12" y1="4" x2="12" y2="20" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
-  </g>
+  <!-- Signo “+” -->
+  <line x1="66" y1="78" x2="90" y2="78" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+  <line x1="78" y1="66" x2="78" y2="90" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
 </svg>

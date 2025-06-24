@@ -1,11 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- License: PD. Made by icons8: https://icons8.com/c/flat-color-icons -->
-<svg width="800px" height="800px" viewBox="0 0 48 48" version="1" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 48 48">
-    <g fill="#616161">
-        <rect x="34.6" y="28.1" transform="matrix(.707 -.707 .707 .707 -15.154 36.586)" width="4" height="17"/>
-        <circle cx="20" cy="20" r="16"/>
-    </g>
-    <rect x="36.2" y="32.1" transform="matrix(.707 -.707 .707 .707 -15.839 38.239)" fill="#37474F" width="4" height="12.3"/>
-    <circle fill="#64B5F6" cx="20" cy="20" r="13"/>
-    <path fill="#BBDEFB" d="M26.9,14.2c-1.7-2-4.2-3.2-6.9-3.2s-5.2,1.2-6.9,3.2c-0.4,0.4-0.3,1.1,0.1,1.4c0.4,0.4,1.1,0.3,1.4-0.1 C16,13.9,17.9,13,20,13s4,0.9,5.4,2.5c0.2,0.2,0.5,0.4,0.8,0.4c0.2,0,0.5-0.1,0.6-0.2C27.2,15.3,27.2,14.6,26.9,14.2z"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" className="w-full h-auto max-h-24" preserveAspectRatio="xMidYMid meet">
+      <circle style="fill:#4776d3;stroke:#f59e0b;stroke-width:25;stroke-miterlimit:10;" cx="500" cy="500" r="470" />
+      <g transform="translate(80,-200) scale(0.9 1.5)">
+            <path d="M 666.97 492.90 L 459.59 628.10 L 487.33 629.50 L 662.03 509.50 L 619.28 582.00 L 619.57 606.80 L 672.29 516.00 L 666.97 492.90" fill="#FFFFFF" stroke="#FFFFFF" id="move-l" stroke-width="25" stroke-linejoin="round" stroke-linecap="round" fill-rule="evenodd"/>
+            <path d="M 544.80 236.00 L 520.87 328.60 L 485.05 389.20 L 313.00 431.00 L 220.19 469.70 L 228.55 478.20 L 468.24 403.70 L 372.48 541.00 L 293.91 617.50 L 284.98 603.80 L 273.20 622.50 L 119.39 672.10 L 173.35 671.60 L 266.74 637.60 L 265.50 665.00 L 328.30 614.80 L 466.69 580.80 L 493.55 580.70 L 485.45 597.00 L 529.01 575.70 L 492.11 564.00 L 326.69 602.20 L 495.02 397.40 L 761.97 351.50 L 774.32 350.90 L 753.62 376.10 L 803.77 339.30 L 845.10 330.50 L 846.62 318.80 L 817.74 311.50 L 757.60 340.70 L 497.40 387.00 L 549.65 277.10 L 544.80 236.00" fill="#FFFFFF" stroke="#FFFFFF" id="move-l" stroke-width="25" stroke-linejoin="round" stroke-linecap="round" fill-rule="evenodd"/>
+      </g>
 </svg>
