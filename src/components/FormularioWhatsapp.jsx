@@ -122,8 +122,7 @@ const FormularioWhatsapp = ({ comercioId, nombreComercio, onEnviado }) => {
       />
       <p className='text-center mb-4 text-sm text-inf_adv'>
         Esta aplicación utiliza WhatsApp para enviar sus mensajes, para que
-        podamos transmitirlo, debe autorizar el envío desde su WhatsApp. Si no
-        lo autoriza, no podremos enviar su mensaje.
+        podamos transmitirlo, debe autorizar el envío desde su WhatsApp. Responda Si cuando le llegue la solicitud.
       </p>
       <button
         type='submit'
