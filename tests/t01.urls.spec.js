@@ -90,3 +90,13 @@ test('Verificación con pais, ciudad y zona', async ({ page }) => {
   )
   await expect(page).toHaveURL('bolivia/la-paz/achumani')
 })
+
+test('Verificación con palabra and', async ({ page }) => {
+  await gotoAndWait(page, '/bolivia/acuavid-import-and-export')
+
+  await expect(page.locator('[data-testid="buscar-input"]')).toHaveValue(
+    'acuavid-import-and-export'
+  )
+  await expect(page).toHaveURL('bolivia/acuavid-import-and-export')
+})
+
