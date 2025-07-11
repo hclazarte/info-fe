@@ -22,6 +22,12 @@ const PasoValidacionIdentidad = ({
         información de accesos no deseados. De este modo, usted podrá actualizar
         sus datos con total seguridad y confianza.
       </p>
+      <p className='text-sm text-inf_adv text-justify'>IMPORTANTE:</p>
+      <p className='text-sm text-inf_adv text-justify'>
+        Infomóvil no almacena ni publica en Internet los documentos que usted 
+        suba (NIT y CI). Estos son utilizados únicamente para verificar su 
+        identidad en este proceso y se eliminan una vez concluida la validación.
+      </p>
       <div>
         <label className='block text-sm'>Empresa:</label>
         <p className='bg-inf2 text-black p-2 rounded'>{comercio.empresa}</p>
