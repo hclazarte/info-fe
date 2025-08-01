@@ -13,7 +13,10 @@ const PasoValidacionIdentidad = ({
 }) => {
   return (
     <div className='space-y-4'>
-      <h2 className='text-2xl font-bold text-center mb-4'>
+      <h2
+        data-testid='titulo-paso'
+        className='text-2xl font-bold text-center mb-4'
+      >
         Validación de Identidad
       </h2>
       <p className='text-sm text-inf1 text-justify'>
@@ -25,8 +28,8 @@ const PasoValidacionIdentidad = ({
       </p>
       <p className='text-sm text-inf_adv text-justify'>IMPORTANTE:</p>
       <p className='text-sm text-inf_adv text-justify'>
-        Infomóvil no almacena ni publica en Internet los documentos que usted 
-        suba (NIT y CI). Estos son utilizados únicamente para verificar su 
+        Infomóvil no almacena ni publica en Internet los documentos que usted
+        suba (NIT y CI). Estos son utilizados únicamente para verificar su
         identidad en este proceso y se eliminan una vez concluida la validación.
       </p>
       <div>
@@ -58,10 +61,12 @@ const PasoValidacionIdentidad = ({
           data-testid='validar-button'
           onClick={handleValidar}
           disabled={
-            solicitud?.estado !== 'pendiente_verificacion' || !(nitCargado && ciCargado)
+            solicitud?.estado !== 'pendiente_verificacion' ||
+            !(nitCargado && ciCargado)
           }
           className={`px-6 py-2 rounded-md text-lg font-medium ${
-            solicitud?.estado !== 'pendiente_verificacion' || !(nitCargado && ciCargado)
+            solicitud?.estado !== 'pendiente_verificacion' ||
+            !(nitCargado && ciCargado)
               ? 'bg-gray-400 text-white cursor-not-allowed'
               : 'bg-inf3 text-black hover:bg-inf5'
           }`}

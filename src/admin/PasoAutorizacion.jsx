@@ -8,7 +8,12 @@ const PasoAutorizacion = ({
 }) => {
   return (
     <div className='space-y-6'>
-      <h2 className='text-2xl font-bold text-center mb-2'>Autorización</h2>
+      <h2
+        data-testid='titulo-paso'
+        className='text-2xl font-bold text-center mb-2'
+      >
+        Autorización
+      </h2>
       <p className='text-center'>
         ¿Autoriza la publicación de esta información en Internet?
       </p>

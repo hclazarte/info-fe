@@ -96,7 +96,10 @@ const PasoInformacionComercio = ({
 
   return (
     <div className='space-y-4'>
-      <h2 className='text-2xl font-bold text-center mb-4'>
+      <h2
+        data-testid='titulo-paso'
+        className='text-2xl font-bold text-center mb-4'
+      >
         Información del Comercio
       </h2>
       <div>

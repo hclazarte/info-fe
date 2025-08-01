@@ -99,4 +99,3 @@ test('Verificación con palabra and', async ({ page }) => {
   )
   await expect(page).toHaveURL('bolivia/acuavid-import-and-export')
 })
-

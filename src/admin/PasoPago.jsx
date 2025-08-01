@@ -13,7 +13,12 @@ const PasoPago = ({
 }) => {
   return (
     <div className='space-y-6'>
-      <h2 className='text-2xl font-bold text-center mb-2'>Pago del Plan</h2>
+      <h2
+        data-testid='titulo-paso'
+        className='text-2xl font-bold text-center mb-2'
+      >
+        Pago del Plan
+      </h2>
       <p className='text-center text-sm'>
         Por favor, escanee el siguiente código QR y realice el pago
         correspondiente de <strong>Bs. 50</strong>. A continuación, cargue una
