@@ -75,8 +75,9 @@ export default function ValidacionPropietario() {
         setError(errorSolicitud || 'Error al obtener la solicitud')
       } else {
         setSolicitud(data.solicitud)
+        console.log(data.solicitud.estado)
         setComercio(data.comercio)
-        if (data.comercio.documentos_validados === 1) setStep(2)
+        if (data.solicitud.estado !== 'pendiente_verificacion') setStep(2)
         const {
           ok: ok_ciudades,
           data: ciudades,
@@ -186,7 +187,7 @@ export default function ValidacionPropietario() {
   }
 
   const handleSiguiente = async () => {
-    if (step === 1 && comercio?.documentos_validados === 1) {
+    if (step === 1 && solicitud?.estado !== 'pendiente_verificacion') {
       setStep(2)
       setSubstep(1)
     } else if (step === 2 && substep === 1) {
@@ -312,6 +313,7 @@ export default function ValidacionPropietario() {
           {step === 1 && (
             <PasoValidacionIdentidad
               comercio={comercio}
+              solicitud={solicitud}
               nitCargado={nitCargado}
               ciCargado={ciCargado}
               handleFileUpload={handleFileUpload}
@@ -334,7 +336,7 @@ export default function ValidacionPropietario() {
               comercioEditable={comercioEditable}
               setComercioEditable={setComercioEditable}
               bloquearAtras={
-                substep === 1 && comercio?.documentos_validados === 1
+                substep === 1 && solicitud?.estado !== 'pendiente_verificacion'
               }
             />
           )}
