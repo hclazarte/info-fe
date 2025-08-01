@@ -35,10 +35,14 @@ jobs:
         run: npx playwright install --with-deps
 
       # Ejecuta el script adecuado según el entorno del matrix
-      - name: Run E2E tests (${{ matrix.env.name }})
-        env:
-          BASE_URL: ${{ matrix.env.url }}
-        run: npm run test:${{ matrix.env.name }}
+      - name: Run Tagged Tests (${{ matrix.env.name }})
+        run: |
+          if [ "${{ matrix.env.name }}" = "prod" ]; then
+            npm run test:smoke:prod
+          else
+            npm run test:smoke:dev
+            npm run test:acceptance:dev
+          fi
 
       # Publica el reporte HTML (opcional)
       - name: Upload Playwright report
