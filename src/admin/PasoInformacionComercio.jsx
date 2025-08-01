@@ -104,6 +104,7 @@ const PasoInformacionComercio = ({
         <div className='flex items-center gap-4 mt-1'>
           <label className='flex items-center gap-2'>
             <input
+              data-testid='gratuito-input'
               type='radio'
               name='tipoPlan'
               value='gratis'
@@ -115,6 +116,7 @@ const PasoInformacionComercio = ({
           </label>
           <label className='flex items-center gap-2'>
             <input
+              data-testid='depago-input'
               type='radio'
               name='tipoPlan'
               value='pago'
@@ -158,6 +160,7 @@ const PasoInformacionComercio = ({
           <div>
             <label className='block text-sm'>Empresa: {candado()}</label>
             <input
+              data-testid='empresa-input'
               disabled
               value={comercioEditable.empresa || ''}
               className='w-full p-2 rounded bg-inf2 text-black'
@@ -166,6 +169,7 @@ const PasoInformacionComercio = ({
           <div>
             <label className='block text-sm'>Email: {candado()}</label>
             <input
+              data-testid='email-input'
               disabled
               value={solicitud.email || ''}
               className='w-full p-2 rounded bg-inf2 text-black'
@@ -174,6 +178,7 @@ const PasoInformacionComercio = ({
           <div>
             <label className='block text-sm'>NIT: {candado()}</label>
             <input
+              data-testid='nit-input'
               disabled
               value={comercioEditable.nit || ''}
               className='w-full p-2 rounded bg-inf2 text-black'
@@ -182,6 +187,7 @@ const PasoInformacionComercio = ({
           <div>
             <label className='block text-sm'>Ciudad:</label>
             <select
+              data-testid='ciudad-select'
               value={comercioEditable.ciudad_id || ''}
               onChange={handleChange('ciudad_id')}
               className='w-full p-2 rounded bg-inf2 text-black'
@@ -197,6 +203,7 @@ const PasoInformacionComercio = ({
           <div>
             <label className='block text-sm'>Zona:</label>
             <select
+              data-testid='zona-select'
               value={comercioEditable.zona_id || ''}
               onChange={handleChange('zona_id')}
               className='w-full p-2 rounded bg-inf2 text-black'
@@ -212,6 +219,7 @@ const PasoInformacionComercio = ({
           <div>
             <label className='block text-sm'>Nombre de Zona:</label>
             <input
+              data-testid='nombre-zona-input'
               value={comercioEditable.zona_nombre || ''}
               onInput={handleUppercase('zona_nombre')}
               className='w-full p-2 rounded bg-inf2 text-black focus:bg-white'
@@ -220,6 +228,7 @@ const PasoInformacionComercio = ({
           <div>
             <label className='block text-sm'>Dirección (Calle y número):</label>
             <input
+              data-testid='calle-numero-input'
               value={comercioEditable.calle_numero || ''}
               onChange={handleChange('calle_numero')}
               className='w-full p-2 rounded bg-inf2 text-black focus:bg-white'
@@ -228,6 +237,7 @@ const PasoInformacionComercio = ({
           <div>
             <label className='block text-sm'>Planta:</label>
             <input
+              data-testid='planta-input'
               value={comercioEditable.planta || ''}
               onChange={handleChange('planta')}
               className='w-full p-2 rounded bg-inf2 text-black focus:bg-white'
@@ -236,6 +246,7 @@ const PasoInformacionComercio = ({
           <div>
             <label className='block text-sm'>Número de local:</label>
             <input
+              data-testid='numero-local-input'
               value={comercioEditable.numero_local || ''}
               onChange={handleChange('numero_local')}
               className='w-full p-2 rounded bg-inf2 text-black focus:bg-white'
@@ -248,6 +259,7 @@ const PasoInformacionComercio = ({
           <div>
             <label className='block text-sm'>Teléfono 1:</label>
             <input
+              data-testid='telefono1-input'
               value={comercioEditable.telefono1 || ''}
               onInput={handleNumeric('telefono1')}
               className='w-full p-2 rounded bg-inf2 text-black focus:bg-white'
@@ -265,6 +277,7 @@ const PasoInformacionComercio = ({
           <div>
             <label className='block text-sm'>Teléfono 2:</label>
             <input
+              data-testid='telefono2-input'
               value={comercioEditable.telefono2 || ''}
               onInput={handleNumeric('telefono2')}
               className='w-full p-2 rounded bg-inf2 text-black focus:bg-white'
@@ -275,6 +288,7 @@ const PasoInformacionComercio = ({
               WhatsApp: {candado(tipoPlan === 'gratis')}
             </label>
             <input
+              data-testid='whatsapp-input'
               value={comercioEditable.telefono_whatsapp || ''}
               onInput={handleInputWhatsApp}
               onBlur={handleBlurWhatsApp}
@@ -291,6 +305,7 @@ const PasoInformacionComercio = ({
               Página web: {candado(tipoPlan === 'gratis')}
             </label>
             <input
+              data-testid='pagina-web-input'
               type='url'
               value={comercioEditable.pagina_web || ''}
               onChange={handleChange('pagina_web')}
@@ -314,6 +329,7 @@ const PasoInformacionComercio = ({
       )}
       <div className='flex justify-between mt-4'>
         <button
+          data-testid='atras-button'
           onClick={handleAtras}
           disabled={bloquearAtras}
           className={`px-6 py-2 rounded-md font-medium bg-inf3 text-black ${
@@ -323,6 +339,7 @@ const PasoInformacionComercio = ({
           Atrás
         </button>
         <button
+          data-testid='siguiente-button'
           onClick={handleSiguiente}
           className='bg-inf3 text-black px-6 py-2 rounded-md font-medium hover:bg-inf5'
         >

@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test'
-import { gotoAndWait, searchCount } from './utils'
+import { gotoAndWait, searchCount } from '../utils'
 import { text } from 'stream/consumers'
 
 test('Verificar que al escribir en el buscador se apliquen correctamente los filtros', async ({

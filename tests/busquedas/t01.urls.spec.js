@@ -1,6 +1,6 @@
 // @ts-check
 import { test, expect } from '@playwright/test'
-import { gotoAndWait } from './utils'
+import { gotoAndWait } from '../utils'
 
 test('Verificación de la ciudad por defecto, sin zonas en la página principal', async ({
   page

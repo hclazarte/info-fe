@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test'
-import { gotoAndWait } from './utils'
+import { gotoAndWait } from '../utils'
 
 test('Verificación que la búsqueda se recargue al cambiar zonas', async ({
   page

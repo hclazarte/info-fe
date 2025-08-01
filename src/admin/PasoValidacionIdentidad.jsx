@@ -3,6 +3,7 @@ import AyudaCI from './AyudaCI'
 
 const PasoValidacionIdentidad = ({
   comercio,
+  solicitud,
   nitCargado,
   ciCargado,
   handleFileUpload,
@@ -54,12 +55,13 @@ const PasoValidacionIdentidad = ({
       </div>
       <div className='flex justify-between mt-4'>
         <button
+          data-testid='validar-button'
           onClick={handleValidar}
           disabled={
-            comercio?.documentos_validados === 1 || !(nitCargado && ciCargado)
+            solicitud?.estado !== 'pendiente_verificacion' || !(nitCargado && ciCargado)
           }
           className={`px-6 py-2 rounded-md text-lg font-medium ${
-            comercio?.documentos_validados === 1 || !(nitCargado && ciCargado)
+            solicitud?.estado !== 'pendiente_verificacion' || !(nitCargado && ciCargado)
               ? 'bg-gray-400 text-white cursor-not-allowed'
               : 'bg-inf3 text-black hover:bg-inf5'
           }`}
@@ -67,10 +69,11 @@ const PasoValidacionIdentidad = ({
           Validar
         </button>
         <button
+          data-testid='siguiente-button'
           onClick={handleSiguiente}
-          disabled={!(comercio?.documentos_validados === 1)}
+          disabled={!(solicitud?.estado !== 'pendiente_verificacion')}
           className={`px-6 py-2 rounded-md text-lg font-medium ${
-            comercio?.documentos_validados === 1
+            solicitud?.estado !== 'pendiente_verificacion'
               ? 'bg-inf3 text-black hover:bg-inf5'
               : 'bg-gray-400 text-white cursor-not-allowed'
           }`}
@@ -78,7 +81,7 @@ const PasoValidacionIdentidad = ({
           Siguiente
         </button>
       </div>
-      {comercio?.documentos_validados === 1 && (
+      {solicitud?.estado !== 'pendiente_verificacion' && (
         <p className='text-inf_exi font-semibold text-center'>
           Registro Validado
         </p>

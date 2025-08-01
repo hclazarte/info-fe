@@ -1,5 +1,5 @@
 import { test, expect, errors } from '@playwright/test'
-import { gotoAndWait, searchCount } from './utils'
+import { gotoAndWait, searchCount } from '../utils'
 
 test('Verificación de la ciudad por defecto, sin zonas en la página principal', async ({
   page
