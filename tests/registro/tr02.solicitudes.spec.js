@@ -6,7 +6,7 @@ test.describe('@acceptance', () => {
     page,
     baseURL
   }) => {
-    const json = await prepararEscenario('tr02')
+    const json = await prepararEscenario('tr02', baseURL)
     let token = json.token
 
     await waitForTokenPageData(page, json.token)
