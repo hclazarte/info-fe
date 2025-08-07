@@ -271,6 +271,7 @@ const PasoInformacionComercio = ({
           <div>
             <label className='block text-sm'>Palabras clave:</label>
             <textarea
+              data-testid='claves-textarea'
               value={comercioEditable.palabras_clave || ''}
               onInput={handleUppercase('palabras_clave')}
               className='w-full p-2 rounded bg-inf2 text-black focus:bg-white'
@@ -321,6 +322,7 @@ const PasoInformacionComercio = ({
               Servicios: {candado(tipoPlan === 'gratis')}
             </label>
             <textarea
+              data-testid='servicios-textarea'
               value={comercioEditable.servicios || ''}
               onInput={handleUppercase('servicios')}
               className='w-full p-2 rounded bg-inf2 text-black focus:bg-white'

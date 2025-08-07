@@ -34,11 +34,14 @@ const PasoValidacionIdentidad = ({
       </p>
       <div>
         <label className='block text-sm'>Empresa:</label>
-        <p className='bg-inf2 text-black p-2 rounded'>{comercio.empresa}</p>
+        <p data-testid='empresa-p' className='bg-inf2 text-black p-2 rounded'>
+          {comercio.empresa}
+        </p>
       </div>
       <div>
         <label className='block text-sm'>Imagen del NIT:</label>
         <input
+          data-testid='nit-imput'
           type='file'
           accept='image/jpeg, image/png, image/jpg, application/pdf'
           className='w-full bg-inf1 p-2 rounded text-black'
@@ -49,6 +52,7 @@ const PasoValidacionIdentidad = ({
       <div>
         <label className='block text-sm'>Imagen del CI:</label>
         <input
+          data-testid='ci-imput'
           type='file'
           accept='image/jpeg, image/png, image/jpg, application/pdf'
           className='w-full bg-inf1 p-2 rounded text-black'
