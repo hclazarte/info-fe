@@ -82,8 +82,8 @@ test.describe('@acceptance', () => {
     await page.getByTestId('depago-input').check()
 
     // Substep 1
-    await page.getByTestId('ciudad-select').selectOption('24') // cambia '24' por el ID correcto
-    await page.getByTestId('zona-select').selectOption('67') // cambia '67' por el ID correcto
+    await page.getByTestId('ciudad-select').selectOption('24')
+    await page.getByTestId('zona-select').selectOption('67')
 
     await page.getByTestId('nombre-zona-input').fill('14 DE SEPTIEMBRE')
     await page.getByTestId('calle-numero-input').fill('CALLE 9 ESQUINA A')
@@ -91,7 +91,7 @@ test.describe('@acceptance', () => {
     await page.getByTestId('numero-local-input').fill('12B')
 
     // Ir a substep 2 (suponiendo que ya verificaste que el botón está habilitado)
-    await expect(siguienteButton).toBeEnabled({ timeout: 10000 })
+    await expect(siguienteButton).toBeEnabled()
     await siguienteButton.click()
 
     // Substep 2
@@ -103,7 +103,11 @@ test.describe('@acceptance', () => {
     // Para los textareas sin data-testid (usa texto visible u otro método)
     await page
       .getByTestId('servicios-textarea')
-      .fill('SISTEMAS WEB, APP MÓVILES, CLOUD') // palabras_clave
-    await page.getByTestId('claves-textarea').fill('ESPERICAURICONO') // servicios
+      .fill('SISTEMAS WEB, APP MÓVILES, CLOUD')
+    await page.getByTestId('claves-textarea').fill('ESPERICAURICONO')
+
+    // Ir a Plan de Pagos
+    await expect(siguienteButton).toBeEnabled()
+    await siguienteButton.click()
   })
 })

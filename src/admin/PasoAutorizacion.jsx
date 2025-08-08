@@ -20,6 +20,7 @@ const PasoAutorizacion = ({
       <div className='flex justify-center'>
         <label className='flex items-center gap-2'>
           <input
+            data-testid='autorizo-input'
             type='checkbox'
             checked={autorizado}
             onChange={(e) => setAutorizado(e.target.checked)}
@@ -32,12 +33,14 @@ const PasoAutorizacion = ({
       </div>
       <div className='flex justify-between mt-4'>
         <button
+          data-testid='atras-button'
           onClick={handleAtras}
           className='bg-inf3 text-black px-6 py-2 rounded-md font-medium hover:bg-inf5'
         >
           Atrás
         </button>
         <button
+          data-testid='terminar-button'
           disabled={!autorizado}
           className={`px-6 py-2 rounded-md font-medium ${
             autorizado

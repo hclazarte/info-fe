@@ -36,6 +36,7 @@ const PasoPago = ({
           Cargar comprobante de pago:
         </label>
         <input
+          data-testid='comprobante-imput'
           type='file'
           accept='image/jpeg, image/png, image/jpg, application/pdf'
           className='w-full bg-inf1 p-2 rounded text-black'
@@ -45,12 +46,14 @@ const PasoPago = ({
       </div>
       <div className='flex justify-between mt-4'>
         <button
+          data-testid='atras-button'
           onClick={handleAtras}
           className='bg-inf3 text-black px-6 py-2 rounded-md font-medium hover:bg-inf5'
         >
           Atrás
         </button>
         <button
+          data-testid='validar-button'
           onClick={handleValidarPago}
           disabled={!comprobanteCargado || pagoValidado}
           className={`px-6 py-2 rounded-md text-lg font-medium ${
@@ -62,6 +65,7 @@ const PasoPago = ({
           Validar
         </button>
         <button
+          data-testid='siguiente-button'
           onClick={handleSiguiente}
           disabled={!pagoValidado}
           className={`px-6 py-2 rounded-md font-medium ${
