@@ -168,18 +168,22 @@ test.describe('@acceptance', () => {
 
     // Click para abrir el detalle y verificar todo
     tarjeta.click()
-    // const modal = page.getByTestId('detalle-modal') // el modal general
-    // await expect(modal.getByRole('heading', { name: 'GEOSOFT INTERNACIONAL SRL' })).toBeVisible()
-    // await expect(modal.getByText('Comercio validado')).toBeVisible()
-    // await expect(modal.getByText('Zona: 14 DE SEPTIEMBRE')).toBeVisible()
-    // await expect(modal.getByText('Dirección: CALLE 9 ESQUINA A')).toBeVisible()
-    // await expect(modal.getByText('Servicios: SISTEMAS WEB, APP MÓVILES, CLOUD')).toBeVisible()
-    // await expect(modal.getByText('Teléfonos:')).toBeVisible()
-    // await expect(modal.getByText('72123456')).toBeVisible()
-    // await expect(modal.getByText('76543210')).toBeVisible()
-    // await expect(modal.getByText('Enviar Correo')).toBeVisible()
-    // await expect(modal.getByText('Ver Mapa')).toBeVisible()
-    // await expect(modal.getByText('WhatsApp')).toBeVisible()
-    // await expect(modal.getByRole('button', { name: '✕' })).toBeVisible()
+    const modal = page.getByTestId('detalle-modal') // el modal general
+    await expect(
+      modal.getByRole('heading', { name: 'GEOSOFT INTERNACIONAL SRL' })
+    ).toBeVisible()
+    await expect(modal.getByText('Comercio validado')).toBeVisible()
+    await expect(modal.getByText('Zona: 14 DE SEPTIEMBRE')).toBeVisible()
+    await expect(modal.getByText('Dirección: CALLE 9 ESQUINA A')).toBeVisible()
+    await expect(
+      modal.getByText('Servicios: SISTEMAS WEB, APP MÓVILES, CLOUD')
+    ).toBeVisible()
+    await expect(modal.getByText('Teléfonos:')).toBeVisible()
+    await expect(modal.getByText('72123456')).toBeVisible()
+    await expect(modal.getByText('76543210')).toBeVisible()
+    await expect(modal.getByText('Enviar Correo')).toBeVisible()
+    await expect(modal.getByText('Ver Mapa')).toBeVisible()
+    await expect(modal.getByText('WhatsApp')).toBeVisible()
+    await expect(modal.getByRole('button', { name: '✕' })).toBeVisible()
   })
 })
