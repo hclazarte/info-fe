@@ -1,5 +1,10 @@
 import { test, expect, request } from '@playwright/test'
-import { gotoAndWait, waitForTokenPageData, prepararEscenario, saveBase64PdfToFile } from '../utils'
+import {
+  gotoAndWait,
+  waitForTokenPageData,
+  prepararEscenario,
+  saveBase64PdfToFile
+} from '../utils'
 
 test.describe('@acceptance', () => {
   test('Flujo distinto email en solicitud y comercio 53257', async ({
@@ -9,7 +14,7 @@ test.describe('@acceptance', () => {
     const json = await prepararEscenario('tr01', baseURL)
     const tempPath = await saveBase64PdfToFile(json.comprobante_pdf)
     let token = json.token
-    
+
     await waitForTokenPageData(page, token)
 
     // Verificar que el paso inicial sea Validación de Identidad
@@ -61,10 +66,9 @@ test.describe('@acceptance', () => {
     await expect(page.getByText('Registro Validado')).toBeVisible({
       timeout: 60000
     })
-    const siguienteButton = page.getByTestId('siguiente-button')
 
-    await expect(siguienteButton).toBeEnabled()
-    await siguienteButton.click()
+    await expect(botonSiguiente).toBeEnabled()
+    await botonSiguiente.click()
     await expect(page.getByTestId('titulo-paso')).toHaveText(
       'Información del Comercio'
     )
@@ -83,8 +87,8 @@ test.describe('@acceptance', () => {
     await page.getByTestId('depago-input').check()
 
     // Substep 1
-    await page.getByTestId('ciudad-select').selectOption('24')
-    await page.getByTestId('zona-select').selectOption('67')
+    await page.getByTestId('ciudad-select').selectOption('7') // La Paz
+    await page.getByTestId('zona-select').selectOption('3') // San Jorge
 
     await page.getByTestId('nombre-zona-input').fill('14 DE SEPTIEMBRE')
     await page.getByTestId('calle-numero-input').fill('CALLE 9 ESQUINA A')
@@ -92,8 +96,8 @@ test.describe('@acceptance', () => {
     await page.getByTestId('numero-local-input').fill('12B')
 
     // Ir a substep 2
-    await expect(siguienteButton).toBeEnabled()
-    await siguienteButton.click()
+    await expect(botonSiguiente).toBeEnabled()
+    await botonSiguiente.click()
     await expect(page.getByTestId('titulo-paso')).toHaveText(
       'Información del Comercio'
     )
@@ -111,16 +115,14 @@ test.describe('@acceptance', () => {
     await page.getByTestId('claves-textarea').fill('ESPERICAURICONO')
 
     // Ir a Plan de Pagos
-    await expect(siguienteButton).toBeEnabled()
-    await siguienteButton.click()
-    await expect(page.getByTestId('titulo-paso')).toHaveText(
-      'Pago del Plan'
-    )
+    await expect(botonSiguiente).toBeEnabled()
+    await botonSiguiente.click()
+    await expect(page.getByTestId('titulo-paso')).toHaveText('Pago del Plan')
 
     // Selecciona el input de tipo file y carga el archivo temporal
     const fileInput = page.getByTestId('comprobante-input')
     await fileInput.setInputFiles(tempPath)
-    
+
     // Valida comprobante y espera hasta que llegue respuesta exitosa de la validación
     await expect(validarButton).toBeEnabled()
     await Promise.all([
@@ -131,6 +133,53 @@ test.describe('@acceptance', () => {
       validarButton.click()
     ])
 
-    
+    // Ir a Plan de Pagos
+    await expect(botonSiguiente).toBeEnabled()
+    await botonSiguiente.click()
+    await expect(page.getByTestId('titulo-paso')).toHaveText('Autorización')
+
+    // Check autorización
+    const checkbox = page.getByTestId('autorizo-input')
+    await checkbox.check()
+
+    // CLick en Terminar
+    const botonTerminar = page.getByTestId('terminar-button')
+    await expect(botonTerminar).toBeEnabled()
+    await Promise.all([
+      page.waitForResponse(
+        (r) => r.url().includes('/api/comercios') && r.status() === 200,
+        { timeout: 60000 }
+      ),
+      botonTerminar.click()
+    ])
+
+    // Ir a la aplicación y verificar que el comercio es seleccionado
+    // con la palabra espericauricono y que los datos se actualizaron correctamente
+    await gotoAndWait(page, '/bolivia/la-paz/espericauricono')
+    await expect(tarjeta).toContainText('Email disponible')
+    await expect(tarjeta.getByText('GEOSOFT INTERNACIONAL SRL')).toBeVisible()
+    await expect(
+      tarjeta.getByText('SISTEMAS WEB, APP MÓVILES, CLOUD')
+    ).toBeVisible()
+    await expect(
+      tarjeta.getByText('CALLE 9 ESQUINA A, 14 DE SEPTIEMBRE')
+    ).toBeVisible()
+    await expect(tarjeta.getByText('72123456, 76543210')).toBeVisible()
+
+    // Click para abrir el detalle y verificar todo
+    tarjeta.click()
+    // const modal = page.getByTestId('detalle-modal') // el modal general
+    // await expect(modal.getByRole('heading', { name: 'GEOSOFT INTERNACIONAL SRL' })).toBeVisible()
+    // await expect(modal.getByText('Comercio validado')).toBeVisible()
+    // await expect(modal.getByText('Zona: 14 DE SEPTIEMBRE')).toBeVisible()
+    // await expect(modal.getByText('Dirección: CALLE 9 ESQUINA A')).toBeVisible()
+    // await expect(modal.getByText('Servicios: SISTEMAS WEB, APP MÓVILES, CLOUD')).toBeVisible()
+    // await expect(modal.getByText('Teléfonos:')).toBeVisible()
+    // await expect(modal.getByText('72123456')).toBeVisible()
+    // await expect(modal.getByText('76543210')).toBeVisible()
+    // await expect(modal.getByText('Enviar Correo')).toBeVisible()
+    // await expect(modal.getByText('Ver Mapa')).toBeVisible()
+    // await expect(modal.getByText('WhatsApp')).toBeVisible()
+    // await expect(modal.getByRole('button', { name: '✕' })).toBeVisible()
   })
 })

@@ -31,7 +31,6 @@ const FormularioCorreo = ({ comercioId, nombreComercio, onEnviado }) => {
     e.preventDefault()
 
     if (sendingMsgRef.current) return
-    console.log(formData)
     if (
       !formData.nombre ||
       !formData.remitente ||

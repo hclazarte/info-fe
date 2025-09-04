@@ -75,7 +75,6 @@ export default function ValidacionPropietario() {
         setError(errorSolicitud || 'Error al obtener la solicitud')
       } else {
         setSolicitud(data.solicitud)
-        console.log(data.solicitud.estado)
         setComercio(data.comercio)
         if (data.solicitud.estado !== 'pendiente_verificacion') setStep(2)
         const {

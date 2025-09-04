@@ -68,7 +68,7 @@ export default function DetalleModal({ comercio, onClose }) {
     <>
       {spinner && <SpinnerCom />}
       <div className='fixed inset-0 bg-black bg-opacity-50 z-20 flex items-center justify-center'>
-        <div className='relative'>
+        <div className='relative' data-testid='detalle-modal'>
           <button
             className='absolute top-1 right-6 text-3xl text-gray-500 hover:text-gray-800 z-30'
             onClick={onClose}
