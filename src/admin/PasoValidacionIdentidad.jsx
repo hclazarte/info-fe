@@ -41,7 +41,7 @@ const PasoValidacionIdentidad = ({
       <div>
         <label className='block text-sm'>Imagen del NIT:</label>
         <input
-          data-testid='nit-imput'
+          data-testid='nit-input'
           type='file'
           accept='image/jpeg, image/png, image/jpg, application/pdf'
           className='w-full bg-inf1 p-2 rounded text-black'
@@ -52,7 +52,7 @@ const PasoValidacionIdentidad = ({
       <div>
         <label className='block text-sm'>Imagen del CI:</label>
         <input
-          data-testid='ci-imput'
+          data-testid='ci-input'
           type='file'
           accept='image/jpeg, image/png, image/jpg, application/pdf'
           className='w-full bg-inf1 p-2 rounded text-black'

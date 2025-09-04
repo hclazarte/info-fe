@@ -1,6 +1,28 @@
 import { request, expect } from '@playwright/test'
+import { fileURLToPath } from 'url'
+import fs from 'fs'
+import path from 'path'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 // tests/utils.js
+/**
+ * Guarda un PDF codificado en base64 en un archivo temporal.
+ * @param {{ content_base64: string, filename: string }} comprobantePdf
+ * @param {string} dir - Directorio donde guardar el archivo (por defecto 'tmp')
+ * @returns {string} - Ruta absoluta del archivo guardado
+ */
+export async function saveBase64PdfToFile(comprobantePdf, dir = 'tmp') {
+  const { content_base64, filename } = comprobantePdf
+  const buffer = Buffer.from(content_base64, 'base64')
+  const tempPath = path.join(__dirname, '..', dir, filename)
+
+  fs.mkdirSync(path.dirname(tempPath), { recursive: true })
+  fs.writeFileSync(tempPath, buffer)
+
+  return tempPath
+}
 /**
  * Navega a `path` y espera a que /api/comercios/lista responda 200
  * @param {import('@playwright/test').Page} page

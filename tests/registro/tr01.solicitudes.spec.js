@@ -1,5 +1,5 @@
 import { test, expect, request } from '@playwright/test'
-import { gotoAndWait, waitForTokenPageData, prepararEscenario } from '../utils'
+import { gotoAndWait, waitForTokenPageData, prepararEscenario, saveBase64PdfToFile } from '../utils'
 
 test.describe('@acceptance', () => {
   test('Flujo distinto email en solicitud y comercio 53257', async ({
@@ -7,8 +7,9 @@ test.describe('@acceptance', () => {
     baseURL
   }) => {
     const json = await prepararEscenario('tr01', baseURL)
+    const tempPath = await saveBase64PdfToFile(json.comprobante_pdf)
     let token = json.token
-
+    
     await waitForTokenPageData(page, token)
 
     // Verificar que el paso inicial sea Validación de Identidad
@@ -39,10 +40,10 @@ test.describe('@acceptance', () => {
       'Validación de Identidad'
     )
 
-    const nit = page.getByTestId('nit-imput')
+    const nit = page.getByTestId('nit-input')
     await nit.setInputFiles('./public/data/NIT-GEOSOFT.pdf')
 
-    const ci = page.getByTestId('ci-imput')
+    const ci = page.getByTestId('ci-input')
     await ci.setInputFiles('./public/data/CI.jpg')
 
     const validarButton = page.getByTestId('validar-button')
@@ -90,9 +91,12 @@ test.describe('@acceptance', () => {
     await page.getByTestId('planta-input').fill('SEGUNDO PISO')
     await page.getByTestId('numero-local-input').fill('12B')
 
-    // Ir a substep 2 (suponiendo que ya verificaste que el botón está habilitado)
+    // Ir a substep 2
     await expect(siguienteButton).toBeEnabled()
     await siguienteButton.click()
+    await expect(page.getByTestId('titulo-paso')).toHaveText(
+      'Información del Comercio'
+    )
 
     // Substep 2
     await page.getByTestId('telefono1-input').fill('72123456')
@@ -109,5 +113,24 @@ test.describe('@acceptance', () => {
     // Ir a Plan de Pagos
     await expect(siguienteButton).toBeEnabled()
     await siguienteButton.click()
+    await expect(page.getByTestId('titulo-paso')).toHaveText(
+      'Pago del Plan'
+    )
+
+    // Selecciona el input de tipo file y carga el archivo temporal
+    const fileInput = page.getByTestId('comprobante-input')
+    await fileInput.setInputFiles(tempPath)
+    
+    // Valida comprobante y espera hasta que llegue respuesta exitosa de la validación
+    await expect(validarButton).toBeEnabled()
+    await Promise.all([
+      page.waitForResponse(
+        (r) => r.url().includes('/api/documentos') && r.status() === 200,
+        { timeout: 60000 }
+      ),
+      validarButton.click()
+    ])
+
+    
   })
 })

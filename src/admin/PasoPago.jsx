@@ -36,7 +36,7 @@ const PasoPago = ({
           Cargar comprobante de pago:
         </label>
         <input
-          data-testid='comprobante-imput'
+          data-testid='comprobante-input'
           type='file'
           accept='image/jpeg, image/png, image/jpg, application/pdf'
           className='w-full bg-inf1 p-2 rounded text-black'
