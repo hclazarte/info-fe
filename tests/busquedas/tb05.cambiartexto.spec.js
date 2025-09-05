@@ -25,7 +25,7 @@ test.describe('@smoke', () => {
       .split(/\s+/)
       .find((palabra) => palabra.length > 2)
 
-    const buscador = page.locator('[data-testid="buscar-input"]')
+    const buscador = page.getByTestId('buscar-input')
     await buscador.click()
     await buscador.fill(texto)
     await expect(buscador).toHaveValue(texto)
