@@ -7,7 +7,7 @@ import {
 } from '../utils'
 
 test.describe('@acceptance', () => {
-  test('Flujo email igual en solicitud y comercio 53258', async ({
+  test('Flujo TR02 – email igual en solicitud y comercio 53258', async ({
     page,
     baseURL
   }) => {
