@@ -21,18 +21,18 @@ export default defineConfig({
       name: 'acceptance-chrome',
       use: { browserName: 'chromium' },
       grep: /@acceptance/,
-      workers: 1,   // solo una instancia a la vez
+      workers: 1, // solo una instancia a la vez
       retries: 0
     },
     {
       name: 'firefox',
       use: { browserName: 'firefox' },
-      grepInvert: /@acceptance/,
+      grepInvert: /@acceptance/
     },
     {
       name: 'webkit',
       use: { browserName: 'webkit' },
-      grepInvert: /@acceptance/,
-    },
+      grepInvert: /@acceptance/
+    }
   ]
 })
