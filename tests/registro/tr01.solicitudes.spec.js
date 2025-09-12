@@ -6,8 +6,8 @@ import {
   saveBase64PdfToFile
 } from '../utils'
 
+test.use({ browserName: 'chromium' })
 test.describe('@acceptance', () => {
-  test.use({ browserName: 'chromium' })
   test('Flujo TR01 – distinto email en solicitud y comercio 53257', async ({
     page,
     baseURL

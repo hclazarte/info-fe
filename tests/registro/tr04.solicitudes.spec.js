@@ -2,8 +2,8 @@
 import { test, expect } from '@playwright/test'
 import { waitForTokenPageData, prepararEscenario } from '../utils'
 
+test.use({ browserName: 'chromium' })
 test.describe('@acceptance', () => {
-  test.use({ browserName: 'chromium' })
   test('Flujo TR04 – Comercio con plan de pago vigente y autorizado', async ({
     page,
     baseURL
