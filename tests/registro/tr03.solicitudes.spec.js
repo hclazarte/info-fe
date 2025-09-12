@@ -14,38 +14,34 @@ test.describe('@acceptance', () => {
     // Ir al link con token
     await waitForTokenPageData(page, token)
 
-    // 1. Verificar título Información del Comercio
+    // 1. Al acceder al link con token, se muestra el título “Información del Comercio”.
     await expect(page.getByTestId('titulo-paso')).toHaveText(
       'Información del Comercio'
     )
 
-    // 2. Verificar que Tipo Plan está habilitado
+    // 2. El campo “Tipo Plan” está habilitado y se puede seleccionar “Gratuito”.
     const planGratuito = page.getByTestId('gratuito-input')
     await expect(planGratuito).toBeEnabled()
     await planGratuito.check()
 
-    // 3. Editar datos básicos
+    // 3. Es posible editar datos del comercio.
     await page.getByTestId('nombre-zona-input').fill('SAN MIGUEL')
     await page.getByTestId('calle-numero-input').fill('AV. BALLIVIÁN 123')
-
     const botonSiguiente = page.getByTestId('siguiente-button')
 
-    // 4. Pulsar siguiente y avanzar a segunda pantalla de información
+    // 4. Pulsar siguiente y editar en la segunda pantalla de información
     await expect(botonSiguiente).toBeEnabled()
     await botonSiguiente.click()
     await expect(page.getByTestId('titulo-paso')).toHaveText(
       'Información del Comercio'
     )
-
-    // Editar en substep 2
     await page.getByTestId('telefono1-input').fill('78945612')
 
-    // Avanzar a Autorización
+    // 5. En la pantalla de autorización, al pulsar “Sí autorizo”, “Terminar”, y finaliza el proceso.
     await expect(botonSiguiente).toBeEnabled()
     await botonSiguiente.click()
     await expect(page.getByTestId('titulo-paso')).toHaveText('Autorización')
 
-    // 5. Dar autorización
     const checkbox = page.getByTestId('autorizo-input')
     await checkbox.check()
 
@@ -59,39 +55,33 @@ test.describe('@acceptance', () => {
       botonTerminar.click()
     ])
 
-    // // 6. Verificar que la URL final no contiene "registro-comercio"
-    // await expect(page).not.toHaveURL(/.*registro-comercio.*/)
+    await expect(page.getByTestId('titulo-paso')).toHaveText(
+      '¡Gracias por registrarse!'
+    )
+    const botonFinalizar = page.getByTestId('finalizar-button')
 
-    // // 7. Recargar la url de registro y verificar datos editados
-    // await page.goto(`${baseURL}/app/registro-comercio?token=${token}`)
-    // await expect(page.getByTestId('titulo-paso')).toHaveText(
-    //   'Información del Comercio'
-    // )
-    // await expect(page.getByTestId('nombre-zona-input')).toHaveValue('SAN MIGUEL')
-    // await expect(page.getByTestId('pagina-web-input')).toHaveValue(
-    //   'https://sanmiguel.bo'
-    // )
+    await expect(botonFinalizar).toBeEnabled()
+    await botonFinalizar.click()
 
-    // // Avanzar y volver a verificar persistencia
-    // await expect(botonSiguiente).toBeEnabled()
-    // await botonSiguiente.click()
-    // await expect(page.getByTestId('pagina-web-input')).toHaveValue(
-    //   'https://sanmiguel.bo'
-    // )
+    // 6. La URL final no contiene registro-comercio.
+    await expect(page).not.toHaveURL(/.*registro-comercio.*/)
 
-    // // 8. Terminar flujo en ¡Gracias por registrarse!
-    // await expect(botonSiguiente).toBeEnabled()
-    // await botonSiguiente.click()
-    // await expect(page.getByTestId('titulo-paso')).toHaveText(
-    //   '¡Gracias por registrarse!'
-    // )
+    // 7. Al recargar el link de registro, los datos editados se conservan.
+    await waitForTokenPageData(page, token)
+    await expect(page.getByTestId('nombre-zona-input')).toHaveValue(
+      'SAN MIGUEL'
+    )
+    await expect(page.getByTestId('calle-numero-input')).toHaveValue(
+      'AV. BALLIVIÁN 123'
+    )
+    await botonSiguiente.click()
+    await expect(page.getByTestId('telefono1-input')).toHaveValue('78945612')
 
-    // // Verificación final en frontend
-    // await gotoAndWait(page, '/bolivia/la-paz/san-miguel')
-    // const tarjeta = page.locator('[data-testclass="tarjeta-control"]', {
-    //   hasText: 'SAN MIGUEL'
-    // })
-    // await expect(tarjeta).toContainText('CAFETERÍA, RESTAURANTE')
-    // await expect(tarjeta).toContainText('78945612')
+    // 8. Al avanzar nuevamente, se muestran los datos editados hasta llegar a “¡Gracias por registrarse!”.
+    await expect(botonSiguiente).toBeEnabled()
+    await botonSiguiente.click()
+    await expect(page.getByTestId('titulo-paso')).toHaveText(
+      '¡Gracias por registrarse!'
+    )
   })
 })
