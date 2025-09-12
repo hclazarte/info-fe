@@ -3,6 +3,7 @@ import { test, expect } from '@playwright/test'
 import { waitForTokenPageData, prepararEscenario } from '../utils'
 
 test.describe('@acceptance', () => {
+  test.use({ browserName: 'chromium' })
   test('Flujo TR05 – Comercio con plan gratuito y autorizado', async ({
     page,
     baseURL

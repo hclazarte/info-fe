@@ -17,8 +17,22 @@ export default defineConfig({
   },
 
   projects: [
-    { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
-    { name: 'firefox', use: { ...devices['Desktop Firefox'] } },
-    { name: 'webkit', use: { ...devices['Desktop Safari'] } }
+    {
+      name: 'acceptance-chrome',
+      use: { browserName: 'chromium' },
+      grep: /@acceptance/,
+      workers: 1,   // solo una instancia a la vez
+      retries: 0
+    },
+    {
+      name: 'firefox',
+      use: { browserName: 'firefox' },
+      grepInvert: /@acceptance/,
+    },
+    {
+      name: 'webkit',
+      use: { browserName: 'webkit' },
+      grepInvert: /@acceptance/,
+    },
   ]
 })
