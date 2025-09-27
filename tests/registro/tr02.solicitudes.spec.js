@@ -51,17 +51,32 @@ test.describe('@acceptance', () => {
     await page.getByTestId('telefono2-input').fill('')
     await page.getByTestId('whatsapp-input').fill('59172300013')
     await page.getByTestId('pagina-web-input').fill('https://vasquez.com.bo')
-
     await page
       .getByTestId('servicios-textarea')
       .fill('COMERCIALIZACIÓN VARIADA')
     await page.getByTestId('claves-textarea').fill('VASQUEZ ORURO')
 
-    // TODO agregar steps.....
-    // Cambiar de plan a gratuito
-    // await expect(botonSiguiente).toBeEnabled()
-    // await botonSiguiente.click()
-    // verificar que el sistema da error al grabar
+    // Volver a modo gratuito
+    await radioGratutito.check()
+    await expect(page.getByTestId('error-telefono_whatsapp')).toBeVisible()
+    await expect(page.getByTestId('error-pagina_web')).toBeVisible()
+    await expect(page.getByTestId('error-servicios')).toBeVisible()
+
+    // Verificar que WhatsApp tiene el valor esperado
+    const inputWhatsapp = page.getByTestId('whatsapp-input')
+    const inputPaginaWeb = page.getByTestId('pagina-web-input')
+    const inputServicios = page.getByTestId('servicios-textarea')
+
+    await expect(inputWhatsapp).toHaveValue('')
+    await expect(inputPaginaWeb).toHaveValue('')
+    await expect(inputServicios).toHaveValue('')
+
+    await page.getByTestId('whatsapp-input').fill('59172300013')
+    await page.getByTestId('pagina-web-input').fill('https://vasquez.com.bo')
+    await page
+      .getByTestId('servicios-textarea')
+      .fill('COMERCIALIZACIÓN VARIADA')
+    await page.getByTestId('claves-textarea').fill('VASQUEZ ORURO')
 
     await expect(botonSiguiente).toBeEnabled()
     await botonSiguiente.click()

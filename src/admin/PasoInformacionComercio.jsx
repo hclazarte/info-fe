@@ -33,7 +33,55 @@ const PasoInformacionComercio = ({
     }
   }, [comercio])
 
+  useEffect(() => {
+    if (!comercio) return
+    const snap = {}
+    CAMPOS_DE_PAGO.forEach((k) => {
+      snap[k] = comercio?.[k] ?? ''
+    })
+    setSnapshotPagoInicial(snap)
+    setComercioEditable((prev) => ({ ...prev, ...comercio }))
+  }, [comercio])
+
   const [errores, setErrores] = useState({})
+  const [snapshotPagoInicial, setSnapshotPagoInicial] = useState({})
+  const campoModificado = (k) => {
+    const actual = comercioEditable?.[k] ?? ''
+    const inicial = snapshotPagoInicial?.[k] ?? ''
+    return String(actual) !== String(inicial)
+  }
+  const handleChangePlan = (nuevoPlan) => {
+    // Actualiza tipo de plan
+    setTipoPlan(nuevoPlan)
+
+    if (nuevoPlan === 'gratis') {
+      // Detecta qué campos de pago fueron editados y restáuralos al snapshot
+      const restaurados = {}
+      const nuevosErrores = {}
+
+      CAMPOS_DE_PAGO.forEach((k) => {
+        if (campoModificado(k)) {
+          restaurados[k] = snapshotPagoInicial[k] ?? ''
+          // Mensaje rojo por campo (inmutabilidad)
+          nuevosErrores[k] =
+            'Este campo no puede modificarse con el plan gratuito. Se ha restablecido su valor.'
+        }
+      })
+
+      if (Object.keys(restaurados).length > 0) {
+        setComercioEditable((prev) => ({ ...prev, ...restaurados }))
+        setErrores((prev) => ({ ...prev, ...nuevosErrores }))
+      }
+    } else {
+      // Si pasa a pago, limpia mensajes de inmutabilidad solo en campos de pago
+      const nuevosErrores = { ...errores }
+      CAMPOS_DE_PAGO.forEach((k) => {
+        delete nuevosErrores[k]
+      })
+      setErrores(nuevosErrores)
+    }
+  }
+  const CAMPOS_DE_PAGO = ['pagina_web', 'telefono_whatsapp', 'servicios']
 
   if (!comercioEditable) {
     return (
@@ -112,7 +160,7 @@ const PasoInformacionComercio = ({
               name='tipoPlan'
               value='gratis'
               checked={tipoPlan === 'gratis'}
-              onChange={(e) => setTipoPlan(e.target.value)}
+              onChange={(e) => handleChangePlan(e.target.value)}
               disabled={planBloqueado || comercio?.seprec === false}
             />
             Gratuito
@@ -124,7 +172,7 @@ const PasoInformacionComercio = ({
               name='tipoPlan'
               value='pago'
               checked={tipoPlan === 'pago'}
-              onChange={(e) => setTipoPlan(e.target.value)}
+              onChange={(e) => handleChangePlan(e.target.value)}
               disabled={planBloqueado}
             />
             De Pago (Bs. 50/año)
@@ -300,8 +348,13 @@ const PasoInformacionComercio = ({
               disabled={campoSoloPago}
               placeholder='59171234567'
             />
-            {errores.whatsapp && (
-              <p className='text-inf_err text-sm mt-1'>{errores.whatsapp}</p>
+            {errores.telefono_whatsapp && (
+              <p
+                className='text-inf_err text-sm mt-1'
+                data-testid='error-telefono_whatsapp'
+              >
+                {errores.telefono_whatsapp}
+              </p>
             )}
           </div>
           <div>
@@ -316,6 +369,14 @@ const PasoInformacionComercio = ({
               className='w-full p-2 rounded bg-inf2 text-black focus:bg-white'
               disabled={campoSoloPago}
             />
+            {errores.pagina_web && (
+              <p
+                className='text-inf_err text-sm mt-1'
+                data-testid='error-pagina_web'
+              >
+                {errores.pagina_web}
+              </p>
+            )}
           </div>
           <div>
             <label className='block text-sm'>
@@ -329,6 +390,14 @@ const PasoInformacionComercio = ({
               rows='5'
               disabled={campoSoloPago}
             />
+            {errores.servicios && (
+              <p
+                className='text-inf_err text-sm mt-1'
+                data-testid='error-servicios'
+              >
+                {errores.servicios}
+              </p>
+            )}
           </div>
         </>
       )}
