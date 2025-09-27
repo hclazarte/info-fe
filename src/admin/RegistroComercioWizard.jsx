@@ -20,7 +20,7 @@ import {
 } from '../services/documentosService'
 import { actualizarComercio } from '../services/comerciosService'
 
-export default function ValidacionPropietario() {
+export default function RegistroComercioWizard() {
   const [spinner, setSpinner] = useState(false)
   const [step, setStep] = useState(1)
   const [solicitud, setSolicitud] = useState(null)

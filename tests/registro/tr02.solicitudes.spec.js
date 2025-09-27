@@ -57,6 +57,12 @@ test.describe('@acceptance', () => {
       .fill('COMERCIALIZACIÓN VARIADA')
     await page.getByTestId('claves-textarea').fill('VASQUEZ ORURO')
 
+    // TODO agregar steps.....
+    // Cambiar de plan a gratuito
+    // await expect(botonSiguiente).toBeEnabled()
+    // await botonSiguiente.click()
+    // verificar que el sistema da error al grabar
+
     await expect(botonSiguiente).toBeEnabled()
     await botonSiguiente.click()
     await expect(page.getByTestId('titulo-paso')).toHaveText('Pago del Plan')

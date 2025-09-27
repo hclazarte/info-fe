@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Busquedas from './components/Busquedas'
-import ValidacionPropietario from './admin/ValidacionPropietario'
+import RegistroComercioWizard from './admin/RegistroComercioWizard'
 import Unsubscribe from './admin/Unsubscribe'
 import SpinnerCom from './components/common/SpinnerCom'
 import { LoadScript } from '@react-google-maps/api'
@@ -38,7 +38,7 @@ function App() {
       <Routes>
         <Route
           path='/app/registro-comercio'
-          element={<ValidacionPropietario />}
+          element={<RegistroComercioWizard />}
         />
         <Route path='/app/cancelar-suscripcion' element={<Unsubscribe />} />
         <Route path='/*' element={<Busquedas />} />
