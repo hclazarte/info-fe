@@ -67,9 +67,12 @@ test.describe('@acceptance', () => {
     const inputPaginaWeb = page.getByTestId('pagina-web-input')
     const inputServicios = page.getByTestId('servicios-textarea')
 
-    await expect(inputWhatsapp).toHaveValue('')
+    await expect(inputWhatsapp).toHaveValue('59172300013')
     await expect(inputPaginaWeb).toHaveValue('')
     await expect(inputServicios).toHaveValue('')
+
+    // Elegir nuevamente tipo de plan "De Pago"
+    await page.getByTestId('depago-input').check()
 
     await page.getByTestId('whatsapp-input').fill('59172300013')
     await page.getByTestId('pagina-web-input').fill('https://vasquez.com.bo')

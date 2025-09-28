@@ -196,7 +196,6 @@ export default function RegistroComercioWizard() {
         // No necesita paso 3, verificar si necesita paso 4
         if (comercio?.autorizado === 1 || autorizado) {
           const ok = await grabarComercio()
-          console.log(`ok ${ok}`)
           if (ok) setStep(5)
         } else {
           setStep(4)
@@ -207,7 +206,6 @@ export default function RegistroComercioWizard() {
         // tipoPlan === 'gratis'
         if (comercio?.autorizado === 1 || autorizado) {
           const ok = await grabarComercio()
-          console.log(`ok ${ok}`)
           if (ok) setStep(5)
         } else {
           setStep(4)
@@ -217,7 +215,6 @@ export default function RegistroComercioWizard() {
       // Ya pagó, ahora verificar si requiere autorización
       if (comercio?.autorizado === 1 || autorizado) {
         const ok = await grabarComercio()
-        console.log(`ok ${ok}`)
         if (ok) setStep(5)
       } else {
         setStep(4)
@@ -225,7 +222,6 @@ export default function RegistroComercioWizard() {
     } else if (step === 4) {
       // Autoriza manualmente
       const ok = await grabarComercio()
-      console.log(`ok ${ok}`)
       if (ok) setStep(5)
     } else if (step === 5) {
       window.location.href = `${window.location.origin}/`
@@ -281,8 +277,7 @@ export default function RegistroComercioWizard() {
         console.log('Comercio actualizado')
         return true
       } else {
-        // console.log('Comercio NO actualizado')
-        // console.error(error)
+        console.error(error)
         return false
       }
     } catch (err) {
