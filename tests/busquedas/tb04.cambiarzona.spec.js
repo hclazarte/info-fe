@@ -7,7 +7,7 @@ test.describe('@smoke', () => {
   }) => {
     await gotoAndWait(page, '/oruro')
     await expect(page).toHaveURL('/bolivia/oruro')
-    await page.locator('[data-testid="zona-pulldown-button"]').click()
+    await page.getByTestId('zona-pulldown-button').click()
     const zonas = await page.locator('[data-testclass="zona-li"]')
     const primera = zonas.nth(0)
     const segunda = zonas.nth(1)
@@ -26,7 +26,7 @@ test.describe('@smoke', () => {
       .first()
       .textContent()
 
-    await page.locator('[data-testid="zona-pulldown-button"]').click()
+    await page.getByTestId('zona-pulldown-button').click()
     await segunda.click()
     await page.waitForResponse('**/api/comercios/lista?**')
     const zonaDosValor = await page
@@ -42,7 +42,7 @@ test.describe('@smoke', () => {
     // Que el contenido de 2 difiera del de 1
     expect(textoTitulo2).not.toBe(textoTitulo1)
 
-    await page.locator('[data-testid="zona-pulldown-button"]').click()
+    await page.getByTestId('zona-pulldown-button').click()
     await tercera.click()
     await page.waitForResponse('**/api/comercios/lista?**')
     const zonaTresValor = await page

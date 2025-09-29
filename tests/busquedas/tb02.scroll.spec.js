@@ -11,7 +11,7 @@ test.describe('@smoke', () => {
     const cantidad = await searchCount(page)
     await expect(cantidad).toBeGreaterThan(0)
 
-    const resultados = page.locator('[data-testid="resultados-div"]')
+    const resultados = page.getByTestId('resultados-div')
     while (true) {
       try {
         await Promise.all([

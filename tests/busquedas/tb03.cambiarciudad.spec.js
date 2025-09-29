@@ -10,7 +10,7 @@ test.describe('@smoke', () => {
     )
     await gotoAndWait(page, '/')
     await responsePromise
-    await page.locator('[data-testid="ciudad-pulldown-button"]').click()
+    await page.getByTestId('ciudad-pulldown-button').click()
     const ciudades = await page.locator('[data-testclass="ciudad-li"]')
     const primera = ciudades.nth(0)
     const segunda = ciudades.nth(1)
@@ -29,7 +29,7 @@ test.describe('@smoke', () => {
       .first()
       .textContent()
 
-    await page.locator('[data-testid="ciudad-pulldown-button"]').click()
+    await page.getByTestId('ciudad-pulldown-button').click()
     await segunda.click()
     await page.waitForResponse('**/api/comercios/lista?**')
     const ciudadDosValor = await page
@@ -45,7 +45,7 @@ test.describe('@smoke', () => {
     // Que el contenido de 2 difiera del de 1
     expect(textoTitulo2).not.toBe(textoTitulo1)
 
-    await page.locator('[data-testid="ciudad-pulldown-button"]').click()
+    await page.getByTestId('ciudad-pulldown-button').click()
     await tercera.click()
     await page.waitForResponse('**/api/comercios/lista?**')
     const ciudadTresValor = await page

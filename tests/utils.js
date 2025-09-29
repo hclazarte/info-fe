@@ -42,7 +42,7 @@ export async function gotoAndWait(page, path) {
  * @returns {Promise<number>}
  */
 export async function searchCount(page) {
-  const etiqueta = page.locator('[data-testid="etiqueta-busqueda"]')
+  const etiqueta = page.getByTestId('etiqueta-busqueda')
   const rawText = await etiqueta.textContent()
   if (!rawText) return 0
 
