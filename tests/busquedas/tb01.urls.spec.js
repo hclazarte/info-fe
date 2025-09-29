@@ -9,9 +9,7 @@ test.describe('@smoke', () => {
     await gotoAndWait(page, '/')
     await expect(page).toHaveTitle(/Infomóvil/)
     await expect(page.getByTestId('buscar-input')).toHaveValue('')
-    await expect(page.getByTestId('ciudad-input')).toHaveValue(
-      /la paz/i
-    )
+    await expect(page.getByTestId('ciudad-input')).toHaveValue(/la paz/i)
     await expect(page.getByTestId('zona-input')).toHaveValue('')
     await expect(page).toHaveURL('/bolivia/la-paz')
   })
@@ -23,9 +21,7 @@ test.describe('@smoke', () => {
     await gotoAndWait(page, '/Bolivia/La-Guardia')
 
     await expect(page.getByTestId('buscar-input')).toHaveValue('')
-    await expect(page.getByTestId('ciudad-input')).toHaveValue(
-      /la guardia/i
-    )
+    await expect(page.getByTestId('ciudad-input')).toHaveValue(/la guardia/i)
     await expect(page.getByTestId('zona-input')).not.toBeVisible()
     await expect(page).toHaveURL('bolivia/la-guardia')
   })
@@ -36,9 +32,7 @@ test.describe('@smoke', () => {
   }) => {
     await gotoAndWait(page, '/transporte')
 
-    await expect(page.getByTestId('buscar-input')).toHaveValue(
-      /transporte/i
-    )
+    await expect(page.getByTestId('buscar-input')).toHaveValue(/transporte/i)
     await expect(page.getByTestId('ciudad-input')).toHaveValue('')
     await expect(page.getByTestId('zona-input')).not.toBeVisible()
     await expect(page).toHaveURL('bolivia/transporte')
@@ -50,9 +44,7 @@ test.describe('@smoke', () => {
   }) => {
     await gotoAndWait(page, '/bolivia/Baritina')
 
-    await expect(page.getByTestId('buscar-input')).toHaveValue(
-      'baritina'
-    )
+    await expect(page.getByTestId('buscar-input')).toHaveValue('baritina')
     await expect(page.getByTestId('ciudad-input')).toHaveValue('')
     await expect(page.getByTestId('zona-input')).not.toBeVisible()
     await expect(page).toHaveURL('bolivia/baritina')
@@ -63,9 +55,7 @@ test.describe('@smoke', () => {
     await gotoAndWait(page, '/Bolivia/La Paz')
 
     await expect(page.getByTestId('buscar-input')).toHaveValue('')
-    await expect(page.getByTestId('ciudad-input')).toHaveValue(
-      /la paz/i
-    )
+    await expect(page.getByTestId('ciudad-input')).toHaveValue(/la paz/i)
     await expect(page.getByTestId('zona-input')).toHaveValue('')
     await expect(page).toHaveURL('bolivia/la-paz')
   })
@@ -74,12 +64,8 @@ test.describe('@smoke', () => {
   test('Verificación con pais, ciudad y texto', async ({ page }) => {
     await gotoAndWait(page, '/Bolivia/La-Paz/mercancias')
 
-    await expect(page.getByTestId('buscar-input')).toHaveValue(
-      'mercancias'
-    )
-    await expect(page.getByTestId('ciudad-input')).toHaveValue(
-      /la paz/i
-    )
+    await expect(page.getByTestId('buscar-input')).toHaveValue('mercancias')
+    await expect(page.getByTestId('ciudad-input')).toHaveValue(/la paz/i)
     await expect(page.getByTestId('zona-input')).toHaveValue('')
     await expect(page).toHaveURL('bolivia/la-paz/mercancias')
   })
@@ -89,12 +75,8 @@ test.describe('@smoke', () => {
     await gotoAndWait(page, '/Bolivia/La-Paz/Achumani')
 
     await expect(page.getByTestId('buscar-input')).toHaveValue('')
-    await expect(page.getByTestId('ciudad-input')).toHaveValue(
-      /la paz/i
-    )
-    await expect(page.getByTestId('zona-input')).toHaveValue(
-      /achumani/i
-    )
+    await expect(page.getByTestId('ciudad-input')).toHaveValue(/la paz/i)
+    await expect(page.getByTestId('zona-input')).toHaveValue(/achumani/i)
     await expect(page).toHaveURL('bolivia/la-paz/achumani')
   })
 })
