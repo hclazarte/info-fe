@@ -15,22 +15,22 @@ test.describe('@acceptance', () => {
     // Ir al link con token
     await waitForTokenPageData(page, token)
 
-    // 1. Al acceder al link con token, se muestra el título “Información del Comercio”.
+    // Al acceder al link con token, se muestra el título “Información del Comercio”.
     await expect(page.getByTestId('titulo-paso')).toHaveText(
       'Información del Comercio'
     )
 
-    // 2. El campo “Tipo Plan” está habilitado y se puede seleccionar “Gratuito”.
+    // El campo “Tipo Plan” está habilitado y se puede seleccionar “Gratuito”.
     const planGratuito = page.getByTestId('gratuito-input')
     await expect(planGratuito).toBeEnabled()
     await planGratuito.check()
 
-    // 3. Es posible editar datos del comercio.
+    // Es posible editar datos del comercio.
     await page.getByTestId('nombre-zona-input').fill('SAN MIGUEL')
     await page.getByTestId('calle-numero-input').fill('AV. BALLIVIÁN 123')
     const botonSiguiente = page.getByTestId('siguiente-button')
 
-    // 4. Pulsar siguiente y editar en la segunda pantalla de información
+    // Pulsar siguiente y editar en la segunda pantalla de información
     await expect(botonSiguiente).toBeEnabled()
     await botonSiguiente.click()
     await expect(page.getByTestId('titulo-paso')).toHaveText(
@@ -38,7 +38,11 @@ test.describe('@acceptance', () => {
     )
     await page.getByTestId('telefono1-input').fill('78945612')
 
-    // 5. En la pantalla de autorización, al pulsar “Sí autorizo”, “Terminar”, y finaliza el proceso.
+    // Ir a Substep 3
+    await expect(botonSiguiente).toBeEnabled()
+    await botonSiguiente.click()
+
+    // En la pantalla de autorización, al pulsar “Sí autorizo”, “Terminar”, y finaliza el proceso.
     await expect(botonSiguiente).toBeEnabled()
     await botonSiguiente.click()
     await expect(page.getByTestId('titulo-paso')).toHaveText('Autorización')
@@ -64,10 +68,10 @@ test.describe('@acceptance', () => {
     await expect(botonFinalizar).toBeEnabled()
     await botonFinalizar.click()
 
-    // 6. La URL final no contiene registro-comercio.
+    // La URL final no contiene registro-comercio.
     await expect(page).not.toHaveURL(/.*registro-comercio.*/)
 
-    // 7. Al recargar el link de registro, los datos editados se conservan.
+    // Al recargar el link de registro, los datos editados se conservan.
     await waitForTokenPageData(page, token)
     await expect(page.getByTestId('nombre-zona-input')).toHaveValue(
       'SAN MIGUEL'
@@ -78,7 +82,7 @@ test.describe('@acceptance', () => {
     await botonSiguiente.click()
     await expect(page.getByTestId('telefono1-input')).toHaveValue('78945612')
 
-    // 8. Al avanzar nuevamente, se muestran los datos editados hasta llegar a “¡Gracias por registrarse!”.
+    // Al avanzar nuevamente, se muestran los datos editados hasta llegar a “¡Gracias por registrarse!”.
     await expect(botonSiguiente).toBeEnabled()
     await botonSiguiente.click()
     await expect(page.getByTestId('titulo-paso')).toHaveText(

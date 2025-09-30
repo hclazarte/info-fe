@@ -15,14 +15,14 @@ test.describe('@acceptance', () => {
     // Ir al link con token
     await waitForTokenPageData(page, token)
 
-    // 1. Al acceder al link con token, se muestra el título “Información del Comercio”.
+    // Al acceder al link con token, se muestra el título “Información del Comercio”.
     await expect(page.getByTestId('titulo-paso')).toHaveText(
       'Información del Comercio'
     )
 
     const botonSiguiente = page.getByTestId('siguiente-button')
 
-    // 2. Pulsar “Siguiente” dos veces (no se muestran validación de documentos ni pago).
+    // Pulsar “Siguiente” tres veces (no se muestran validación de documentos ni pago).
     await expect(botonSiguiente).toBeEnabled()
     await botonSiguiente.click()
     await expect(page.getByTestId('titulo-paso')).toHaveText(
@@ -32,7 +32,10 @@ test.describe('@acceptance', () => {
     await expect(botonSiguiente).toBeEnabled()
     await botonSiguiente.click()
 
-    // 3. El flujo termina mostrando el título “¡Gracias por registrarse!”.
+    await expect(botonSiguiente).toBeEnabled()
+    await botonSiguiente.click()
+
+    // El flujo termina mostrando el título “¡Gracias por registrarse!”.
     await expect(page.getByTestId('titulo-paso')).toHaveText(
       '¡Gracias por registrarse!'
     )

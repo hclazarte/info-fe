@@ -115,6 +115,10 @@ test.describe('@acceptance', () => {
       botonTerminar.click()
     ])
 
+    // Ir a Substep 3
+    await expect(botonSiguiente).toBeEnabled()
+    await botonSiguiente.click()
+
     // Verificación final
     await gotoAndWait(page, '/bolivia/oruro/vasquez-oruro')
     const tarjeta = page.locator('[data-testclass="tarjeta-control"]', {

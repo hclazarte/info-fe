@@ -15,21 +15,21 @@ test.describe('@acceptance', () => {
     // Ir al link con token
     await waitForTokenPageData(page, token)
 
-    // 1. Verificar título Información del Comercio
+    // Verificar título Información del Comercio
     await expect(page.getByTestId('titulo-paso')).toHaveText(
       'Información del Comercio'
     )
 
-    // 2. Verificar que Tipo Plan está deshabilitado
+    // Verificar que Tipo Plan está deshabilitado
     const planPago = page.getByTestId('depago-input')
     await expect(planPago).toBeDisabled()
 
-    // 3. Pulsar siguiente
+    // Pulsar siguiente
     const botonSiguiente = page.getByTestId('siguiente-button')
     await expect(botonSiguiente).toBeEnabled()
     await botonSiguiente.click()
 
-    // 4. Cambiar el dato página web
+    // Cambiar el dato página web
     await expect(page.getByTestId('titulo-paso')).toHaveText(
       'Información del Comercio'
     )
@@ -37,14 +37,18 @@ test.describe('@acceptance', () => {
     await paginaWebInput.fill('https://tr04-demo.com.bo')
     await expect(paginaWebInput).toHaveValue('https://tr04-demo.com.bo')
 
-    // 5. Siguiente → debe ir directo a ¡Gracias por registrarse!
+    // Ir a Substep 3
+    await expect(botonSiguiente).toBeEnabled()
+    await botonSiguiente.click()
+
+    // Siguiente → debe ir directo a ¡Gracias por registrarse!
     await expect(botonSiguiente).toBeEnabled()
     await botonSiguiente.click()
     await expect(page.getByTestId('titulo-paso')).toHaveText(
       '¡Gracias por registrarse!'
     )
 
-    // 6. Recargar el link del token
+    // Recargar el link del token
     await waitForTokenPageData(page, token)
 
     // Avanzar y verificar que persiste la página web editada

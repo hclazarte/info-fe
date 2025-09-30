@@ -189,26 +189,32 @@ export default function RegistroComercioWizard() {
     if (step === 1 && solicitud?.estado !== 'pendiente_verificacion') {
       setStep(2)
       setSubstep(1)
-    } else if (step === 2 && substep === 1) {
-      setSubstep(2)
-    } else if (step === 2 && substep === 2) {
-      if (tienePlanActivo) {
-        // No necesita paso 3, verificar si necesita paso 4
-        if (comercio?.autorizado === 1 || autorizado) {
-          const ok = await grabarComercio()
-          if (ok) setStep(5)
+    } else if (step === 2) {
+      if (substep === 1) {
+        setSubstep(2)
+      } else if (substep === 2) {
+        // NUEVO: avanzar al substep 3 antes de decidir el siguiente paso
+        setSubstep(3)
+      } else if (substep === 3) {
+        // Lógica que antes estaba en (step === 2 && substep === 2)
+        if (tienePlanActivo) {
+          // No necesita paso 3, verificar si necesita paso 4
+          if (comercio?.autorizado === 1 || autorizado) {
+            const ok = await grabarComercio()
+            if (ok) setStep(5)
+          } else {
+            setStep(4)
+          }
+        } else if (tipoPlan === 'pago') {
+          setStep(3)
         } else {
-          setStep(4)
-        }
-      } else if (tipoPlan === 'pago') {
-        setStep(3)
-      } else {
-        // tipoPlan === 'gratis'
-        if (comercio?.autorizado === 1 || autorizado) {
-          const ok = await grabarComercio()
-          if (ok) setStep(5)
-        } else {
-          setStep(4)
+          // tipoPlan === 'gratis'
+          if (comercio?.autorizado === 1 || autorizado) {
+            const ok = await grabarComercio()
+            if (ok) setStep(5)
+          } else {
+            setStep(4)
+          }
         }
       }
     } else if (step === 3) {
@@ -229,20 +235,22 @@ export default function RegistroComercioWizard() {
   }
 
   const handleAtras = () => {
-    if (step === 2 && substep === 2) {
+    if (step === 2 && substep === 3) {
+      setSubstep(2)
+    } else if (step === 2 && substep === 2) {
       setSubstep(1)
     } else if (step === 2 && substep === 1) {
       setStep(1)
     } else if (step === 3) {
       setStep(2)
-      setSubstep(2)
+      setSubstep(3) // volver al último substep visitado
     } else if (step === 4) {
       if (tienePlanActivo) {
         setStep(2)
-        setSubstep(2)
+        setSubstep(3)
       } else if (tipoPlan === 'gratis') {
         setStep(2)
-        setSubstep(2)
+        setSubstep(3)
       } else {
         setStep(3)
       }

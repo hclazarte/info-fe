@@ -401,6 +401,22 @@ const PasoInformacionComercio = ({
           </div>
         </>
       )}
+      {substep === 3 && (
+        <>
+          <h3 className='text-xl font-semibold mb-2'>Ubicación Geográfica</h3>
+          <p className='text-sm text-gray-600 mb-4'>
+            Seleccione la ubicación de su comercio en el mapa.
+          </p>
+          <div
+            data-testid='mapa-placeholder'
+            className='w-full h-64 bg-inf2 flex items-center justify-center rounded'
+          >
+            <span className='text-gray-700'>
+              Aquí irá el mapa de Google (pendiente integrar)
+            </span>
+          </div>
+        </>
+      )}
       <div className='flex justify-between mt-4'>
         <button
           data-testid='atras-button'

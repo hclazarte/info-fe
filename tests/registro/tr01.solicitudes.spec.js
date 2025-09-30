@@ -115,6 +115,10 @@ test.describe('@acceptance', () => {
       .fill('SISTEMAS WEB, APP MÓVILES, CLOUD')
     await page.getByTestId('claves-textarea').fill('ESPERICAURICONO')
 
+    // Ir a Substep 3
+    await expect(botonSiguiente).toBeEnabled()
+    await botonSiguiente.click()
+
     // Ir a Plan de Pagos
     await expect(botonSiguiente).toBeEnabled()
     await botonSiguiente.click()
