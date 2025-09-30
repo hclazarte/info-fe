@@ -85,6 +85,8 @@ test.describe('@acceptance', () => {
     // Al avanzar nuevamente, se muestran los datos editados hasta llegar a “¡Gracias por registrarse!”.
     await expect(botonSiguiente).toBeEnabled()
     await botonSiguiente.click()
+    await expect(botonSiguiente).toBeEnabled()
+    await botonSiguiente.click()
     await expect(page.getByTestId('titulo-paso')).toHaveText(
       '¡Gracias por registrarse!'
     )

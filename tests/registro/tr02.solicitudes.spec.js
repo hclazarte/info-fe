@@ -83,6 +83,12 @@ test.describe('@acceptance', () => {
 
     await expect(botonSiguiente).toBeEnabled()
     await botonSiguiente.click()
+    await expect(page.getByTestId('titulo-paso')).toHaveText(
+      'Información del Comercio'
+    )
+
+    await expect(botonSiguiente).toBeEnabled()
+    await botonSiguiente.click()
     await expect(page.getByTestId('titulo-paso')).toHaveText('Pago del Plan')
 
     const fileInput = page.getByTestId('comprobante-input')
@@ -114,10 +120,6 @@ test.describe('@acceptance', () => {
       ),
       botonTerminar.click()
     ])
-
-    // Ir a Substep 3
-    await expect(botonSiguiente).toBeEnabled()
-    await botonSiguiente.click()
 
     // Verificación final
     await gotoAndWait(page, '/bolivia/oruro/vasquez-oruro')
