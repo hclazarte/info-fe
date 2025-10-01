@@ -2,11 +2,8 @@
 import { useEffect, useRef } from 'react'
 
 const loadGoogleMaps = (apiKey) => {
-  // Evita cargar dos veces
   if (window.google && window.google.maps) return Promise.resolve()
-
   if (document.getElementById('gmaps-script')) {
-    // ya se está cargando
     return new Promise((resolve) => {
       const check = () => {
         if (window.google && window.google.maps) resolve()
@@ -15,10 +12,10 @@ const loadGoogleMaps = (apiKey) => {
       check()
     })
   }
-
   return new Promise((resolve, reject) => {
     const script = document.createElement('script')
     script.id = 'gmaps-script'
+    // Puedes dejar libraries=marker; si no está, igual hacemos fallback.
     script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=marker`
     script.async = true
     script.defer = true
@@ -38,6 +35,7 @@ export default function MapaUbicacion({
   const mapRef = useRef(null)
   const markerRef = useRef(null)
   const mapInstanceRef = useRef(null)
+  const isAdvancedRef = useRef(false) // true si usamos AdvancedMarkerElement
 
   useEffect(() => {
     let isMounted = true
@@ -46,7 +44,6 @@ export default function MapaUbicacion({
       await loadGoogleMaps(apiKey)
       if (!isMounted) return
 
-      // Centro por defecto: La Paz, BO (si no hay coordenadas)
       const hasCoords = !!latitud && !!longitud
       const center = hasCoords
         ? { lat: parseFloat(latitud), lng: parseFloat(longitud) }
@@ -57,34 +54,56 @@ export default function MapaUbicacion({
         zoom: hasCoords ? 16 : 12,
         mapTypeControl: false,
         streetViewControl: false,
-        fullscreenControl: true
+        fullscreenControl: true,
+        gestureHandling: 'greedy'
       })
       mapInstanceRef.current = map
 
-      // Si ya hay coordenadas, planto el marcador
+      // Detectar disponibilidad de AdvancedMarkerElement y setear fallback
+      const AdvancedMarkerElement =
+        window.google?.maps?.marker?.AdvancedMarkerElement
+      isAdvancedRef.current = !!AdvancedMarkerElement
+
+      // Si ya hay coordenadas, crear marcador inicial
       if (hasCoords) {
-        markerRef.current = new window.google.maps.marker.AdvancedMarkerElement(
-          {
+        if (isAdvancedRef.current) {
+          markerRef.current = new AdvancedMarkerElement({
             map,
             position: center
-          }
-        )
+          })
+        } else {
+          markerRef.current = new window.google.maps.Marker({
+            map,
+            position: center
+          })
+        }
       }
 
-      // Click para fijar coordenadas
+      // Click para fijar coordenadas (funciona tanto con pan como con clic)
       map.addListener('click', (e) => {
         const lat = e.latLng.lat()
         const lng = e.latLng.lng()
 
         if (markerRef.current) {
-          markerRef.current.position = { lat, lng }
+          if (isAdvancedRef.current) {
+            markerRef.current.position = { lat, lng }
+          } else {
+            markerRef.current.setPosition({ lat, lng })
+          }
         } else {
-          markerRef.current =
-            new window.google.maps.marker.AdvancedMarkerElement({
+          if (isAdvancedRef.current) {
+            markerRef.current = new AdvancedMarkerElement({
               map,
               position: { lat, lng }
             })
+          } else {
+            markerRef.current = new window.google.maps.Marker({
+              map,
+              position: { lat, lng }
+            })
+          }
         }
+
         onChangeLatLng({ latitud: lat.toFixed(6), longitud: lng.toFixed(6) })
       })
     }
@@ -93,25 +112,34 @@ export default function MapaUbicacion({
     return () => {
       isMounted = false
     }
-  }, [apiKey])
+  }, [apiKey, onChangeLatLng])
 
-  // Si cambian las coords desde afuera, actualizamos mapa/marcador
+  // Si cambian las coords desde fuera (inputs), centra/actualiza marcador
   useEffect(() => {
     const map = mapInstanceRef.current
-    if (!map) return
-    if (!latitud || !longitud) return
+    if (!map || !latitud || !longitud) return
 
     const pos = { lat: parseFloat(latitud), lng: parseFloat(longitud) }
     map.setCenter(pos)
     map.setZoom(16)
 
     if (markerRef.current) {
-      markerRef.current.position = pos
+      if (isAdvancedRef.current) {
+        markerRef.current.position = pos
+      } else {
+        markerRef.current.setPosition(pos)
+      }
     } else {
-      markerRef.current = new window.google.maps.marker.AdvancedMarkerElement({
-        map,
-        position: pos
-      })
+      if (isAdvancedRef.current) {
+        const AdvancedMarkerElement =
+          window.google?.maps?.marker?.AdvancedMarkerElement
+        markerRef.current = new AdvancedMarkerElement({ map, position: pos })
+      } else {
+        markerRef.current = new window.google.maps.Marker({
+          map,
+          position: pos
+        })
+      }
     }
   }, [latitud, longitud])
 
