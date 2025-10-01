@@ -1,6 +1,6 @@
 // Este componente espera props: step, substep, tipoPlan, setTipoPlan, comercio, solicitud,
 // ciudades, zonas, handleAtras, handleSiguiente, comercioEditable, setComercioEditable
-
+import MapaUbicacion from './MapaUbicacion'
 import { useEffect, useState } from 'react'
 import { Lock } from 'lucide-react'
 
@@ -405,15 +405,53 @@ const PasoInformacionComercio = ({
         <>
           <h3 className='text-xl font-semibold mb-2'>Ubicación Geográfica</h3>
           <p className='text-sm text-gray-600 mb-4'>
-            Seleccione la ubicación de su comercio en el mapa.
+            Pinche en el mapa para fijar la posición exacta de su comercio.
           </p>
-          <div
-            data-testid='mapa-placeholder'
-            className='w-full h-64 bg-inf2 flex items-center justify-center rounded'
-          >
-            <span className='text-gray-700'>
-              Aquí irá el mapa de Google (pendiente integrar)
-            </span>
+
+          <MapaUbicacion
+            latitud={comercioEditable.latitud}
+            longitud={comercioEditable.longitud}
+            onChangeLatLng={({ latitud, longitud }) => {
+              setComercioEditable((prev) => ({
+                ...prev,
+                latitud,
+                longitud
+              }))
+            }}
+            alto='18rem'
+          />
+
+          <div className='grid grid-cols-1 md:grid-cols-2 gap-4 mt-4'>
+            <div>
+              <label className='block text-sm'>Latitud:</label>
+              <input
+                data-testid='latitud-input'
+                value={comercioEditable.latitud || ''}
+                onChange={(e) =>
+                  setComercioEditable((prev) => ({
+                    ...prev,
+                    latitud: e.target.value
+                  }))
+                }
+                className='w-full p-2 rounded bg-inf2 text-black focus:bg-white'
+                placeholder='-16.500000'
+              />
+            </div>
+            <div>
+              <label className='block text-sm'>Longitud:</label>
+              <input
+                data-testid='longitud-input'
+                value={comercioEditable.longitud || ''}
+                onChange={(e) =>
+                  setComercioEditable((prev) => ({
+                    ...prev,
+                    longitud: e.target.value
+                  }))
+                }
+                className='w-full p-2 rounded bg-inf2 text-black focus:bg-white'
+                placeholder='-68.150000'
+              />
+            </div>
           </div>
         </>
       )}
