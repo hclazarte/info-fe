@@ -23,7 +23,7 @@ test.describe('@smoke', () => {
     const texto = servicio
       .trim()
       .split(/\s+/)
-      .find((palabra) => palabra.length > 2)
+      .find((palabra) => palabra.length > 6)
 
     const buscador = page.getByTestId('buscar-input')
     await buscador.click()
