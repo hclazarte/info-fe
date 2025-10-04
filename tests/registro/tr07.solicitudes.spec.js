@@ -1,20 +1,25 @@
 // tests/registro/tr07.solicitudes_no_seprec.spec.js
 import { test, expect } from '@playwright/test'
-import { waitForTokenPageData, prepararEscenario } from '../utils'
-import path from 'path'
+import {
+  gotoAndWait,
+  waitForTokenPageData,
+  prepararEscenario,
+  saveBase64PdfToFile
+} from '../utils'
 
 test.use({ browserName: 'chromium' })
 
-test.describe('@notready', () => {
+test.describe('@acceptance', () => {
   test('Flujo TR07 – Comercio No SEPREC con plan de pago (bloqueado) hasta publicación y verificación en búsqueda', async ({
     page,
     baseURL
   }) => {
-    // 1) Preparar escenario en BE (TR07)
+    // Preparar escenario en BE (TR07)
     const json = await prepararEscenario('tr07', baseURL)
+    const tempPath = await saveBase64PdfToFile(json.comprobante_pdf)
     const token = json.token
 
-    // 2) Abrir enlace con token
+    // Abrir enlace con token
     await waitForTokenPageData(page, token)
 
     // Se muestra el paso de Información del Comercio
@@ -22,7 +27,7 @@ test.describe('@notready', () => {
       'Información del Comercio'
     )
 
-    // 3) Plan bloqueado en "De Pago"
+    // Plan bloqueado en "De Pago"
     const radioPago = page.getByTestId('depago-input')
     const radioGratuito = page.getByTestId('gratuito-input')
     await expect(radioPago).toBeChecked()
@@ -31,10 +36,11 @@ test.describe('@notready', () => {
     await expect(radioGratuito).toBeDisabled()
 
     const botonSiguiente = page.getByTestId('siguiente-button')
+    await botonSiguiente.click()
 
-    // 4) Completar campos mínimos requeridos del comercio
+    // Completar campos mínimos requeridos del comercio
     await page.getByTestId('telefono1-input').fill('78900001')
-    await page.getByTestId('palabras-clave-textarea').fill('ASUSTADERAS')
+    await page.getByTestId('claves-textarea').fill('ASUSTADERAS')
     await page
       .getByTestId('servicios-textarea')
       .fill('SERVICIOS DE ASUSTADERAS')
@@ -42,7 +48,7 @@ test.describe('@notready', () => {
     await expect(botonSiguiente).toBeEnabled()
     await botonSiguiente.click()
 
-    // 5) Paso de Ubicación Geográfica: fijar coordenadas (llenando inputs para evitar flakiness)
+    // Paso de Ubicación Geográfica: fijar coordenadas (llenando inputs para evitar flakiness)
     await expect(page.getByTestId('titulo-paso')).toHaveText(
       'Información del Comercio'
     )
@@ -51,39 +57,46 @@ test.describe('@notready', () => {
 
     await expect(botonSiguiente).toBeEnabled()
     await botonSiguiente.click()
-
-    // 6) Paso de Pago: subir comprobante y validar
     await expect(page.getByTestId('titulo-paso')).toHaveText('Pago del Plan')
-    const comprobantePath = path.resolve(
-      __dirname,
-      '../fixtures/comprobante.pdf'
-    )
-    await page
-      .getByTestId('archivo-comprobante-input')
-      .setInputFiles(comprobantePath)
+
+    // Paso de Pago: subir comprobante y validar
+    const fileInput = page.getByTestId('comprobante-input')
+    await fileInput.setInputFiles(tempPath)
 
     const validarButton = page.getByTestId('validar-button')
     await expect(validarButton).toBeEnabled()
-    await validarButton.click()
-    await expect(page.getByTestId('estado-validacion-label')).toHaveText(
-      /Registro Validado/i
-    )
+    await Promise.all([
+      page.waitForResponse(
+        (r) => r.url().includes('/api/documentos') && r.status() === 200,
+        { timeout: 60000 }
+      ),
+      validarButton.click()
+    ])
 
     await expect(botonSiguiente).toBeEnabled()
     await botonSiguiente.click()
 
-    // 7) Paso de Autorización
+    // Paso de Autorización
     await expect(page.getByTestId('titulo-paso')).toHaveText('Autorización')
-    await page.getByTestId('autorizar-checkbox').check()
-    await page.getByTestId('terminar-button').click()
+    const checkbox = page.getByTestId('autorizo-input')
+    await checkbox.check()
 
-    // 8) Mensaje final
+    const botonTerminar = page.getByTestId('terminar-button')
+    await expect(botonTerminar).toBeEnabled()
+    await Promise.all([
+      page.waitForResponse(
+        (r) => r.url().includes('/api/comercios') && r.status() === 200,
+        { timeout: 60000 }
+      ),
+      botonTerminar.click()
+    ])
+
+    // Mensaje final
     await expect(page.getByTestId('titulo-paso')).toHaveText(
       '¡Gracias por registrarse!'
     )
 
-    // 9) Ver resultados en página pública (búsqueda/slug)
-    //    Opción por slug directo para estabilidad
+    // Ver resultados en página pública (búsqueda/slug)
     await page.goto('/bolivia/la-paz/tienda-don-toleras')
     await expect(
       page.getByText('TIENDA DON TOLERAS', { exact: true })
