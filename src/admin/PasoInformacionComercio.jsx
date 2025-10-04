@@ -173,7 +173,7 @@ const PasoInformacionComercio = ({
               value='pago'
               checked={tipoPlan === 'pago'}
               onChange={(e) => handleChangePlan(e.target.value)}
-              disabled={planBloqueado}
+              disabled={planBloqueado || comercio?.seprec === false}
             />
             De Pago (Bs. 50/año)
           </label>
