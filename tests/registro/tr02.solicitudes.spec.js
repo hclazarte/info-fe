@@ -49,7 +49,7 @@ test.describe('@acceptance', () => {
     // Substep 2
     await page.getByTestId('telefono1-input').fill('72300013')
     await page.getByTestId('telefono2-input').fill('')
-    await page.getByTestId('whatsapp-input').fill('59172300013')
+    await page.getByTestId('whatsapp-input').fill('59160500015')
     await page.getByTestId('pagina-web-input').fill('https://vasquez.com.bo')
     await page
       .getByTestId('servicios-textarea')
@@ -58,6 +58,7 @@ test.describe('@acceptance', () => {
 
     // Volver a modo gratuito
     await radioGratutito.check()
+    await page.pause()
     await expect(page.getByTestId('error-telefono_whatsapp')).toBeVisible()
     await expect(page.getByTestId('error-pagina_web')).toBeVisible()
     await expect(page.getByTestId('error-servicios')).toBeVisible()
