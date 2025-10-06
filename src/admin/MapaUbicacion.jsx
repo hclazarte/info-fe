@@ -29,13 +29,15 @@ export default function MapaUbicacion({
   latitud,
   longitud,
   onChangeLatLng,
-  alto = '16rem'
+  alto = '16rem',
+  preservarVista = false
 }) {
   const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY
   const mapRef = useRef(null)
   const markerRef = useRef(null)
   const mapInstanceRef = useRef(null)
   const isAdvancedRef = useRef(false) // true si usamos AdvancedMarkerElement
+  const lastUpdateFromMapRef = useRef(false)
 
   useEffect(() => {
     let isMounted = true
@@ -81,6 +83,9 @@ export default function MapaUbicacion({
 
       // Click para fijar coordenadas (funciona tanto con pan como con clic)
       map.addListener('click', (e) => {
+        const currentCenter = map.getCenter()
+        const currentZoom = map.getZoom()
+
         const lat = e.latLng.lat()
         const lng = e.latLng.lng()
 
@@ -104,7 +109,15 @@ export default function MapaUbicacion({
           }
         }
 
-        onChangeLatLng({ latitud: lat.toFixed(6), longitud: lng.toFixed(6) })
+        // Marcar que el cambio proviene del mapa para no recentrar en el efecto
+        lastUpdateFromMapRef.current = true
+        onChangeLatLng?.({ latitud: lat.toFixed(6), longitud: lng.toFixed(6) })
+
+        // Restaurar vista si se requiere preservar zoom/centro
+        if (preservarVista) {
+          map.setZoom(currentZoom)
+          map.setCenter(currentCenter)
+        }
       })
     }
 

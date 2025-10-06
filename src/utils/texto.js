@@ -22,3 +22,13 @@ export const convertirAPath = (texto) => {
 export const quitarTildes = (texto) => {
   return texto.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
 }
+
+// Genera un identificador tipo slug para usar en la URL de un comercio
+export const generarSlug = (texto) => {
+  if (typeof texto !== 'string' || !texto.trim()) return ''
+  return quitarTildes(texto)
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '') // elimina símbolos y caracteres especiales
+    .trim()
+    .replace(/\s+/g, '-') // reemplaza espacios por guiones
+}

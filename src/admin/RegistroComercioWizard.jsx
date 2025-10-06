@@ -19,6 +19,7 @@ import {
   validarComprobantePago
 } from '../services/documentosService'
 import { actualizarComercio } from '../services/comerciosService'
+import { generarSlug } from '../utils/texto'
 
 export default function RegistroComercioWizard() {
   const [spinner, setSpinner] = useState(false)
@@ -230,7 +231,19 @@ export default function RegistroComercioWizard() {
       const ok = await grabarComercio()
       if (ok) setStep(5)
     } else if (step === 5) {
-      window.location.href = `${window.location.origin}/`
+      // Ver el comercio editado
+      const origin = window.location.origin
+      const paisSegment = 'bolivia'
+      const slug =
+        comercio?.slug ||
+        comercioEditable?.slug ||
+        (comercioEditable?.empresa
+          ? generarSlug(comercioEditable.empresa)
+          : null)
+      const destino = slug
+        ? `${origin}/${paisSegment}/${slug}`
+        : `${origin}/comercios/${comercio?.id ?? ''}`
+      window.location.href = destino
     }
   }
 

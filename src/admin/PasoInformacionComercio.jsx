@@ -117,12 +117,12 @@ const PasoInformacionComercio = ({
 
   const handleInputWhatsApp = (e) => {
     let valor = e.target.value.replace(/\D/g, '') // solo dígitos
-    setComercioEditable((prev) => ({ ...prev, telefono_whatsapp: `+${valor}` }))
+    setComercioEditable((prev) => ({ ...prev, telefono_whatsapp: valor }))
   }
 
   const handleBlurWhatsApp = () => {
     const valor = comercioEditable.telefono_whatsapp || ''
-    const regex = /^\+[1-9]\d{7,14}$/
+    const regex = /^[1-9]\d{7,14}$/
     const esValido = regex.test(valor)
     setErrores((prev) => ({
       ...prev,
@@ -411,6 +411,7 @@ const PasoInformacionComercio = ({
           <MapaUbicacion
             latitud={comercioEditable.latitud}
             longitud={comercioEditable.longitud}
+            preservarVista
             onChangeLatLng={({ latitud, longitud }) => {
               setComercioEditable((prev) => ({
                 ...prev,
