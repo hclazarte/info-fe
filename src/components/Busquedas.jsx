@@ -4,8 +4,8 @@ import Buscar from './Buscar'
 import Ciudad from './Ciudad'
 import Zona from './Zona'
 import IconoBuzon from './IconoBuzon'
-import BotonAltaComercio from './BotonAltaComercio'
-import BotonModificaComercio from './BotonModificaComercio'
+import BotonMiComercio from './BotonMiComercio'
+import BotonSeaPromotor from './BotonSeaPromotor'
 import GloboSugerencia from './GloboSugerencia'
 import Tarjeta from './Tarjeta'
 import Firma from './Firma'
@@ -395,10 +395,8 @@ export default function Busquedas() {
                   <Firma />
                   <div className='flex flex-row items-center gap-x-4 mt-4'>
                     <IconoBuzon onClick={() => setMostrarBuzon(true)} />
-                    <BotonAltaComercio onClick={() => setMostrarAlta(true)} />
-                    <BotonModificaComercio
-                      onClick={() => setMostrarAlta(true)}
-                    />
+                    <BotonMiComercio onClick={() => setMostrarAlta(true)} />
+                    <BotonSeaPromotor onClick={() => setMostrarAlta(true)} />
                     <GloboSugerencia />
                   </div>
                 </div>
@@ -495,8 +493,8 @@ export default function Busquedas() {
                 )}
                 <div className='flex flex-row items-center gap-x-4 mt-4'>
                   <IconoBuzon onClick={() => setMostrarBuzon(true)} />
-                  <BotonAltaComercio onClick={() => setMostrarAlta(true)} />
-                  <BotonModificaComercio onClick={() => setMostrarAlta(true)} />
+                  <BotonMiComercio onClick={() => setMostrarAlta(true)} />
+                  <BotonSeaPromotor onClick={() => setMostrarAlta(true)} />
                   <GloboSugerencia />
                 </div>
               </div>
