@@ -12,6 +12,7 @@ import Firma from './Firma'
 import DetalleModal from './DetalleModal'
 import BuzonSugerencias from './BuzonSugerencias'
 import FormularioSolicitudComercio from './FormularioSolicitudComercio'
+import FormularioPromotor from './FormularioPromotor'
 import { obtenerObjetosInicio } from '../services/iniciosService'
 import {
   obtenerCiudades,
@@ -41,6 +42,7 @@ export default function Busquedas() {
   const [comercioSeleccionado, setComercioSeleccionado] = useState(null)
   const [mostrarBuzon, setMostrarBuzon] = useState(false)
   const [mostrarAlta, setMostrarAlta] = useState(false)
+  const [mostrarPromotor, setMostrarPromotor] = useState(false)
   const touchStartY = useRef(null)
   const touchEndY = useRef(null)
   const touchStartYRef = useRef(null)
@@ -396,7 +398,9 @@ export default function Busquedas() {
                   <div className='flex flex-row items-center gap-x-4 mt-4'>
                     <BotonBuzon onClick={() => setMostrarBuzon(true)} />
                     <BotonMiComercio onClick={() => setMostrarAlta(true)} />
-                    <BotonSeaPromotor onClick={() => setMostrarAlta(true)} />
+                    <BotonSeaPromotor
+                      onClick={() => setMostrarPromotor(true)}
+                    />
                     <GloboSugerencia />
                   </div>
                 </div>
@@ -494,7 +498,7 @@ export default function Busquedas() {
                 <div className='flex flex-row items-center gap-x-4 mt-4'>
                   <BotonBuzon onClick={() => setMostrarBuzon(true)} />
                   <BotonMiComercio onClick={() => setMostrarAlta(true)} />
-                  <BotonSeaPromotor onClick={() => setMostrarAlta(true)} />
+                  <BotonSeaPromotor onClick={() => setMostrarPromotor(true)} />
                   <GloboSugerencia />
                 </div>
               </div>
@@ -557,6 +561,9 @@ export default function Busquedas() {
       )}
       {mostrarAlta && (
         <FormularioSolicitudComercio onClose={() => setMostrarAlta(false)} />
+      )}
+      {mostrarPromotor && (
+        <FormularioPromotor onClose={() => setMostrarPromotor(false)} />
       )}
     </div>
   )
