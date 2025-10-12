@@ -10,7 +10,7 @@ import { enviarSolicitud } from '../services/solicitudesService.js'
 import AyudaRegistroCorreo from './AyudaRegistroCorreo.jsx'
 import AyudaAdministrarComercio from './AyudaAdministrarComercio.jsx'
 
-export default function AltaNoSeprec({ onClose }) {
+export default function FormularioSolicitudComercio({ onClose }) {
   const [emailBusqueda, setEmailBusqueda] = useState('')
   const [formData, setFormData] = useState({
     empresa: '',

@@ -11,7 +11,7 @@ import Tarjeta from './Tarjeta'
 import Firma from './Firma'
 import DetalleModal from './DetalleModal'
 import BuzonSugerencias from './BuzonSugerencias'
-import AltaNoSeprec from './AltaNoSeprec'
+import FormularioSolicitudComercio from './FormularioSolicitudComercio'
 import { obtenerObjetosInicio } from '../services/iniciosService'
 import {
   obtenerCiudades,
@@ -555,7 +555,9 @@ export default function Busquedas() {
           onClose={() => setMostrarBuzon(false)}
         />
       )}
-      {mostrarAlta && <AltaNoSeprec onClose={() => setMostrarAlta(false)} />}
+      {mostrarAlta && (
+        <FormularioSolicitudComercio onClose={() => setMostrarAlta(false)} />
+      )}
     </div>
   )
 }
