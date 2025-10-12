@@ -3,7 +3,7 @@ import backgroundImage from '../img/background-image.jpg'
 import Buscar from './Buscar'
 import Ciudad from './Ciudad'
 import Zona from './Zona'
-import IconoBuzon from './IconoBuzon'
+import BotonBuzon from './BotonBuzon'
 import BotonMiComercio from './BotonMiComercio'
 import BotonSeaPromotor from './BotonSeaPromotor'
 import GloboSugerencia from './GloboSugerencia'
@@ -394,7 +394,7 @@ export default function Busquedas() {
                   )}
                   <Firma />
                   <div className='flex flex-row items-center gap-x-4 mt-4'>
-                    <IconoBuzon onClick={() => setMostrarBuzon(true)} />
+                    <BotonBuzon onClick={() => setMostrarBuzon(true)} />
                     <BotonMiComercio onClick={() => setMostrarAlta(true)} />
                     <BotonSeaPromotor onClick={() => setMostrarAlta(true)} />
                     <GloboSugerencia />
@@ -492,7 +492,7 @@ export default function Busquedas() {
                   />
                 )}
                 <div className='flex flex-row items-center gap-x-4 mt-4'>
-                  <IconoBuzon onClick={() => setMostrarBuzon(true)} />
+                  <BotonBuzon onClick={() => setMostrarBuzon(true)} />
                   <BotonMiComercio onClick={() => setMostrarAlta(true)} />
                   <BotonSeaPromotor onClick={() => setMostrarAlta(true)} />
                   <GloboSugerencia />

@@ -1,6 +1,6 @@
 import IconoCorreo from '../assets/Correo.svg?react'
 
-export default function IconoBuzon({ onClick }) {
+export default function BotonBuzon({ onClick }) {
   return (
     <button
       onClick={onClick}
