@@ -10,28 +10,61 @@ export default function FormularioPromotor({ onClose }) {
     email: '',
     telefono: ''
   })
-  const [acepta, setAcepta] = useState(false)
+  const [errores, setErrores] = useState({
+    nombre: null,
+    email: null,
+    telefono: null
+  })
   const [cargando, setCargando] = useState(false)
   const [showDialog, setShowDialog] = useState(false)
   const [dialogMsg, setDialogMsg] = useState('')
   const [success, setSuccess] = useState(false)
 
+  const validarNombre = (v) => {
+    if (!v || v.trim().length < 3) return 'Ingrese su nombre y apellido.'
+    return null
+  }
+  const validarEmail = (v) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!re.test(v || '')) return 'Ingrese un correo válido.'
+    return null
+  }
+  const validarWhatsApp = (v) => {
+    // 8 a 15 dígitos, sin 0 inicial; incluir código de país (ej: 59171234567)
+    const regex = /^[1-9]\d{7,14}$/
+    if (!regex.test((v || '').replace(/\s+/g, '')))
+      return 'El número debe tener entre 8 y 15 dígitos incluyendo el código de país. Ej: 59171234567'
+    return null
+  }
+
   const handleChange = (e) => {
     const { name, value } = e.target
-    if (name === 'telefono' && value && !/^\d*$/.test(value)) return
-    setFormData({ ...formData, [name]: value })
+    // Solo números en teléfono (permitimos espacios que luego se quitarán al validar)
+    const next = name === 'telefono' ? value.replace(/[^\d\s]/g, '') : value
+    setFormData({ ...formData, [name]: next })
+  }
+
+  const handleBlur = (e) => {
+    const { name, value } = e.target
+    let msg = null
+    if (name === 'nombre') msg = validarNombre(value)
+    if (name === 'email') msg = validarEmail(value)
+    if (name === 'telefono') msg = validarWhatsApp(value)
+    setErrores((prev) => ({ ...prev, [name]: msg }))
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    if (!formData.nombre || !formData.email || !formData.telefono) {
-      setDialogMsg('Por favor, complete los tres campos requeridos.')
-      setShowDialog(true)
-      return
+    const errs = {
+      nombre: validarNombre(formData.nombre),
+      email: validarEmail(formData.email),
+      telefono: validarWhatsApp(formData.telefono)
     }
-    if (!acepta) {
-      setDialogMsg('Debe aceptar los términos para continuar.')
+    setErrores(errs)
+    const hayErrores = Object.values(errs).some(Boolean)
+    if (hayErrores) {
+      setDialogMsg('Por favor, corrija los campos marcados.')
       setShowDialog(true)
       return
     }
@@ -45,13 +78,12 @@ export default function FormularioPromotor({ onClose }) {
       setCargando(true)
       const { ok, error } = await crearPromotor(
         {
-          nombre: formData.nombre,
-          email: formData.email,
-          telefono: formData.telefono
+          nombre: formData.nombre.trim(),
+          email: formData.email.trim(),
+          telefono: formData.telefono.replace(/\s+/g, '')
         },
         token
       )
-
       if (!ok) {
         setDialogMsg(
           error || 'No se pudo registrar el promotor. Intente nuevamente.'
@@ -60,11 +92,13 @@ export default function FormularioPromotor({ onClose }) {
         return
       }
 
-      setDialogMsg('Promotor registrado con éxito.')
+      setDialogMsg(
+        'Gracias. Te enviaremos un correo con la información y los siguientes pasos para convertirte en promotor.'
+      )
       setSuccess(true)
       setShowDialog(true)
       setFormData({ nombre: '', email: '', telefono: '' })
-      setAcepta(false)
+      setErrores({ nombre: null, email: null, telefono: null })
     } catch {
       setDialogMsg('Error de conexión. Intente más tarde.')
       setShowDialog(true)
@@ -81,9 +115,18 @@ export default function FormularioPromotor({ onClose }) {
   return (
     <div className='fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center'>
       <div className='bg-inf4 text-white rounded-xl shadow-lg p-6 w-full max-w-xl max-h-[95vh] overflow-y-auto'>
-        <h2 className='text-2xl font-bold mb-6 text-center'>
-          Registro de Promotores
+        <h2 className='text-2xl font-bold mb-3 text-center'>
+          Sea Promotor Infomóvil
         </h2>
+
+        {/* Texto atractivo de captación */}
+        <p className='text-center mb-4 text-sm text-inf_adv'>
+          Gana buenas comisiones ayudando a digitalizar comercios de tu ciudad.
+          Tú decides cuándo y cómo trabajar: nosotros te damos las herramientas
+          y tú te llevas la recompensa por cada registro exitoso. Déjanos tus
+          datos y te enviaremos un correo con toda la información y los
+          siguientes pasos para convertirte en promotor.
+        </p>
 
         <form onSubmit={handleSubmit} className='space-y-4'>
           <div>
@@ -93,10 +136,14 @@ export default function FormularioPromotor({ onClose }) {
               name='nombre'
               value={formData.nombre}
               onChange={handleChange}
-              placeholder='Ej. Carlos Pérez'
-              className='w-full p-2 rounded-md text-black bg-inf2 text-lg focus:bg-white'
+              onBlur={handleBlur}
+              placeholder='Ej. María Pérez'
+              className={`w-full p-2 rounded-md text-black bg-inf2 text-lg focus:bg-white ${errores.nombre ? 'ring-2 ring-red-500' : ''}`}
               required
             />
+            {errores.nombre && (
+              <p className='mt-1 text-inf_err text-xs'>{errores.nombre}</p>
+            )}
           </div>
 
           <div>
@@ -106,46 +153,32 @@ export default function FormularioPromotor({ onClose }) {
               name='email'
               value={formData.email}
               onChange={handleChange}
+              onBlur={handleBlur}
               placeholder='correo@ejemplo.com'
-              className='w-full p-2 rounded-md text-black bg-inf2 text-lg focus:bg-white'
+              className={`w-full p-2 rounded-md text-black bg-inf2 text-lg focus:bg-white ${errores.email ? 'ring-2 ring-red-500' : ''}`}
               required
             />
+            {errores.email && (
+              <p className='mt-1 text-inf_err text-xs'>{errores.email}</p>
+            )}
           </div>
 
           <div>
-            <label className='block mb-1'>Teléfono:</label>
+            <label className='block mb-1'>Teléfono/WhatsApp:</label>
             <input
               type='tel'
               name='telefono'
               value={formData.telefono}
               onChange={handleChange}
-              placeholder='Solo números'
-              className='w-full p-2 rounded-md text-black bg-inf2 text-lg focus:bg-white'
-              pattern='[0-9]{6,15}'
-              title='Ingrese solo números (6 a 15 dígitos)'
+              onBlur={handleBlur}
+              placeholder='Incluya código de país. Ej: 59171234567'
+              className={`w-full p-2 rounded-md text-black bg-inf2 text-lg focus:bg-white ${errores.telefono ? 'ring-2 ring-red-500' : ''}`}
               required
             />
+            {errores.telefono && (
+              <p className='mt-1 text-inf_err text-xs'>{errores.telefono}</p>
+            )}
           </div>
-
-          <p className='text-sm text-inf1/90'>
-            Este programa es independiente; no hay relación laboral ni horarios
-            fijos. Los pagos de clientes se realizan únicamente mediante el QR
-            oficial de Infomóvil. No se cobra dinero en efectivo.
-          </p>
-
-          <label className='inline-flex items-start gap-3 text-base'>
-            <input
-              type='checkbox'
-              checked={acepta}
-              onChange={(e) => setAcepta(e.target.checked)}
-              className='w-5 h-5 mt-1 accent-inf3'
-              required
-            />
-            <span>
-              Declaro aceptar los términos del programa de promotores de
-              Infomóvil, actuando de forma independiente y sin relación laboral.
-            </span>
-          </label>
 
           <div className='flex justify-end gap-4 mt-6'>
             <button
@@ -157,14 +190,10 @@ export default function FormularioPromotor({ onClose }) {
             </button>
             <button
               type='submit'
-              disabled={!acepta || cargando}
-              className={`px-6 py-2 bg-inf3 text-black rounded-md text-lg font-medium ${
-                acepta && !cargando
-                  ? 'hover:bg-inf5'
-                  : 'opacity-50 cursor-not-allowed'
-              }`}
+              disabled={cargando}
+              className={`px-6 py-2 bg-inf3 text-black rounded-md text-lg font-medium ${!cargando ? 'hover:bg-inf5' : 'opacity-50 cursor-not-allowed'}`}
             >
-              {cargando ? '...' : 'Registrar'}
+              {cargando ? '...' : 'Enviar'}
             </button>
           </div>
         </form>

@@ -1,16 +1,25 @@
-<svg width="100" height="100" viewBox="0 0 100 100"
-     xmlns="http://www.w3.org/2000/svg" aria-labelledby="title">
+<svg width="100" height="100" viewBox="0 0 256 240" xmlns="http://www.w3.org/2000/svg" aria-labelledby="title">
   <title>Sea Promotor</title>
-  <g fill="none" stroke="#ffffff" stroke-width="4"
-     stroke-linecap="round" stroke-linejoin="round"
-     style="vector-effect: non-scaling-stroke;">
-    <!-- Persona principal -->
-    <circle cx="50" cy="42" r="9"/>
-    <path d="M30 74c0-12 40-12 40 0"/>
-
-    <!-- Símbolo de + arriba a la derecha -->
-    <circle cx="74" cy="30" r="8"/>
-    <path d="M74 26v8"/>
-    <path d="M70 30h8"/>
+  <g fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Hombre con corbata -->
+    <path d="M84.635,20.256
+      c18.383,0,33.286,14.903,33.286,33.286
+      s-14.903,33.286-33.286,33.286
+      S51.349,71.925,51.349,53.542
+      S66.251,20.256,84.635,20.256z
+      M31.002,145.011
+      c0-2.499,1.606-4.194,4.194-4.194
+      s4.194,1.606,4.194,4.194v92.986h91.469v-92.986
+      c0-2.499,1.606-4.194,4.194-4.194
+      c2.499,0,4.194,1.606,4.194,4.194v92.986h29.092V136.623
+      c0-22.934-18.74-41.585-41.585-41.585h-8.388
+      l-24.451,38.015l-2.945-28.467l4.016-9.638H76.96
+      l4.016,9.638l-3.123,28.645L53.401,95.038h-9.816
+      C20.651,95.038,2,113.778,2,136.623v101.375h29.092v-92.986H31.002z"/>
+    
+    <!-- Círculo con signo + -->
+    <circle cx="190" cy="40" r="35" />
+    <path d="M190 28v24" />
+    <path d="M178 40h24" />
   </g>
 </svg>
