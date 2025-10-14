@@ -395,12 +395,14 @@ export default function Busquedas() {
                     />
                   )}
                   <Firma />
-                  <div className='flex flex-row items-center gap-x-4 mt-4'>
-                    <BotonBuzon onClick={() => setMostrarBuzon(true)} />
-                    <BotonMiComercio onClick={() => setMostrarAlta(true)} />
-                    <BotonSeaPromotor
-                      onClick={() => setMostrarPromotor(true)}
-                    />
+                  <div className='relative mt-4'>
+                    <div className='flex flex-row items-center gap-x-4 mt-4'>
+                      <BotonBuzon onClick={() => setMostrarBuzon(true)} />
+                      <BotonMiComercio onClick={() => setMostrarAlta(true)} />
+                      <BotonSeaPromotor
+                        onClick={() => setMostrarPromotor(true)}
+                      />
+                    </div>
                     <GloboSugerencia />
                   </div>
                 </div>
@@ -495,10 +497,14 @@ export default function Busquedas() {
                     filtrosChanged={filtrosChanged}
                   />
                 )}
-                <div className='flex flex-row items-center gap-x-4 mt-4'>
-                  <BotonBuzon onClick={() => setMostrarBuzon(true)} />
-                  <BotonMiComercio onClick={() => setMostrarAlta(true)} />
-                  <BotonSeaPromotor onClick={() => setMostrarPromotor(true)} />
+                <div className='relative mt-4'>
+                  <div className='flex flex-row items-center gap-x-4 mt-4'>
+                    <BotonBuzon onClick={() => setMostrarBuzon(true)} />
+                    <BotonMiComercio onClick={() => setMostrarAlta(true)} />
+                    <BotonSeaPromotor
+                      onClick={() => setMostrarPromotor(true)}
+                    />
+                  </div>
                   <GloboSugerencia />
                 </div>
               </div>
