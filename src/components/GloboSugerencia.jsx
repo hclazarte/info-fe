@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
-export default function GloboPromotor() {
+export default function GloboSugerencia() {
   const [mostrar, setMostrar] = useState(false)
 
   useEffect(() => {
