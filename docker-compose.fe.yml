@@ -1,0 +1,15 @@
+services:
+  info-fe:
+    container_name: info-dev-frontend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '3004:80' # FE en el host → 3004
+    networks:
+      - info_network
+    restart: unless-stopped
+
+networks:
+  info_network:
+    external: true
