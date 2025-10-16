@@ -9,7 +9,22 @@ services:
     networks:
       - info_network
     restart: unless-stopped
-
+  info-fe-test-smoke:
+    image: node:22-alpine
+    working_dir: /app
+    volumes:
+      - .:/app
+    networks:
+      - info_network
+    command: sh -c "npm ci && npm run test:smoke:dev"
+  info-fe-test-acceptance:
+    image: node:22-alpine
+    working_dir: /app
+    volumes:
+      - .:/app
+    networks:
+      - info_network
+    command: sh -c "npm ci && npm run test:acceptance:dev"
 networks:
   info_network:
     external: true
