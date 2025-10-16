@@ -5,11 +5,13 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - '3004:80' # FE en el host → 3004
+      - "3004:80"
     networks:
       - info_network
     restart: unless-stopped
+
   info-fe-test-smoke:
+    container_name: info-dev-test-smoke
     image: node:22-alpine
     working_dir: /app
     volumes:
@@ -17,7 +19,9 @@ services:
     networks:
       - info_network
     command: sh -c "npm ci && npm run test:smoke:dev"
+
   info-fe-test-acceptance:
+    container_name: info-dev-test-acceptance
     image: node:22-alpine
     working_dir: /app
     volumes:
@@ -25,6 +29,7 @@ services:
     networks:
       - info_network
     command: sh -c "npm ci && npm run test:acceptance:dev"
+
 networks:
   info_network:
     external: true
