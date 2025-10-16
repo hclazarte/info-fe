@@ -12,7 +12,7 @@ services:
 
   info-fe-test-smoke:
     container_name: info-dev-test-smoke
-    image: node:22-alpine
+    image: mcr.microsoft.com/playwright:v1.48.0-jammy
     working_dir: /app
     volumes:
       - .:/app
@@ -22,7 +22,7 @@ services:
 
   info-fe-test-acceptance:
     container_name: info-dev-test-acceptance
-    image: node:22-alpine
+    image: mcr.microsoft.com/playwright:v1.48.0-jammy
     working_dir: /app
     volumes:
       - .:/app
