@@ -16,8 +16,7 @@ services:
     working_dir: /app
     volumes:
       - .:/app
-    networks:
-      - info_network
+    network_mode: host
     command: sh -c "npm ci && npm run test:smoke:dev"
 
   info-fe-test-acceptance:
@@ -26,8 +25,7 @@ services:
     working_dir: /app
     volumes:
       - .:/app
-    networks:
-      - info_network
+    network_mode: host
     command: sh -c "npm ci && npm run test:acceptance:dev"
 
 networks:
