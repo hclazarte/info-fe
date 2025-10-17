@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  info-fe:
+    container_name: info-prod-frontend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '3002:80' # FE prod en 3002
+    # Monta el nginx de PROD (sobre-escribe el que mete la imagen)
+    volumes:
+      - ./docker/nginx.prod.conf:/etc/nginx/nginx.conf:ro
+    restart: unless-stopped

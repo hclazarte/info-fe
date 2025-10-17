@@ -14,7 +14,7 @@ export default defineConfig({
   use: {
     baseURL: process.env.BASE_URL || 'http://localhost:5173',
     trace: 'on',
-    screenshot: 'on',
+    screenshot: 'on'
   },
 
   projects: [

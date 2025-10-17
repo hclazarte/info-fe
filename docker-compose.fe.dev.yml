@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  info-fe:
+    container_name: info-dev-frontend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '3004:80' # FE dev en 3004
+    # Monta el nginx de DEV (sobre-escribe el que mete la imagen)
+    volumes:
+      - ./docker/nginx.dev.conf:/etc/nginx/nginx.conf:ro
+    restart: unless-stopped
