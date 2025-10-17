@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - '3002:80' # FE prod en 3002
+      - '3006:80' # FE prod en 3006
     # Monta el nginx de PROD (sobre-escribe el que mete la imagen)
     volumes:
       - ./docker/nginx.prod.conf:/etc/nginx/nginx.conf:ro
