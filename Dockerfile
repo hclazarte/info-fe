@@ -17,8 +17,7 @@ RUN npm run build
 
 # Etapa de runtime: Nginx sirviendo estáticos
 FROM nginx:1.27-alpine
-# Config Nginx
-COPY docker/nginx.conf /etc/nginx/nginx.conf
+
 # Copia el build de Vite
 COPY --from=build /app/dist /usr/share/nginx/html
 
