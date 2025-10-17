@@ -11,3 +11,9 @@ services:
     volumes:
       - ./docker/nginx.prod.conf:/etc/nginx/nginx.conf:ro
     restart: unless-stopped
+    networks:
+      - info-prod_default
+
+networks:
+  info-prod_default:
+    external: true
