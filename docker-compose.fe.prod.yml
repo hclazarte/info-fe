@@ -1,6 +1,6 @@
 version: '3.8'
 services:
-  info-fe:
+  info-prod:
     container_name: info-prod-frontend
     build:
       context: .
