@@ -7,7 +7,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "3004:80"
+      - '3004:80'
     volumes:
       - ./docker/nginx.dev.conf:/etc/nginx/nginx.conf:ro
     restart: unless-stopped

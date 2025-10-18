@@ -72,6 +72,11 @@ export default function Busquedas() {
     }
   }
 
+  // Exponer loadingRef en el DOM para uso en tests
+  useEffect(() => {
+    document.body.dataset.loading = loadingRef.current ? 'true' : 'false'
+  }, [loadingRef.current])
+
   // Al cargar el formulario
   useEffect(() => {
     loadInit() // Ejecuta al cargar el componente

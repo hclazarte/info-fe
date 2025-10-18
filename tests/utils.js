@@ -24,18 +24,33 @@ export async function saveBase64PdfToFile(comprobantePdf, dir = 'tmp') {
   return tempPath
 }
 /**
- * Navega a `path` y espera a que /api/comercios/lista responda 200
+ * Navega a `path` y espera a que /api/comercios/lista responda 200.
+ * Si existe el atributo data-loading en <body>, espera a que sea 'false'.
+ * Si no existe, espera 1 segundo fijo.
  * @param {import('@playwright/test').Page} page
  * @param {string} path
  */
 export async function gotoAndWait(page, path) {
+  // Espera a la respuesta de la lista
   const waitList = page.waitForResponse(
     (r) => r.url().includes('/api/comercios/lista') && r.status() === 200
   )
+
   await page.goto(path)
   await waitList
-}
 
+  // Verifica si existe el atributo data-loading
+  const body = page.locator('body')
+  const hasAttr = await body.evaluate((el) => el.hasAttribute('data-loading'))
+
+  if (hasAttr) {
+    // Si existe, espera a que su valor sea 'false' (timeout por defecto: 5s)
+    await expect(body).toHaveAttribute('data-loading', 'false')
+  } else {
+    // Si no existe, espera un segundo fijo como fallback
+    await page.waitForTimeout(1000)
+  }
+}
 /**
  * Devuelve el número de registros indicado en el texto de la etiqueta de búsqueda.
  * @param {import('@playwright/test').Page} page
