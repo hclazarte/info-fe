@@ -16,7 +16,7 @@ const Tarjeta = ({ comercio, onClick }) => {
     : 'bg-white'
 
   const tieneMapa = comercio.latitud !== null && comercio.longitud !== null
-  const tieneWhatsApp = comercio.whatsapp_verificado
+  const tieneWhatsApp = comercio.telefono_whatsapp !== null
   const tieneCorreo = !!comercio.email_verificado
 
   return (

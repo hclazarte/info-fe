@@ -50,6 +50,7 @@ export default function DetalleModal({ comercio, onClose }) {
     servicios,
     telefono1,
     telefono2,
+    telefono_whatsapp,
     whatsapp_verificado,
     id,
     autorizado,
@@ -100,8 +101,13 @@ export default function DetalleModal({ comercio, onClose }) {
             </p>
             <p className='text-gray-800 mb-4'>
               <strong>Servicios:</strong> {servicios || 'No especificado'}
+              {telefono_whatsapp && (
+                <span>
+                  <br />
+                  <strong>WhatsApp:</strong> {telefono_whatsapp}
+                </span>
+              )}
             </p>
-
             {telefonos.length > 0 && (
               <div className='mb-4'>
                 <strong className='text-gray-800'>Teléfonos:</strong>
@@ -140,7 +146,7 @@ export default function DetalleModal({ comercio, onClose }) {
                 </div>
               )}
 
-              {whatsapp_verificado && (
+              {telefono_whatsapp && (
                 <div
                   onClick={() => toggleFormulario('whatsapp')}
                   className={`${
