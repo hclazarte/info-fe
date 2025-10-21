@@ -51,8 +51,9 @@ export default function Busquedas() {
   const [path, setPath] = useState(decodeURI(window.location.pathname))
   const [texto, setTexto] = useState('')
   const [loading, setLoading] = useState(true)
+  const comerciosRef = useRef(null)
   const grupoRef = useRef(0)
-  const gr_tamRef = useRef(15)
+  const gr_tamRef = useRef(10)
   const loadingRef = useRef(false)
   const initLoadinRef = useRef(false)
   const contadorRef = useRef(1)
@@ -105,6 +106,9 @@ export default function Busquedas() {
     }
   }, [])
 
+  const afterPaint = () =>
+    new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)))
+
   // Intervalo de tiempo
   useEffect(() => {
     const interval = setInterval(async () => {
@@ -117,6 +121,8 @@ export default function Busquedas() {
             loadingRef.current = false
             setLoading(false)
           })
+          await afterPaint()
+          await loadSearchRecursive()
           updateURL(build_path)
           pathRef.current = build_path
         }
@@ -126,6 +132,36 @@ export default function Busquedas() {
 
     return () => clearInterval(interval)
   }, [ciudad, zona, texto])
+
+  // Cuando el formulario cambia de tamaño
+  useEffect(() => {
+    const onResize = async () => {
+      if (needsFill()) {
+        await loadSearchRecursive()
+      }
+    }
+
+    window.addEventListener('resize', onResize)
+    return () => {
+      window.removeEventListener('resize', onResize)
+    }
+  }, [])
+
+  const needsFill = () => {
+    const el = getVisibleEl()
+    if (!el) return false
+    const threshold = Math.max(150, Math.floor(el.clientHeight * 0.2)) // 20% o 150px
+    // Sigue pidiendo mientras el contenido NO supera con holgura la vista
+    return el.scrollHeight <= el.clientHeight + threshold
+  }
+
+  const getVisibleEl = () => {
+    const m = mobileRef.current
+    const d = desktopRef.current
+    if (m && m.offsetParent !== null) return m
+    if (d && d.offsetParent !== null) return d
+    return null
+  }
 
   const loadInit = async (m_path = path) => {
     if (initLoadinRef.current) return
@@ -193,24 +229,25 @@ export default function Busquedas() {
         },
         signal
       )
-
       lastPathRef.current = n_path
-
       if (gr_aux === 1) {
         // 1) Reemplazamos la lista
         setComercios(obj)
-
+        comerciosRef.current = obj
         // 2) Creamos un array con los dos refs y hacemos scrollTop=0
         ;[desktopRef.current, mobileRef.current].forEach((el) => {
           if (el) el.scrollTop = 0
         })
       } else {
-        setComercios((prevState) => ({
-          ...prevState,
-          results: [...(prevState.results || []), ...obj.results]
-        }))
+        setComercios((prevState) => {
+          const newState = {
+            ...prevState,
+            results: [...(prevState.results || []), ...(obj?.results || [])]
+          }
+          comerciosRef.current = newState
+          return newState
+        })
       }
-
       grupoRef.current = gr_aux
     } catch (err) {
       console.error('Error al recuperar comercios:', err.message)
@@ -242,8 +279,7 @@ export default function Busquedas() {
       element.scrollHeight - element.scrollTop - element.clientHeight <=
       render_offset
     ) {
-      let still_loading = comercios.count > comercios.results.length
-      if (!loadingRef.current && still_loading) {
+      if (!loadingRef.current && still_loading()) {
         loadingRef.current = true
         setLoading(true)
         await loadSearch().then(() => {
@@ -251,6 +287,28 @@ export default function Busquedas() {
           setLoading(false)
         })
       }
+    }
+  }
+
+  const still_loading = () => {
+    return comerciosRef.current.count > comerciosRef.current.results.length
+  }
+
+  const loadSearchRecursive = async () => {
+    if (loadingRef.current) return
+
+    loadingRef.current = true
+    setLoading(true)
+
+    try {
+      let safety = 0
+      while (needsFill() && still_loading()) {
+        await loadSearch()
+        if (++safety > 20) break // corte defensivo
+      }
+    } finally {
+      loadingRef.current = false
+      setLoading(false)
     }
   }
 
