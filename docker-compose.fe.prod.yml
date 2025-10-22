@@ -1,3 +1,4 @@
+name: info-prod
 version: '3.8'
 services:
   info-prod:

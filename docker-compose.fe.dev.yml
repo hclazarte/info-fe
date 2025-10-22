@@ -1,5 +1,5 @@
+name: info-dev
 version: '3.8'
-
 services:
   info-dev:
     container_name: info-dev-frontend
