@@ -1,4 +1,4 @@
-name: info-prod
+name: info-fe-prod
 version: '3.8'
 services:
   info-prod:

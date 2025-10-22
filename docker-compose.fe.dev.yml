@@ -1,4 +1,4 @@
-name: info-dev
+name: info-fe-dev
 version: '3.8'
 services:
   info-dev:
