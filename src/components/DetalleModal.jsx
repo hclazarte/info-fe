@@ -102,7 +102,7 @@ export default function DetalleModal({ comercio, onClose }) {
             <p className='text-gray-800 mb-4'>
               <strong>Servicios:</strong> {servicios || 'No especificado'}
               {telefono_whatsapp && (
-                <span>
+                <span data-testid='telefono_whatsapp'>
                   <br />
                   <strong>WhatsApp:</strong> {telefono_whatsapp}
                 </span>
@@ -111,9 +111,14 @@ export default function DetalleModal({ comercio, onClose }) {
             {telefonos.length > 0 && (
               <div className='mb-4'>
                 <strong className='text-gray-800'>Teléfonos:</strong>
-                <ul className='list-disc list-inside text-gray-700'>
+                <ul
+                  className='list-disc list-inside text-gray-700'
+                  data-testid='telefonos'
+                >
                   {telefonos.map((tel, idx) => (
-                    <li key={idx}>{tel}</li>
+                    <li key={idx} data-testid='telefono-item'>
+                      {tel}
+                    </li>
                   ))}
                 </ul>
               </div>
