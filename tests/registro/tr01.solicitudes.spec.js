@@ -184,7 +184,7 @@ test.describe('@acceptance', () => {
       modal.getByText('Servicios: SISTEMAS WEB, APP MÓVILES, CLOUD')
     ).toBeVisible()
     await expect(modal.getByText('Teléfonos:')).toBeVisible()
-    await expect(modal.getByTestId('telefono_whatsapp')).toHaveText(
+    await expect(modal.getByTestId('telefono_whatsapp')).toContainText(
       '59172123456'
     )
     await expect(
@@ -193,7 +193,7 @@ test.describe('@acceptance', () => {
     await expect(modal.getByText('76543210')).toBeVisible()
     await expect(modal.getByText('Enviar Correo')).toBeVisible()
     await expect(modal.getByText('Ver Mapa')).toBeVisible()
-    await expect(modal.getByText('WhatsApp')).toBeVisible()
+    await expect(modal.getByAltText('WhatsApp')).toBeVisible()
     await expect(modal.getByRole('button', { name: '✕' })).toBeVisible()
   })
 })
