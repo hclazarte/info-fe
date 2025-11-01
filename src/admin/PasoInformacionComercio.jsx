@@ -3,6 +3,7 @@
 import MapaUbicacion from './MapaUbicacion'
 import { useEffect, useState } from 'react'
 import { Lock } from 'lucide-react'
+import WizardSugeridor from './WizardSugeridor'
 
 const PasoInformacionComercio = ({
   substep,
@@ -318,13 +319,10 @@ const PasoInformacionComercio = ({
           </div>
           <div>
             <label className='block text-sm'>Palabras clave:</label>
-            <textarea
-              data-testid='claves-textarea'
-              value={comercioEditable.palabras_clave || ''}
-              onInput={handleUppercase('palabras_clave')}
-              className='w-full p-2 rounded bg-inf2 text-black focus:bg-white'
-              rows='5'
-            />
+              <WizardSugeridor
+                comercioEditable={comercioEditable}
+                setComercioEditable={setComercioEditable}
+              />
           </div>
           <div>
             <label className='block text-sm'>Teléfono 2:</label>
