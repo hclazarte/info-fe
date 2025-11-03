@@ -43,6 +43,7 @@ export default function RegistroComercioWizard() {
   const [tienePlanActivo, setTienePlanActivo] = useState(false)
   const [errorNegocio, setErrorNegocio] = useState('')
   const otp_tokenRef = useRef('')
+  const payloadRef = useRef(null)
 
   useEffect(() => {
     const esValido =
@@ -292,10 +293,10 @@ export default function RegistroComercioWizard() {
       const { ok, data, error } = await actualizarComercio(
         comercioEditable.id,
         comercioEditable,
+        payloadRef.current,
         otp_tokenRef.current
       )
       if (ok) {
-        console.log('Comercio actualizado')
         return true
       } else {
         console.error(error)
@@ -361,6 +362,7 @@ export default function RegistroComercioWizard() {
               bloquearAtras={
                 substep === 1 && solicitud?.estado !== 'pendiente_verificacion'
               }
+              payloadRef={payloadRef}
             />
           )}
           {step === 3 && tipoPlan === 'pago' && (

@@ -15,7 +15,8 @@ const PasoInformacionComercio = ({
   handleSiguiente,
   comercioEditable,
   setComercioEditable,
-  bloquearAtras
+  bloquearAtras,
+  payloadRef
 }) => {
   const [errores, setErrores] = useState({})
   const [snapshotPagoInicial, setSnapshotPagoInicial] = useState({})
@@ -32,7 +33,8 @@ const PasoInformacionComercio = ({
     }
 
     if (!hydratedRef.current) {
-      setComercioEditable(comercio) // hidrata una sola vez por id
+      setComercioEditable(comercio)
+      payloadRef.current = comercio?.wizard_payload || {}
       hydratedRef.current = true
     }
   }, [comercio?.id])
@@ -322,6 +324,7 @@ const PasoInformacionComercio = ({
             <WizardSugeridor
               comercioEditable={comercioEditable}
               setComercioEditable={setComercioEditable}
+              payloadRef={payloadRef}
             />
           </div>
 

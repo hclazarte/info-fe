@@ -1,7 +1,10 @@
 import { useState, useEffect, useRef } from 'react'
 import { sugerirKeywords } from '../services/keywordsService'
 
-const WizardSugeridor = ({ comercioEditable, setComercioEditable }, ref) => {
+const WizardSugeridor = (
+  { comercioEditable, setComercioEditable, payloadRef },
+  ref
+) => {
   const [tipo, setTipo] = useState('Bienes')
   const [topServicios, setTopServicios] = useState('')
   const [promocionarAhora, setPromocionarAhora] = useState('')
@@ -15,6 +18,21 @@ const WizardSugeridor = ({ comercioEditable, setComercioEditable }, ref) => {
   const [colapsado, setColapsado] = useState(false)
   const [sugerenciasGeneradas, setSugerenciasGeneradas] = useState(false)
 
+  const LIST_FIELDS = new Set([
+    'top_servicios',
+    'promocionar_ahora',
+    'marcas',
+    'ubicacion',
+    'diferenciadores',
+    'publico_objetivo'
+  ])
+  const toArray = (v) =>
+    Array.isArray(v)
+      ? v
+      : String(v ?? '')
+          .split('\n')
+          .map((s) => s.trim())
+          .filter(Boolean)
   const aLista = (texto = '') =>
     texto
       .split('\n')
@@ -158,9 +176,12 @@ const WizardSugeridor = ({ comercioEditable, setComercioEditable }, ref) => {
     setComercioEditable((prev) => ({ ...prev, [field]: value }))
   }
 
-  const handleChange = (field) => (e) => {
-    const value = e.target.value
-    setComercioEditable((prev) => ({ ...prev, [field]: value }))
+  const handleChange = (field, value) => {
+    // clona y aplica cambio solo en la ref (fuente de verdad)
+    const next = { ...(payloadRef.current || {}) }
+    next[field] = LIST_FIELDS.has(field) ? toArray(value) : value
+
+    payloadRef.current = next
   }
 
   return (
@@ -189,7 +210,10 @@ const WizardSugeridor = ({ comercioEditable, setComercioEditable }, ref) => {
                       name='tipo'
                       value={op}
                       checked={tipo === op}
-                      onChange={(e) => setTipo(e.target.value)}
+                      onChange={(e) => {
+                        setTipo(e.target.value)
+                        handleChange('tipo', e.target.value)
+                      }}
                     />
                     {op}
                   </label>
@@ -205,7 +229,10 @@ const WizardSugeridor = ({ comercioEditable, setComercioEditable }, ref) => {
                 <textarea
                   rows={4}
                   value={topServicios}
-                  onChange={(e) => setTopServicios(e.target.value)}
+                  onChange={(e) => {
+                    setTopServicios(e.target.value)
+                    handleChange('top_servicios', e.target.value)
+                  }}
                   className='w-full p-2 rounded bg-white text-black'
                 />
               </div>
@@ -216,7 +243,10 @@ const WizardSugeridor = ({ comercioEditable, setComercioEditable }, ref) => {
                 <textarea
                   rows={4}
                   value={promocionarAhora}
-                  onChange={(e) => setPromocionarAhora(e.target.value)}
+                  onChange={(e) => {
+                    setPromocionarAhora(e.target.value)
+                    handleChange('promocionar_ahora', e.target.value)
+                  }}
                   className='w-full p-2 rounded bg-white text-black'
                 />
               </div>
@@ -227,7 +257,10 @@ const WizardSugeridor = ({ comercioEditable, setComercioEditable }, ref) => {
                 <textarea
                   rows={4}
                   value={marcas}
-                  onChange={(e) => setMarcas(e.target.value)}
+                  onChange={(e) => {
+                    setMarcas(e.target.value)
+                    handleChange('marcas', e.target.value)
+                  }}
                   className='w-full p-2 rounded bg-white text-black'
                 />
               </div>
@@ -238,7 +271,10 @@ const WizardSugeridor = ({ comercioEditable, setComercioEditable }, ref) => {
                 <textarea
                   rows={4}
                   value={ubicacion}
-                  onChange={(e) => setUbicacion(e.target.value)}
+                  onChange={(e) => {
+                    setUbicacion(e.target.value)
+                    handleChange('ubicacion', e.target.value)
+                  }}
                   className='w-full p-2 rounded bg-white text-black'
                 />
               </div>
@@ -249,7 +285,10 @@ const WizardSugeridor = ({ comercioEditable, setComercioEditable }, ref) => {
                 <textarea
                   rows={4}
                   value={diferenciadores}
-                  onChange={(e) => setDiferenciadores(e.target.value)}
+                  onChange={(e) => {
+                    setDiferenciadores(e.target.value)
+                    handleChange('diferenciadores', e.target.value)
+                  }}
                   className='w-full p-2 rounded bg-white text-black'
                 />
               </div>
@@ -260,7 +299,10 @@ const WizardSugeridor = ({ comercioEditable, setComercioEditable }, ref) => {
                 <textarea
                   rows={4}
                   value={publicoObjetivo}
-                  onChange={(e) => setPublicoObjetivo(e.target.value)}
+                  onChange={(e) => {
+                    setPublicoObjetivo(e.target.value)
+                    handleChange('publico_objetivo', e.target.value)
+                  }}
                   className='w-full p-2 rounded bg-white text-black'
                 />
               </div>

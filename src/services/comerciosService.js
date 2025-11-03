@@ -2,16 +2,30 @@ import axios from 'axios'
 import { apiRequest } from './request'
 
 // PATCH /comercios/:id?token=...
-export const actualizarComercio = async (id, comercio) => {
-  const body = { ...comercio }
-
-  // Si WIZARD_PAYLOAD es objeto, serialízalo para el BE
-  if (body.WIZARD_PAYLOAD && typeof body.WIZARD_PAYLOAD !== 'string') {
-    body.WIZARD_PAYLOAD = JSON.stringify(body.WIZARD_PAYLOAD)
+export const actualizarComercio = async (id, comercio, payloadObj, token) => {
+  let wizardPayloadStr = '{}'
+  try {
+    wizardPayloadStr = JSON.stringify(payloadObj)
+  } catch (e) {
+    console.error('Error al serializar payloadRef.current', e)
   }
 
+  const comercioBody = {
+    ...comercio,
+    wizard_payload: wizardPayloadStr
+  }
+  delete comercioBody.WIZARD_PAYLOAD
+
+  const url = `${window.infoConfig.apiUrl}/comercios/${id}${token ? `?token=${encodeURIComponent(token)}` : ''}`
+
   return apiRequest(() =>
-    axios.patch(`${window.infoConfig.apiUrl}/comercios/${id}`, body)
+    axios.patch(
+      url,
+      { comercio: comercioBody },
+      {
+        headers: { 'Content-Type': 'application/json' }
+      }
+    )
   )
 }
 
