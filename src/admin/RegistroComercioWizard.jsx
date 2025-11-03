@@ -363,6 +363,7 @@ export default function RegistroComercioWizard() {
                 substep === 1 && solicitud?.estado !== 'pendiente_verificacion'
               }
               payloadRef={payloadRef}
+              setSpinner={setSpinner}
             />
           )}
           {step === 3 && tipoPlan === 'pago' && (

@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { sugerirKeywords } from '../services/keywordsService'
 
 const WizardSugeridor = (
-  { comercioEditable, setComercioEditable, payloadRef },
+  { comercioEditable, setComercioEditable, payloadRef, setSpinner },
   ref
 ) => {
   const [tipo, setTipo] = useState('Bienes')
@@ -130,6 +130,7 @@ const WizardSugeridor = (
   ])
 
   const onGenerar = async () => {
+    setSpinner(true)
     setError(null)
     setLoading(true)
     try {
@@ -168,6 +169,7 @@ const WizardSugeridor = (
       setError(msg)
     } finally {
       setLoading(false)
+      setSpinner(false)
     }
   }
 

@@ -16,7 +16,8 @@ const PasoInformacionComercio = ({
   comercioEditable,
   setComercioEditable,
   bloquearAtras,
-  payloadRef
+  payloadRef,
+  setSpinner
 }) => {
   const [errores, setErrores] = useState({})
   const [snapshotPagoInicial, setSnapshotPagoInicial] = useState({})
@@ -325,6 +326,7 @@ const PasoInformacionComercio = ({
               comercioEditable={comercioEditable}
               setComercioEditable={setComercioEditable}
               payloadRef={payloadRef}
+              setSpinner={setSpinner}
             />
           </div>
 
