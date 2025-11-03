@@ -1,10 +1,21 @@
 import { useState, useEffect, useRef } from 'react'
 import { sugerirKeywords } from '../services/keywordsService'
 
-const WizardSugeridor = (
-  { comercioEditable, setComercioEditable, payloadRef, setSpinner },
-  ref
-) => {
+const LIST_FIELDS = new Set([
+  'top_servicios',
+  'promocionar_ahora',
+  'marcas',
+  'ubicacion',
+  'diferenciadores',
+  'publico_objetivo'
+])
+
+const WizardSugeridor = ({
+  comercioEditable,
+  setComercioEditable,
+  payloadRef,
+  setSpinner
+}) => {
   const [tipo, setTipo] = useState('Bienes')
   const [topServicios, setTopServicios] = useState('')
   const [promocionarAhora, setPromocionarAhora] = useState('')
@@ -18,14 +29,6 @@ const WizardSugeridor = (
   const [colapsado, setColapsado] = useState(false)
   const [sugerenciasGeneradas, setSugerenciasGeneradas] = useState(false)
 
-  const LIST_FIELDS = new Set([
-    'top_servicios',
-    'promocionar_ahora',
-    'marcas',
-    'ubicacion',
-    'diferenciadores',
-    'publico_objetivo'
-  ])
   const toArray = (v) =>
     Array.isArray(v)
       ? v
