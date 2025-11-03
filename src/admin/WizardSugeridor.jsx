@@ -83,54 +83,6 @@ const WizardSugeridor = ({
   }, [comercioEditable?.id])
 
   const debounceRef = useRef(null)
-  const isSame = (a, b) => JSON.stringify(a) === JSON.stringify(b)
-  const tryParse = (v) =>
-    typeof v === 'string'
-      ? (() => {
-          try {
-            return JSON.parse(v)
-          } catch {
-            return v
-          }
-        })()
-      : v
-
-  useEffect(() => {
-    // construir borrador actual
-    const draft = {
-      empresa: comercioEditable?.empresa || '',
-      tipo: typeof tipo === 'string' ? tipo : String(tipo || ''),
-      servicios: comercioEditable?.servicios || '',
-      top_servicios: aLista(topServicios),
-      promocionar_ahora: aLista(promocionarAhora),
-      marcas: aLista(marcas),
-      ubicacion: aLista(ubicacion),
-      diferenciadores: aLista(diferenciadores),
-      publico_objetivo: aLista(publicoObjetivo)
-    }
-
-    if (debounceRef.current) clearTimeout(debounceRef.current)
-    debounceRef.current = setTimeout(() => {
-      setComercioEditable((prev) => {
-        const prevWP = tryParse(prev?.WIZARD_PAYLOAD) || {}
-        if (isSame(prevWP, draft)) return prev // no cambió → no setea → no loop
-        return { ...prev, WIZARD_PAYLOAD: draft }
-      })
-    }, 250)
-
-    return () => clearTimeout(debounceRef.current)
-  }, [
-    tipo,
-    topServicios,
-    promocionarAhora,
-    marcas,
-    ubicacion,
-    diferenciadores,
-    publicoObjetivo,
-    setComercioEditable,
-    comercioEditable?.empresa,
-    comercioEditable?.servicios
-  ])
 
   const onGenerar = async () => {
     setSpinner(true)
