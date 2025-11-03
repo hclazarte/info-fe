@@ -1,7 +1,5 @@
-// Este componente espera props: step, substep, tipoPlan, setTipoPlan, comercio, solicitud,
-// ciudades, zonas, handleAtras, handleSiguiente, comercioEditable, setComercioEditable
 import MapaUbicacion from './MapaUbicacion'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { Lock } from 'lucide-react'
 import WizardSugeridor from './WizardSugeridor'
 
@@ -19,20 +17,31 @@ const PasoInformacionComercio = ({
   setComercioEditable,
   bloquearAtras
 }) => {
+  const [errores, setErrores] = useState({})
+  const [snapshotPagoInicial, setSnapshotPagoInicial] = useState({})
+
+  const hydratedRef = useRef(false)
+  const lastIdRef = useRef(null)
+
   useEffect(() => {
-    if (comercio && solicitud) {
-      setComercioEditable((prev) => ({
-        ...prev,
-        ...comercio
-      }))
+    if (!comercio) return
+
+    if (lastIdRef.current !== comercio.id) {
+      lastIdRef.current = comercio.id
+      hydratedRef.current = false
     }
-  }, [comercio, solicitud])
+
+    if (!hydratedRef.current) {
+      setComercioEditable(comercio) // hidrata una sola vez por id
+      hydratedRef.current = true
+    }
+  }, [comercio?.id])
 
   useEffect(() => {
     if (comercio?.seprec === false) {
       setTipoPlan('pago')
     }
-  }, [comercio])
+  }, [comercio, setTipoPlan])
 
   useEffect(() => {
     if (!comercio) return
@@ -41,29 +50,26 @@ const PasoInformacionComercio = ({
       snap[k] = comercio?.[k] ?? ''
     })
     setSnapshotPagoInicial(snap)
-    setComercioEditable((prev) => ({ ...prev, ...comercio }))
-  }, [comercio])
+  }, [comercio?.id])
 
-  const [errores, setErrores] = useState({})
-  const [snapshotPagoInicial, setSnapshotPagoInicial] = useState({})
+  const CAMPOS_DE_PAGO = ['pagina_web', 'telefono_whatsapp', 'servicios']
+
   const campoModificado = (k) => {
     const actual = comercioEditable?.[k] ?? ''
     const inicial = snapshotPagoInicial?.[k] ?? ''
     return String(actual) !== String(inicial)
   }
+
   const handleChangePlan = (nuevoPlan) => {
-    // Actualiza tipo de plan
     setTipoPlan(nuevoPlan)
 
     if (nuevoPlan === 'gratis') {
-      // Detecta qué campos de pago fueron editados y restáuralos al snapshot
       const restaurados = {}
       const nuevosErrores = {}
 
       CAMPOS_DE_PAGO.forEach((k) => {
         if (campoModificado(k)) {
           restaurados[k] = snapshotPagoInicial[k] ?? ''
-          // Mensaje rojo por campo (inmutabilidad)
           nuevosErrores[k] =
             'Este campo no puede modificarse con el plan gratuito. Se ha restablecido su valor.'
         }
@@ -74,7 +80,6 @@ const PasoInformacionComercio = ({
         setErrores((prev) => ({ ...prev, ...nuevosErrores }))
       }
     } else {
-      // Si pasa a pago, limpia mensajes de inmutabilidad solo en campos de pago
       const nuevosErrores = { ...errores }
       CAMPOS_DE_PAGO.forEach((k) => {
         delete nuevosErrores[k]
@@ -82,7 +87,6 @@ const PasoInformacionComercio = ({
       setErrores(nuevosErrores)
     }
   }
-  const CAMPOS_DE_PAGO = ['pagina_web', 'telefono_whatsapp', 'servicios']
 
   if (!comercioEditable) {
     return (
@@ -94,30 +98,21 @@ const PasoInformacionComercio = ({
 
   const handleChange = (field) => (e) => {
     const value = e.target.value
-    setComercioEditable((prev) => ({
-      ...prev,
-      [field]: value
-    }))
+    setComercioEditable((prev) => ({ ...prev, [field]: value }))
   }
 
   const handleUppercase = (field) => (e) => {
     const value = e.target.value.toUpperCase()
-    setComercioEditable((prev) => ({
-      ...prev,
-      [field]: value
-    }))
+    setComercioEditable((prev) => ({ ...prev, [field]: value }))
   }
 
   const handleNumeric = (field) => (e) => {
     const value = e.target.value.replace(/\D/g, '')
-    setComercioEditable((prev) => ({
-      ...prev,
-      [field]: value
-    }))
+    setComercioEditable((prev) => ({ ...prev, [field]: value }))
   }
 
   const handleInputWhatsApp = (e) => {
-    let valor = e.target.value.replace(/\D/g, '') // solo dígitos
+    const valor = e.target.value.replace(/\D/g, '')
     setComercioEditable((prev) => ({ ...prev, telefono_whatsapp: valor }))
   }
 
@@ -127,7 +122,7 @@ const PasoInformacionComercio = ({
     const esValido = regex.test(valor)
     setErrores((prev) => ({
       ...prev,
-      whatsapp: esValido
+      telefono_whatsapp: esValido
         ? null
         : 'El número debe tener entre 8 y 15 dígitos incluyendo el código de país. Ej: 59171234567'
     }))
@@ -151,6 +146,7 @@ const PasoInformacionComercio = ({
       >
         Información del Comercio
       </h2>
+
       <div>
         <label className='block text-sm font-medium'>Tipo de Plan:</label>
         <div className='flex items-center gap-4 mt-1'>
@@ -179,6 +175,7 @@ const PasoInformacionComercio = ({
             De Pago (Bs. 50/año)
           </label>
         </div>
+
         <div className='bg-inf3 text-black rounded p-3 text-sm mt-2'>
           <p className='font-semibold mb-1'>
             Con el plan <span className='capitalize'>{tipoPlan}</span> puede
@@ -207,6 +204,7 @@ const PasoInformacionComercio = ({
           )}
         </div>
       </div>
+
       {substep === 1 && (
         <>
           <div>
@@ -306,6 +304,7 @@ const PasoInformacionComercio = ({
           </div>
         </>
       )}
+
       {substep === 2 && (
         <>
           <div>
@@ -317,13 +316,15 @@ const PasoInformacionComercio = ({
               className='w-full p-2 rounded bg-inf2 text-black focus:bg-white'
             />
           </div>
+
           <div>
             <label className='block text-sm'>Palabras clave:</label>
-              <WizardSugeridor
-                comercioEditable={comercioEditable}
-                setComercioEditable={setComercioEditable}
-              />
+            <WizardSugeridor
+              comercioEditable={comercioEditable}
+              setComercioEditable={setComercioEditable}
+            />
           </div>
+
           <div>
             <label className='block text-sm'>Teléfono 2:</label>
             <input
@@ -333,6 +334,7 @@ const PasoInformacionComercio = ({
               className='w-full p-2 rounded bg-inf2 text-black focus:bg-white'
             />
           </div>
+
           <div>
             <label className='block text-sm'>
               WhatsApp: {candado(tipoPlan === 'gratis')}
@@ -355,6 +357,7 @@ const PasoInformacionComercio = ({
               </p>
             )}
           </div>
+
           <div>
             <label className='block text-sm'>
               Página web: {candado(tipoPlan === 'gratis')}
@@ -376,6 +379,7 @@ const PasoInformacionComercio = ({
               </p>
             )}
           </div>
+
           <div>
             <label className='block text-sm'>
               Servicios: {candado(tipoPlan === 'gratis')}
@@ -399,6 +403,7 @@ const PasoInformacionComercio = ({
           </div>
         </>
       )}
+
       {substep === 3 && (
         <>
           <h3 className='text-xl font-semibold mb-2'>Ubicación Geográfica</h3>
@@ -411,11 +416,7 @@ const PasoInformacionComercio = ({
             longitud={comercioEditable.longitud}
             preservarVista
             onChangeLatLng={({ latitud, longitud }) => {
-              setComercioEditable((prev) => ({
-                ...prev,
-                latitud,
-                longitud
-              }))
+              setComercioEditable((prev) => ({ ...prev, latitud, longitud }))
             }}
             alto='18rem'
           />
@@ -454,6 +455,7 @@ const PasoInformacionComercio = ({
           </div>
         </>
       )}
+
       <div className='flex justify-between mt-4'>
         <button
           data-testid='atras-button'

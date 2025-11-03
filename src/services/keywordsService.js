@@ -10,9 +10,6 @@ import { apiRequest } from './request'
  */
 export const sugerirKeywords = async (payload) => {
   return apiRequest(() =>
-    axios.post(
-      `${window.infoConfig.apiUrl}/keywords/sugerir`,
-      { ...payload }
-    )
+    axios.post(`${window.infoConfig.apiUrl}/keywords/sugerir`, { ...payload })
   )
 }

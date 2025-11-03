@@ -2,12 +2,16 @@ import axios from 'axios'
 import { apiRequest } from './request'
 
 // PATCH /comercios/:id?token=...
-export const actualizarComercio = async (comercioId, data, otp_token) => {
+export const actualizarComercio = async (id, comercio) => {
+  const body = { ...comercio }
+
+  // Si WIZARD_PAYLOAD es objeto, serialízalo para el BE
+  if (body.WIZARD_PAYLOAD && typeof body.WIZARD_PAYLOAD !== 'string') {
+    body.WIZARD_PAYLOAD = JSON.stringify(body.WIZARD_PAYLOAD)
+  }
+
   return apiRequest(() =>
-    axios.patch(
-      `${window.infoConfig.apiUrl}/comercios/${comercioId}?token=${otp_token}`,
-      { comercio: data }
-    )
+    axios.patch(`${window.infoConfig.apiUrl}/comercios/${id}`, body)
   )
 }
 
