@@ -7,6 +7,7 @@ import BotonBuzon from './BotonBuzon'
 import BotonMiComercio from './BotonMiComercio'
 import BotonSeaPromotor from './BotonSeaPromotor'
 import GloboSugerencia from './GloboSugerencia'
+import GloboGeosoft from './GloboGeosoft'
 import Tarjeta from './Tarjeta'
 import Firma from './Firma'
 import DetalleModal from './DetalleModal'
@@ -395,6 +396,10 @@ export default function Busquedas() {
   const hayCiudad = ciudad?.id && ciudad.id !== ''
   const hayZona = zona?.id && zona.id !== ''
 
+  // Propaganda de Geosoft
+  const estaEnLaPaz = () =>
+    String(ciudad?.id) === '7' || String(ciudad?.id) === '42'
+
   return (
     <div className='min-h-screen'>
       <div
@@ -460,13 +465,13 @@ export default function Busquedas() {
                   <Firma />
                   <div className='relative mt-4'>
                     <div className='flex flex-row items-center gap-x-4 mt-4'>
-                      <BotonBuzon onClick={() => setMostrarBuzon(true)} />
+                      {/* <BotonBuzon onClick={() => setMostrarBuzon(true)} /> */}
                       <BotonMiComercio onClick={() => setMostrarAlta(true)} />
                       <BotonSeaPromotor
                         onClick={() => setMostrarPromotor(true)}
                       />
                     </div>
-                    <GloboSugerencia />
+                    {estaEnLaPaz() ? <GloboGeosoft /> : <GloboSugerencia />}
                   </div>
                 </div>
               </div>
@@ -562,13 +567,13 @@ export default function Busquedas() {
                 )}
                 <div className='relative mt-4'>
                   <div className='flex flex-row items-center gap-x-4 mt-4'>
-                    <BotonBuzon onClick={() => setMostrarBuzon(true)} />
+                    {/* <BotonBuzon onClick={() => setMostrarBuzon(true)} /> */}
                     <BotonMiComercio onClick={() => setMostrarAlta(true)} />
                     <BotonSeaPromotor
                       onClick={() => setMostrarPromotor(true)}
                     />
                   </div>
-                  <GloboSugerencia />
+                  {estaEnLaPaz() ? <GloboGeosoft /> : <GloboSugerencia />}
                 </div>
               </div>
             </div>

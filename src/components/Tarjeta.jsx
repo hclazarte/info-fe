@@ -8,6 +8,13 @@ const truncarTexto = (texto, longitudMaxima = 80) => {
   return texto.slice(0, longitudMaxima) + '...'
 }
 
+// Normaliza la URL para asegurarse de que tenga protocolo
+const normalizarUrl = (url) => {
+  if (!url) return ''
+  const tieneProtocolo = /^https?:\/\//i.test(url)
+  return tieneProtocolo ? url : `https://${url}`
+}
+
 const Tarjeta = ({ comercio, onClick }) => {
   const tarjetaBase =
     'max-w-sm rounded overflow-hidden shadow-lg cursor-pointer relative transition-shadow hover:shadow-xl'
@@ -59,6 +66,21 @@ const Tarjeta = ({ comercio, onClick }) => {
           {comercio.telefono1}
           {comercio.telefono2 ? `, ${comercio.telefono2}` : ''}
         </p>
+
+        {/* Página web (solo si existe) */}
+        {comercio.pagina_web && (
+          <p className='text-inf7 text-sm mt-1'>
+            <a
+              href={normalizarUrl(comercio.pagina_web)}
+              target='_blank'
+              rel='noopener noreferrer'
+              onClick={(e) => e.stopPropagation()}
+              className='underline'
+            >
+              {truncarTexto(comercio.pagina_web, 40)}
+            </a>
+          </p>
+        )}
       </div>
 
       {/* Íconos de contacto */}

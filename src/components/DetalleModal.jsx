@@ -10,6 +10,13 @@ import FormularioMapa from './FormularioMapa'
 import FormularioWhatsapp from './FormularioWhatsapp'
 import ReclamarComercio from './ReclamarComercio'
 
+// Normaliza la URL para asegurarse de que tenga protocolo
+const normalizarUrl = (url) => {
+  if (!url) return ''
+  const tieneProtocolo = /^https?:\/\//i.test(url)
+  return tieneProtocolo ? url : `https://${url}`
+}
+
 export default function DetalleModal({ comercio, onClose }) {
   const [mensaje, setMensaje] = useState('')
   const [mostrarDialogo, setMostrarDialogo] = useState(false)
@@ -56,7 +63,8 @@ export default function DetalleModal({ comercio, onClose }) {
     autorizado,
     email_verificado,
     latitud,
-    longitud
+    longitud,
+    pagina_web // ← nuevo
   } = comercio
 
   const telefonos = [telefono1, telefono2].filter(Boolean)
@@ -122,6 +130,21 @@ export default function DetalleModal({ comercio, onClose }) {
                   ))}
                 </ul>
               </div>
+            )}
+
+            {/* Sitio web (solo si existe) */}
+            {pagina_web && (
+              <p className='text-gray-800 mb-4'>
+                <strong>Sitio web:</strong>{' '}
+                <a
+                  href={normalizarUrl(pagina_web)}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className='text-inf7 underline'
+                >
+                  {pagina_web}
+                </a>
+              </p>
             )}
 
             <div className='flex justify-center gap-6 mt-6  w-11/12'>
