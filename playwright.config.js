@@ -17,8 +17,8 @@ export default defineConfig({
 
   use: {
     baseURL: process.env.BASE_URL || 'http://localhost:5173',
-    trace: 'on',
-    screenshot: 'on',
+    trace: 'retain-on-failure',
+    screenshot: 'only-on-failure',
     actionTimeout: LONG_WAIT_TIMEOUT,
     navigationTimeout: LONG_WAIT_TIMEOUT
   },
