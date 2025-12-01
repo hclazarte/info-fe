@@ -1,10 +1,9 @@
 // playwright.config.js
 import { defineConfig, devices } from '@playwright/test'
 
-const LONG_WAIT_TIMEOUT =
-  process.env.INFOMOVIL_LONG_WAIT_TIMEOUT
-    ? parseInt(process.env.INFOMOVIL_LONG_WAIT_TIMEOUT, 10)
-    : 60_000
+const LONG_WAIT_TIMEOUT = process.env.INFOMOVIL_LONG_WAIT_TIMEOUT
+  ? parseInt(process.env.INFOMOVIL_LONG_WAIT_TIMEOUT, 10)
+  : 60_000
 
 export default defineConfig({
   testDir: './tests',

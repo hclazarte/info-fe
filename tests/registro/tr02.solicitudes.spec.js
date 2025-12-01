@@ -1,4 +1,5 @@
 import { test, expect, request } from '@playwright/test'
+import { LONG_WAIT_TIMEOUT } from '../config.js'
 import {
   gotoAndWait,
   waitForTokenPageData,

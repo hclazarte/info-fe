@@ -1,5 +1,6 @@
 // tests/registro/tr07.solicitudes_no_seprec.spec.js
 import { test, expect } from '@playwright/test'
+import { LONG_WAIT_TIMEOUT } from '../config.js'
 import {
   gotoAndWait,
   waitForTokenPageData,
