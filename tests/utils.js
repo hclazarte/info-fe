@@ -126,15 +126,6 @@ export async function prepararEscenario(
 export async function clickCardAndWait(card, { timeout = 60000 } = {}) {
   const page = card.page()
 
-  // Espera obligatoria: /api/log_clics
-  const waitLogClics = page.waitForResponse(
-    (r) =>
-      r.url().includes('/api/log_clics') &&
-      r.status() >= 200 &&
-      r.status() < 300,
-    { timeout }
-  )
-
   // Espera opcional: recaptcha enterprise
   const waitRecaptcha = page
     .waitForResponse(
