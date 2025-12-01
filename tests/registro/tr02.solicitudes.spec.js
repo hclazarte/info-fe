@@ -126,7 +126,6 @@ test.describe('@acceptance', () => {
 
     // Verificación final
     await gotoAndWait(page, '/bolivia/oruro/vasquez-oruro')
-    await page.waitForTimeout(10000)
     const tarjeta = page.locator('[data-testclass="tarjeta-control"]', {
       hasText: 'COMERCIAL VASQUEZ'
     })
@@ -141,7 +140,9 @@ test.describe('@acceptance', () => {
     // Verificar modal
     await clickCardAndWait(tarjeta)
     const modal = page.getByTestId('detalle-modal')
-    await expect(modal.getByText('COMERCIAL VASQUEZ')).toBeVisible()
+    await expect(
+      modal.getByRole('heading', { name: 'COMERCIAL VASQUEZ' })
+    ).toBeVisible()
     await expect(modal.getByText('Comercio validado')).toBeVisible()
     await expect(modal.getByText('Zona: 14 DE SEPTIEMBRE')).toBeVisible()
     await expect(modal.getByText('Dirección: AYACUCHO Nº s/n')).toBeVisible()

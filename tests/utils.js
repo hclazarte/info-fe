@@ -127,7 +127,11 @@ export async function prepararEscenario(
 export async function clickCardAndWait(card, { timeout = 60000 } = {}) {
   const page = card.page()
 
-  // Espera opcional: recaptcha enterprise
+  // Elegir en qué elemento hacer click: primero el título, si existe;
+  // si no existe, hacemos click en la tarjeta completa como fallback.
+  const title = card.locator('[data-testclass="tarjeta-title"]')
+  const target = (await title.count()) > 0 ? title : card
+
   const waitRecaptcha = page
     .waitForResponse(
       (r) =>
@@ -138,6 +142,5 @@ export async function clickCardAndWait(card, { timeout = 60000 } = {}) {
       // Si no ocurre o expira, no detiene el flujo
     })
 
-  // Ejecutar el click y las esperas
-  await Promise.all([card.click(), waitRecaptcha])
+  await Promise.all([target.click(), waitRecaptcha])
 }
