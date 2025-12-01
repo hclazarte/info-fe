@@ -3,7 +3,8 @@ import {
   gotoAndWait,
   waitForTokenPageData,
   prepararEscenario,
-  saveBase64PdfToFile
+  saveBase64PdfToFile,
+  clickCardAndWait
 } from '../utils'
 
 test.use({ browserName: 'chromium' })

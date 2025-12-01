@@ -123,8 +123,8 @@ export async function prepararEscenario(
  * @param {import('@playwright/test').Locator} locator
  * @param {{ timeout?: number }} [options]
  */
-export async function clickCardAndWait(locator, { timeout = 5000 } = {}) {
-  const page = locator.page()
+export async function clickCardAndWait(card, { timeout = 5000 } = {}) {
+  const page = card.page()
 
   // Espera obligatoria: /api/log_clics
   const waitLogClics = page.waitForResponse(
@@ -147,5 +147,5 @@ export async function clickCardAndWait(locator, { timeout = 5000 } = {}) {
     })
 
   // Ejecutar el click y las esperas
-  await Promise.all([locator.click(), waitLogClics, waitRecaptcha])
+  await Promise.all([card.click(), waitLogClics, waitRecaptcha])
 }
