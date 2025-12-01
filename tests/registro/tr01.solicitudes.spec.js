@@ -59,14 +59,14 @@ test.describe('@acceptance', () => {
     await Promise.all([
       page.waitForResponse(
         (r) => r.url().includes('/api/documentos') && r.status() === 200,
-        { timeout: 60000 }
+        { timeout: LONG_WAIT_TIMEOUT }
       ),
       validarButton.click()
     ])
 
     // Verificar que se muestre el texto de validación
     await expect(page.getByText('Registro Validado')).toBeVisible({
-      timeout: 60000
+      timeout: LONG_WAIT_TIMEOUT
     })
 
     await expect(botonSiguiente).toBeEnabled()
@@ -134,7 +134,7 @@ test.describe('@acceptance', () => {
     await Promise.all([
       page.waitForResponse(
         (r) => r.url().includes('/api/documentos') && r.status() === 200,
-        { timeout: 60000 }
+        { timeout: LONG_WAIT_TIMEOUT }
       ),
       validarButton.click()
     ])
@@ -154,7 +154,7 @@ test.describe('@acceptance', () => {
     await Promise.all([
       page.waitForResponse(
         (r) => r.url().includes('/api/comercios') && r.status() === 200,
-        { timeout: 60000 }
+        { timeout: LONG_WAIT_TIMEOUT }
       ),
       botonTerminar.click()
     ])

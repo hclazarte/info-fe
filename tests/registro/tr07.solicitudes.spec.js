@@ -68,7 +68,7 @@ test.describe('@acceptance', () => {
     await Promise.all([
       page.waitForResponse(
         (r) => r.url().includes('/api/documentos') && r.status() === 200,
-        { timeout: 60000 }
+        { timeout: LONG_WAIT_TIMEOUT }
       ),
       validarButton.click()
     ])
@@ -86,7 +86,7 @@ test.describe('@acceptance', () => {
     await Promise.all([
       page.waitForResponse(
         (r) => r.url().includes('/api/comercios') && r.status() === 200,
-        { timeout: 60000 }
+        { timeout: LONG_WAIT_TIMEOUT }
       ),
       botonTerminar.click()
     ])

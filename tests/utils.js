@@ -138,5 +138,5 @@ export async function clickCardAndWait(card, { timeout = 60000 } = {}) {
     })
 
   // Ejecutar el click y las esperas
-  await Promise.all([card.click(), waitLogClics, waitRecaptcha])
+  await Promise.all([card.click(), waitRecaptcha])
 }
