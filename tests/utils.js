@@ -2,7 +2,7 @@ import { request, expect } from '@playwright/test'
 import { fileURLToPath } from 'url'
 import fs from 'fs'
 import path from 'path'
-// import { LONG_WAIT_TIMEOUT } from '/config.js'
+import { LONG_WAIT_TIMEOUT } from './config'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -124,7 +124,7 @@ export async function prepararEscenario(
  * @param {import('@playwright/test').Locator} locator
  * @param {{ timeout?: number }} [options]
  */
-export async function clickCardAndWait(card, { timeout = 60000 } = {}) {
+export async function clickCardAndWait(card, { timeout = LONG_WAIT_TIMEOUT } = {}) {
   const page = card.page()
 
   // Elegir en qué elemento hacer click: primero el título, si existe;
