@@ -114,3 +114,38 @@ export async function prepararEscenario(
   expect(response.ok()).toBeTruthy()
   return await response.json()
 }
+
+/**
+ * Hace clic en una tarjeta y espera los requests asincrónicos asociados:
+ * - POST /api/log_clics (required)
+ * - recaptcha enterprise reload (optional)
+ *
+ * @param {import('@playwright/test').Locator} locator
+ * @param {{ timeout?: number }} [options]
+ */
+export async function clickCardAndWait(locator, { timeout = 5000 } = {}) {
+  const page = locator.page()
+
+  // Espera obligatoria: /api/log_clics
+  const waitLogClics = page.waitForResponse(
+    (r) =>
+      r.url().includes('/api/log_clics') &&
+      r.status() >= 200 &&
+      r.status() < 300,
+    { timeout }
+  )
+
+  // Espera opcional: recaptcha enterprise
+  const waitRecaptcha = page
+    .waitForResponse(
+      (r) =>
+        r.url().includes('recaptcha/enterprise/reload') && r.status() === 200,
+      { timeout }
+    )
+    .catch(() => {
+      // Si no ocurre o expira, no detiene el flujo
+    })
+
+  // Ejecutar el click y las esperas
+  await Promise.all([locator.click(), waitLogClics, waitRecaptcha])
+}

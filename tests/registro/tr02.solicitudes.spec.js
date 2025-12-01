@@ -136,7 +136,7 @@ test.describe('@acceptance', () => {
     await expect(tarjeta.getByText('72300013')).toBeVisible()
 
     // Verificar modal
-    await tarjeta.click()
+    await clickCardAndWait(tarjeta)
     const modal = page.getByTestId('detalle-modal')
     await expect(
       modal.getByRole('heading', { name: 'COMERCIAL VASQUEZ' })

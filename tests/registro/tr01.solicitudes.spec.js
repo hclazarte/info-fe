@@ -172,7 +172,7 @@ test.describe('@acceptance', () => {
     await expect(tarjeta.getByText('72123456, 76543210')).toBeVisible()
 
     // Click para abrir el detalle y verificar todo
-    tarjeta.click()
+    await clickCardAndWait(tarjeta)
     const modal = page.getByTestId('detalle-modal') // el modal general
     await expect(
       modal.getByRole('heading', { name: 'GEOSOFT INTERNACIONAL SRL' })
