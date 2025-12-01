@@ -12,23 +12,34 @@ test.describe('@smoke', () => {
     const cantidadInic = await searchCount(page)
     await expect(cantidadInic).toBeGreaterThan(0)
 
-    const titulo = await page
-      .locator('[data-testclass="tarjeta-title"]')
-      .first()
-      .textContent()
-    const servicio = await page
-      .locator('[data-testclass="tarjeta-servicios"]')
-      .first()
-      .textContent()
-    const texto = servicio
-      .trim()
-      .split(/\s+/)
-      .find((palabra) => palabra.length > 6)
+    // Obtiene todos los textos de títulos y servicios
+    const tarjetas = await page.locator('[data-testclass="tarjeta-control"]').all()
+
+    let tituloValido = null
+    let palabraValida = null
+
+    for (const tarjeta of tarjetas) {
+      const titulo = await tarjeta.locator('[data-testclass="tarjeta-title"]').textContent()
+      const servicio = await tarjeta.locator('[data-testclass="tarjeta-servicios"]').textContent()
+
+      const palabra = servicio
+        ?.trim()
+        .split(/\s+/)
+        .find((p) => p.length > 6)
+
+      if (palabra) {
+        tituloValido = titulo?.trim() ?? ''
+        palabraValida = palabra
+        break // parar en la primera tarjeta válida
+      }
+    }
+
+    expect(palabraValida).toBeTruthy()
 
     const buscador = page.getByTestId('buscar-input')
     await buscador.click()
-    await buscador.fill(texto)
-    await expect(buscador).toHaveValue(texto)
+    await buscador.fill(palabraValida)
+    await expect(buscador).toHaveValue(palabraValida)
 
     await buscador.dispatchEvent('input')
     await page.waitForResponse('**/api/comercios/lista?**')
@@ -40,11 +51,11 @@ test.describe('@smoke', () => {
       .locator('[data-testclass="tarjeta-title"]')
       .first()
       .textContent()
-    await expect(tituloFil).toBe(titulo)
+    await expect(tituloFil).toBe(tituloValido)
 
     await buscador.click()
-    await buscador.fill(texto + ' ')
-    await expect(buscador).toHaveValue(texto + ' ')
+    await buscador.fill(palabraValida + ' ')
+    await expect(buscador).toHaveValue(palabraValida + ' ')
 
     await buscador.dispatchEvent('input')
 
