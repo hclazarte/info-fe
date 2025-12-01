@@ -129,6 +129,7 @@ test.describe('@acceptance', () => {
     const tarjeta = page.locator('[data-testclass="tarjeta-control"]', {
       hasText: 'COMERCIAL VASQUEZ'
     })
+    await tarjeta.waitFor({ state: 'visible', timeout: LONG_WAIT_TIMEOUT })
     await expect(tarjeta).toContainText('Email disponible')
     await expect(tarjeta.getByText('COMERCIAL VASQUEZ')).toBeVisible()
     await expect(tarjeta.getByText('COMERCIALIZACIÓN VARIADA')).toBeVisible()
