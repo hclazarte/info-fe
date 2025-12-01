@@ -13,14 +13,20 @@ test.describe('@smoke', () => {
     await expect(cantidadInic).toBeGreaterThan(0)
 
     // Obtiene todos los textos de títulos y servicios
-    const tarjetas = await page.locator('[data-testclass="tarjeta-control"]').all()
+    const tarjetas = await page
+      .locator('[data-testclass="tarjeta-control"]')
+      .all()
 
     let tituloValido = null
     let palabraValida = null
 
     for (const tarjeta of tarjetas) {
-      const titulo = await tarjeta.locator('[data-testclass="tarjeta-title"]').textContent()
-      const servicio = await tarjeta.locator('[data-testclass="tarjeta-servicios"]').textContent()
+      const titulo = await tarjeta
+        .locator('[data-testclass="tarjeta-title"]')
+        .textContent()
+      const servicio = await tarjeta
+        .locator('[data-testclass="tarjeta-servicios"]')
+        .textContent()
 
       const palabra = servicio
         ?.trim()

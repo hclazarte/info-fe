@@ -124,7 +124,10 @@ export async function prepararEscenario(
  * @param {import('@playwright/test').Locator} locator
  * @param {{ timeout?: number }} [options]
  */
-export async function clickCardAndWait(card, { timeout = LONG_WAIT_TIMEOUT } = {}) {
+export async function clickCardAndWait(
+  card,
+  { timeout = LONG_WAIT_TIMEOUT } = {}
+) {
   const page = card.page()
 
   // Elegir en qué elemento hacer click: primero el título, si existe;
