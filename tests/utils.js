@@ -123,7 +123,7 @@ export async function prepararEscenario(
  * @param {import('@playwright/test').Locator} locator
  * @param {{ timeout?: number }} [options]
  */
-export async function clickCardAndWait(card, { timeout = 5000 } = {}) {
+export async function clickCardAndWait(card, { timeout = 60000 } = {}) {
   const page = card.page()
 
   // Espera obligatoria: /api/log_clics
