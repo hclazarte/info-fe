@@ -109,7 +109,7 @@ test.describe('@acceptance', () => {
     await page.getByTestId('telefono1-input').fill('72123456')
     await page.getByTestId('telefono2-input').fill('76543210')
     await page.getByTestId('whatsapp-input').fill('59172123456')
-    await page.getByTestId('pagina-web-input').fill('https://geosoft.bo')
+    await page.getByTestId('pagina-web-input').fill('https://geosoft.website')
 
     // Para los textareas sin data-testid (usa texto visible u otro método)
     await page
@@ -172,6 +172,7 @@ test.describe('@acceptance', () => {
       tarjeta.getByText('CALLE 9 ESQUINA A, 14 DE SEPTIEMBRE')
     ).toBeVisible()
     await expect(tarjeta.getByText('72123456, 76543210')).toBeVisible()
+    await expect(tarjeta.getByText('https://geosoft.website')).toBeVisible()
 
     // Click para abrir el detalle y verificar todo
     await clickCardAndWait(tarjeta)
@@ -193,6 +194,7 @@ test.describe('@acceptance', () => {
       modal.getByTestId('telefonos').getByTestId('telefono-item').first()
     ).toHaveText('72123456')
     await expect(modal.getByText('76543210')).toBeVisible()
+    await expect(modal.getByText('https://geosoft.website')).toBeVisible()
     await expect(modal.getByText('Enviar Correo')).toBeVisible()
     await expect(modal.getByText('Ver Mapa')).toBeVisible()
     await expect(modal.getByAltText('WhatsApp')).toBeVisible()
